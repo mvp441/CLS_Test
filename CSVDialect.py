@@ -1,3 +1,5 @@
+# Prints all data in csv file one line at a time on separate lines
+# Dialect helps group together many specific formatting patters
 import csv
 csv.register_dialect('myDialect',
                      delimiter=',',

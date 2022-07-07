@@ -1,3 +1,4 @@
+# Prints all data in csv file one line at a time on separate lines
 import csv
 with open('SR1_BCaL_8h.csv', 'r') as file:
     reader = csv.reader(file, delimiter = ',')
