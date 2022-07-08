@@ -8,12 +8,16 @@ TimeStamp = []
 fbk = []
 Change = []
 TimeConstant = []
+remove = 'N/a'
 for row in csvreader:
     rows.append(row)
     TimeStamp.append(row[0])
     fbk.append(row[1])
     Change.append(row[2])
     TimeConstant.append(row[3])
-print(TimeStamp)
-# print(rows)
-file.close()
+#print(TimeStamp)
+print('just normal fbk')
+print(fbk)
+print('without N/A')
+print(list(filter(lambda val: val != 'N/A', fbk)))
+#file.close()
