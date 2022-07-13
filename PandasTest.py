@@ -4,7 +4,7 @@ import pandas
 #na_filter = True
 
 df = pandas.read_csv('SR1_BCaL_8h.csv')
-#print(df)
+print(df)
 
 #print('\n Description: ')
 #print(df.describe()) # quick statistical summary of data
