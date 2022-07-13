@@ -9,9 +9,9 @@ print(df)
 #print('\n Description: ')
 #print(df.describe()) # quick statistical summary of data
 
-#print("\n Series:")
-#df2 = pandas.Series([df])
-#print(df2)
+print("\n Series:")
+df2 = pandas.Series([df])
+print(df2)
 
 #print("\n na reaplced? \n")
 

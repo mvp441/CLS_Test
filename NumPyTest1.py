@@ -20,7 +20,7 @@ for row in csvreader:
     TimeConstant.append(row[3])
 
 print('initial Change length: ' + str(len(Change)))
-print('initial fbk length: ' + str(len(fbk)))
+print('initial fbkNA length: ' + str(len(fbk)))
 print('initial TimeConstant length: ' + str(len(TimeConstant)) + '\n')
 
 valueToBeRemoved = 'N/A'
@@ -36,7 +36,7 @@ except ValueError:
 TimeConstant = [value for value in TimeConstant if value != valueToBeRemoved]
 
 print('final Change length: ' + str(len(Change)))
-print('final fbk length: ' + str(len(fbk)))
+print('final fbkNA length: ' + str(len(fbk)))
 print('final TimeConstant length: ' + str(len(TimeConstant)) + '\n')
 
 fbk = [float(x) for x in fbk]

@@ -16,7 +16,7 @@ for row in csvreader:
     Change.append(row[2])
     TimeConstant.append(row[3])
 #print(TimeStamp)
-print('just normal fbk')
+print('just normal fbkNA')
 print(fbk)
 print('without N/A')
 print(list(filter(lambda val: val != 'N/A', fbk)))

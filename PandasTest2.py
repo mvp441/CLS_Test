@@ -19,8 +19,18 @@ fbk = fbkNA.dropna()
 mAChange = mAChangeNA.dropna()
 timeConstant = timeConstantNA.dropna()
 
-print("\n descricption without N/A", "\n", fbk.describe(), "\n", mAChange.describe(), "\n", timeConstant.describe())
+print("\n descricption N/A dropped", "\n", fbk.describe())#, "\n", mAChange.describe(), "\n", timeConstant.describe())
 # print("columns without N/A \n", fbk, "\n", mAChange, "\n", timeConstant)
+
+fbk0 = fbkNA.fillna(0)
+mAChange0 = mAChangeNA.fillna(0)
+timeConstant0 = timeConstantNA.fillna(0)
+#print("\n descricption N/A 0", "\n", fbk0.describe())#, "\n", mAChange0.describe(), "\n", timeConstant0.describe())
+
+fbkpad = fbkNA.fillna(method="pad")
+mAChangepad = mAChangeNA.fillna(method="pad")
+timeConstantpad = timeConstantNA.fillna(method="pad")
+print("\n descricption N/A padded", "\n", fbkpad.describe())#, "\n", mAChangepad.describe(), "\n", timeConstantpad.describe())
 
 # print("\n n=5 sample")
 # print(fbkNA.sample(n=5))
