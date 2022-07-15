@@ -50,3 +50,13 @@ print("\n descricption N/A padded", "\n", fbkpad.describe())#, "\n", mAChangepad
 # separate dataframe into individual columns
 # remove na values
 # perform statical analysis
+
+# store description and stats over time in variable
+# continue to compare current values against previous stored ones
+# trigger when current values deviates by larger than allowed margin
+    # set trigger value limits
+
+
+
+
+
