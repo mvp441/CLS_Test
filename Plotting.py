@@ -7,16 +7,14 @@ df = pd.read_csv("SR1_BCaL_8h.csv")
 df.dropna()
 
 dfminiNA = df.iloc[1:20, 0:2]
-dfminiNA.dropna(axis='row')
+dfminiNA = dfminiNA.dropna()
 TSx = dfminiNA.iloc[:, 0]
-TSx = TSx.dropna()
 fbky = dfminiNA.iloc[:, 1]
-fbky = fbky.dropna()
 
 dfmNAcs = dfminiNA.cumsum()
 plt.close("all")
 plt.figure()
-dfminiNA.plot(x="Tsx", y="fbky")
+dfminiNA.plot()
 plt.show()
 #dfminiNA.iloc[1].plot.bar()
 #dfmNAcs.plot(x="Timestamp", y="fbk")
