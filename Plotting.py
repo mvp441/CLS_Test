@@ -1,7 +1,8 @@
 import pandas as pd
-import matplotlib
-matplotlib.use('TkAgg')
+import matplotlib as mpl
 import matplotlib.pyplot as plt
+mpl.use('TkAgg')
+
 
 df = pd.read_csv("SR1_BCaL_8h.csv")
 df.dropna()
@@ -13,10 +14,18 @@ fbky = dfminiNA.iloc[:, 1]
 
 # seperate df into mini of each variable to plot
 
-dfmNAcs = dfminiNA.cumsum()
-plt.close("all")
-plt.figure()
-df.plot() #dfminiNA.plot() to show only fbk curve
+dfmNAcs = dfminiNA.cumsum() #calculate the cumulative summation
+
+plt.close("all") #close all open plots
+
+#first plot
+#plt.figure(1) #open plot figure
+df.plot() #plot
+plt.show() #display plot
+
+
+#plt.figure(2)
+dfminiNA.plot() #to show only fbk curve
 plt.show()
 #dfminiNA.iloc[1].plot.bar()
 #dfmNAcs.plot(x="Timestamp", y="fbk")
