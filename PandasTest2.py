@@ -4,7 +4,7 @@ df = pd.read_csv("SR1_BCaL_8h.csv")
 #print(df)
 
 dfminiNA = df.iloc[1:20,0:4]
-#print("\n dfmini with N/A \n", dfminiNA.iloc[:,1:4])
+print("\n dfmini with N/A \n", dfminiNA.iloc[:,1:4])
 
 Timestamp = dfminiNA.iloc[:, [0]]
 fbkNA = dfminiNA.iloc[:, [1]]
@@ -25,7 +25,7 @@ print("\n descricption N/A dropped", "\n", fbk.describe())#, "\n", mAChange.desc
 fbk0 = fbkNA.fillna(0)
 mAChange0 = mAChangeNA.fillna(0)
 timeConstant0 = timeConstantNA.fillna(0)
-#print("\n descricption N/A 0", "\n", fbk0.describe())#, "\n", mAChange0.describe(), "\n", timeConstant0.describe())
+#print("\n descricption N/A 0", "\n", fbk0.describe())#, "\n", mAChange0.describe(), "\n", timeConstant0.describe()) #changes values too much
 
 fbkpad = fbkNA.fillna(method="pad")
 mAChangepad = mAChangeNA.fillna(method="pad")
