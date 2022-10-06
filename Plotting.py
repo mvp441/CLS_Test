@@ -64,9 +64,9 @@ m1 = np.poly1d(np.polyfit(TSx, fbky, 1))
 m2 = np.poly1d(np.polyfit(TSx, fbky, 2))
 m3 = np.poly1d(np.polyfit(TSx, fbky, 3))
 m4 = np.poly1d(np.polyfit(TSx, fbky, 4))
-m5 = np.poly1d(np.polyfit(TSx, fbky, 5))
+m5 = np.poly1d(np.polyfit(TSx, fbky, 30)) #should be max 5 put higher to test
 
-polyline = np.linspace(1, 15, 50)
+polyline = np.linspace(1, 40, 100)
 plt.scatter(TSx, fbky)
 
 plt.plot(polyline, m1(polyline), color='orange')
