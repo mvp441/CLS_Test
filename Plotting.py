@@ -28,6 +28,11 @@ plt.show() #display plot
 #plt.figure(2)
 dfminiNA.plot() #to show only fbk curve
 plt.show()
-#dfminiNA.iloc[1].plot.bar()
-#dfmNAcs.plot(x="Timestamp", y="fbk")
-#plt.axline(0,color="k")
+#dfminiNA.iloc[1].plot.bar() #causes error
+#dfmNAcs.plot(x="Timestamp", y="fbk") #causes error
+#plt.axline(0,color="k") #causes error
+
+print('Done1')
+print('Done2')
+print('Done3')
+
