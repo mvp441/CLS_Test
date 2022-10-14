@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-#from scipy import optimize
+from scipy import optimize
 
 def test_func(x, a, b):
     return a * np.sin(b * x)
