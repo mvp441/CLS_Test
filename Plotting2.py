@@ -17,9 +17,9 @@ fbky = dfminiNA.iloc[:, 1]
 dfmNAcs = dfminiNA.cumsum() #calculate the cumulative summation
 
 model = LorentzianModel()
-params = model.guess(dframe['y'], x=dframe['x'])
+params = model.guess(fbky, TSx)
 
-result = model.fit(dframe['y'], params, x=dframe['x'])
+result = model.fit(fbky, params, TSx)
 
 print(result.fit_report())
 

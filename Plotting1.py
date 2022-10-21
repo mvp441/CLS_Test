@@ -50,6 +50,11 @@ TSx = ax
 
 dfmNAcs = dfminiNA.cumsum() #calculate the cumulative summation
 
+
+params, params_covariance = optimize.curve_fit(test_func, TSx, fbky, p0=[2, 2])
+print(params)
+
+
 plt.close("all") #close all open plots
 
 #first plot
@@ -96,6 +101,10 @@ plt.plot(polyline, m5(polyline), color='green')
 #plt.draw()
 plt.show(block = False)
 
+#print equation term values
+print('y1 = ')
+print(m1)
+
 # Calculate adjusted R values
 adjR(TSx, fbky, 1)
 adjR(TSx, fbky, 2)
@@ -104,25 +113,26 @@ adjR(TSx, fbky, 4)
 adjR(TSx, fbky, 5)
 #print('Done 1')
 #print('Done 2')
-#  params, params_covariance = optimize.curve_fit(test_func, TSx, fbky, p0=[2, 2])
-#  print(params)
-#
-# plt.figure(figsize=(6, 4))
-# plt.scatter(TSx, fbky, label='Data')
-# plt.plot(TSx, test_func(TSx, params[0], params[1]), label='Fitted function')
-# plt.legend(loc='best')
-# plt.show()
-#
 
-f1, f2 = plt.figure(), plt.figure()
-af1 = f1.add_subplot(111)
-af2 = f2.add_subplot(111)
-af1.plot(TSx)
-af2.plot(fbky)
-plt.draw()
-print 'continue computing'
-plt.show(block = False)
-print ('Test ploting 1 done')
+params, params_covariance = optimize.curve_fit(test_func, TSx, fbky, p0=[2, 2])
+print(params)
+
+plt.figure(figsize=(6, 4))
+plt.scatter(TSx, fbky, label='Data')
+plt.plot(TSx, test_func(TSx, params[0], params[1]), label='Fitted function')
+plt.legend(loc='best')
+plt.show()
+
+
+# f1, f2 = plt.figure(), plt.figure()
+# af1 = f1.add_subplot(111)
+# af2 = f2.add_subplot(111)
+# af1.plot(TSx)
+# af2.plot(fbky)
+# plt.draw()
+# print 'continue computing'
+# plt.show(block = False)
+# print ('Test ploting 1 done')
 
 plt.show() # call at end to ensure windows dont close
 
