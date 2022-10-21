@@ -1,7 +1,8 @@
+import dframe as dframe
 import pandas as pd
 from lmfit.models import LorentzianModel
 
-dframe = pd.read_csv('peak.csv')
+#dframe = pd.read_csv('peak.csv')
 
 df = pd.read_csv("SR1_BCaL_8h.csv")
 df.dropna()

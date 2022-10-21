@@ -19,11 +19,22 @@ dfmNAcs = dfminiNA.cumsum() #calculate the cumulative summation
 
 plt.close("all") #close all open plots
 
+f1, f2 = plt.figure(), plt.figure()
+af1 = f1.add_subplot(111)
+af2 = f2.add_subplot(111)
+af1.plot([1,2,3])
+af2.plot(fbky)
+plt.draw()
+print 'continue computing'
+plt.show(block = False)
+print ('Test ploting 1 done')
+
 #first plot
 #plt.figure(1) #open plot figure
 df.plot() #plot
-plt.show() #display plot
+plt.show(block = False)
 
+print('Test plot 2 done')
 
 #plt.figure(2)
 dfminiNA.plot() #to show only fbk curve
