@@ -34,7 +34,7 @@ def adjR(x, y, degree):
 mpl.use('TkAgg')
 
 
-df = pd.read_csv("SR1_BCaL_8h.csv", parse_dates=["Timestamp"])
+df = pd.read_csv("SR1_BCaL_8h.csv")#, parse_dates=["Timestamp"])
 data = df.values
 df.dropna()
 
@@ -49,21 +49,21 @@ fbky = dfminiNA.iloc[:, 1]
 
 date1 = TSx.min
 date2 = TSx.max
-datetime.resolution(date1, date2)
+# datetime.resolution(date1, date2)
 
-td = date2 - date1
+# td = date2 - date1
 
-start = TSx.iloc[0, 0]
-end = TSx.iloc[-1, 0]
-index = pd.date_range(start, end)
-print(index)
+#start = TSx.iloc[0, 0]
+#end = TSx.iloc[-1, 0]
+#index = pd.date_range(start, end)
+#print(index)
 
 
-TSx = TSx.astype('float64')
+#TSx = TSx.astype('float64')
 ax = []
 ax = [i for i in range(len(fbky))]
 #print(ax)
-
+TSx = ax
 # dfminiNA.astype('int32').dtypes
 
 
@@ -72,8 +72,8 @@ ax = [i for i in range(len(fbky))]
 #dfmNAcs = dfminiNA.cumsum() #calculate the cumulative summation
 
 
-params, params_covariance = optimize.curve_fit(test_func, TSx, fbky, p0=[2, 2])
-print(params)
+#params, params_covariance = optimize.curve_fit(test_func, TSx, fbky, p0=[2, 2])
+#print(params)
 
 
 plt.close("all") #close all open plots
@@ -134,7 +134,7 @@ adjR(TSx, fbky, 4)
 adjR(TSx, fbky, 5)
 #print('Done 1')
 #print('Done 2')
-
+'''
 params, params_covariance = optimize.curve_fit(test_func, TSx, fbky, p0=[2, 2])
 print(params)
 
@@ -143,7 +143,7 @@ plt.scatter(TSx, fbky, label='Data')
 plt.plot(TSx, test_func(TSx, params[0], params[1]), label='Fitted function')
 plt.legend(loc='best')
 plt.show()
-
+'''
 
 # f1, f2 = plt.figure(), plt.figure()
 # af1 = f1.add_subplot(111)
