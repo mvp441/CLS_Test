@@ -3,11 +3,16 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import scipy as sci
+import datetime
 
 from scipy import optimize
 
 def test_func(x, a, b):
     return a * np.sin(b * x)
+
+def objective(x, a, b, c, d):
+	return a * np.sin(b - x) + c * x**2 + d
+
 
 def Gauss(x, A, B):
     y = A*np.exp(-1*B*x**2)
@@ -29,7 +34,8 @@ def adjR(x, y, degree):
 mpl.use('TkAgg')
 
 
-df = pd.read_csv("SR1_BCaL_8h.csv")
+df = pd.read_csv("SR1_BCaL_8h.csv", parse_dates=["Timestamp"])
+data = df.values
 df.dropna()
 
 
@@ -39,16 +45,31 @@ dfminiNA = dfminiNA.dropna()
 TSx = dfminiNA.iloc[:, 0]
 fbky = dfminiNA.iloc[:, 1]
 
+
+
+date1 = TSx.min
+date2 = TSx.max
+datetime.resolution(date1, date2)
+
+td = date2 - date1
+
+start = TSx.iloc[0, 0]
+end = TSx.iloc[-1, 0]
+index = pd.date_range(start, end)
+print(index)
+
+
+TSx = TSx.astype('float64')
 ax = []
 ax = [i for i in range(len(fbky))]
 #print(ax)
-TSx = ax
+
 # dfminiNA.astype('int32').dtypes
 
 
 # seperate df into mini of each variable to plot
 
-dfmNAcs = dfminiNA.cumsum() #calculate the cumulative summation
+#dfmNAcs = dfminiNA.cumsum() #calculate the cumulative summation
 
 
 params, params_covariance = optimize.curve_fit(test_func, TSx, fbky, p0=[2, 2])
