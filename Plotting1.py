@@ -134,16 +134,7 @@ adjR(TSx, fbky, 4)
 adjR(TSx, fbky, 5)
 #print('Done 1')
 #print('Done 2')
-'''
-params, params_covariance = optimize.curve_fit(test_func, TSx, fbky, p0=[2, 2])
-print(params)
 
-plt.figure(figsize=(6, 4))
-plt.scatter(TSx, fbky, label='Data')
-plt.plot(TSx, test_func(TSx, params[0], params[1]), label='Fitted function')
-plt.legend(loc='best')
-plt.show()
-'''
 
 # f1, f2 = plt.figure(), plt.figure()
 # af1 = f1.add_subplot(111)
