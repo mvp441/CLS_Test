@@ -9,8 +9,24 @@ from scipy.optimize import curve_fit
 from matplotlib import pyplot
 from lmfit.models import LorentzianModel
 
+
+
+def f(t):
+    return np.exp(-t) * np.cos(2*np.pi*t)
+
+def test_func(x, a, b):
+    return a * np.sin(b * x)
+
+# define the true objective function
+def objective(x, a, b, c, d):
+    return a * sin(b - x) + c * x ** 2 + d
+
+def Gauss(x, A, B):
+    y = A*np.exp(-1*B*x**2)
+    return y
+
 # Multiple plot figures without stopping and waiting for input at each window
-def PlotMultiple():
+def MultiFigPlot():
     f1, f2 = pyplot.figure(), pyplot.figure()
     af1 = f1.add_subplot(111)
     af2 = f2.add_subplot(111)
@@ -20,17 +36,15 @@ def PlotMultiple():
     print 'continue computing'
     pyplot.show(block = False)
 
-def test_func(x, a, b):
-    return a * np.sin(b * x)
-
-# define the true objective function
-def objective(x, a, b, c, d):
-    return a * sin(b - x) + c * x ** 2 + d
-
-
-def Gauss(x, A, B):
-    y = A*np.exp(-1*B*x**2)
-    return y
+def MultiPlotFig():
+    t1 = np.arange(0.0, 5.0, 0.1)
+    t2 = np.arange(0.0, 5.0, 0.02)
+    pyplot.figure()
+    pyplot.subplot(211)
+    pyplot.plot(t1, f(t1), 'bo', t2, f(t2), 'k')
+    pyplot.subplot(212)
+    pyplot.plot(t2, np.cos(2 * np.pi * t2), 'r--')
+    pyplot.show()
 
 #define function to calculate adjusted r-squared
 def adjR(x, y, degree):
@@ -139,10 +153,9 @@ def PandaFit2():
     result = model.fit(dframe['y'], params, x=dframe['x'])
     print(result.fit_report())
 
-# PlotMultiple()
-
-# FitLine plots on the second window and overwrites the plot created by the first function
-# FitLine()
+# MultiFigPlot()
+# MultiPlotFig()
+# FitLine()  # FitLine plots on the second window and overwrites the plot created by the first function
 # PandaCurveFit()
 # PandaFit2()
 
