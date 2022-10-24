@@ -93,8 +93,7 @@ def PandaCuveFit():
     # create DataFrame
     df = pd.DataFrame({'x': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
                        'y': [3, 14, 23, 25, 23, 15, 9, 5, 9, 13, 17, 24, 32, 36, 46]})
-
-    # create scatterplot of x vs. y
+    # create scatter plot of x vs. y
     pyplot.scatter(df.x, df.y)
 
     # Step 2: Fit several curves
@@ -144,5 +143,6 @@ def PandaFit2():
 
 # FitLine plots on the second window and overwrites the plot created by the first function
 # FitLine()
-# PandaCuveFit()
+# PandaCurveFit()
+# PandaFit2()
 
