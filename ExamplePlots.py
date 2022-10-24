@@ -37,6 +37,7 @@ def MultiFigPlot():
     pyplot.show(block = False)
 
 def MultiPlotFig():
+    # https://matplotlib.org/stable/tutorials/introductory/pyplot.html
     t1 = np.arange(0.0, 5.0, 0.1)
     t2 = np.arange(0.0, 5.0, 0.02)
     pyplot.figure()
@@ -45,6 +46,21 @@ def MultiPlotFig():
     pyplot.subplot(212)
     pyplot.plot(t2, np.cos(2 * np.pi * t2), 'r--')
     pyplot.show()
+
+def MultiMatFig():
+    # https://matplotlib.org/stable/tutorials/introductory/pyplot.html
+    pyplot.figure(1)  # the first figure
+    pyplot.subplot(211)  # the first subplot in the first figure
+    pyplot.plot([1, 2, 3])
+#    pyplot.title('Check 1')
+#    pyplot.suptitle('Check 2')
+    pyplot.subplot(212)  # the second subplot in the first figure
+    pyplot.plot([4, 5, 6])
+    pyplot.figure(2)  # a second figure
+    pyplot.plot([4, 5, 6])  # creates a subplot() by default
+    pyplot.figure(1)  # figure 1 current; subplot(212) still current
+    pyplot.subplot(211)  # make subplot(211) in figure1 current
+    pyplot.title('Easy as 1, 2, 3')  # subplot 211 title
 
 #define function to calculate adjusted r-squared
 def adjR(x, y, degree):
@@ -90,12 +106,10 @@ def FitLine():
 def CurveFit ():
     # https://scipy-lectures.org/intro/scipy/auto_examples/plot_curve_fit.html
     np.random.seed(0)
-
     x_data = np.linspace(-5, 5, num=50)
     y_data = 2.9 * np.sin(1.5 * x_data) + np.random.normal(size=50)
     params, params_covariance = curve_fit(test_func, x_data, y_data, p0=[2, 2])
     print(params)
-
     pyplot.figure(figsize=(6, 4))
     pyplot.scatter(x_data, y_data, label='Data')
     pyplot.plot(x_data, test_func(x_data, params[0], params[1]), label='Fitted function')
@@ -155,6 +169,7 @@ def PandaFit2():
 
 # MultiFigPlot()
 # MultiPlotFig()
+# MultiMatFig()  # Only plots if paused with debugger and stepped through
 # FitLine()  # FitLine plots on the second window and overwrites the plot created by the first function
 # PandaCurveFit()
 # PandaFit2()
