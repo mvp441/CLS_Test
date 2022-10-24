@@ -17,17 +17,6 @@ fbky = dfminiNA.iloc[:, 1]
 dfmNAcs = dfminiNA.cumsum()  # calculate the cumulative summation
 
 plt.close("all")  # close all open plots
-
-# f1, f2 = plt.figure(), plt.figure()
-# af1 = f1.add_subplot(111)
-# af2 = f2.add_subplot(111)
-# af1.plot([1,2,3])
-# af2.plot(fbky)
-# plt.draw()
-# print 'continue computing'
-# plt.show(block = False)
-# print ('Test ploting 1 done')
-
 #first plot
 #plt.figure(1) #open plot figure
 df.plot() #plot

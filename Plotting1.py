@@ -153,7 +153,7 @@ plt.show()
 # plt.draw()
 # print 'continue computing'
 # plt.show(block = False)
-# print ('Test ploting 1 done')
+# print ('Test plotting 1 done')
 
 plt.show() # call at end to ensure windows dont close
 
