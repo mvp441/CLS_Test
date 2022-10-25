@@ -1,46 +1,73 @@
 import pandas as pd
 df = pd.read_csv("SR1_BCaL_8h.csv")
-#print(df.columns)
-#print(df)
+print(df.columns)
+print(df)
 
-dfminiNA = df.iloc[1:20,0:4]
-print("\n dfmini with N/A \n", dfminiNA.iloc[:,1:4])
+dfminiNA = df.iloc[1:20, 0:4]
+print("dfmini with N/A")  #, dfminiNA.iloc[:,1:4])
+print(dfminiNA.iloc[:,1:4])
 
 Timestamp = dfminiNA.iloc[:, [0]]
 fbkNA = dfminiNA.iloc[:, [1]]
 mAChangeNA = dfminiNA.iloc[:, [2]]
 timeConstantNA = dfminiNA.iloc[:, [3]]
-
-print("\n descricption with N/A", "\n", dfminiNA.describe())
-#print("\n descricption with N/A", "\n", dfminiNA.describe(), "\n", fbkNA.describe(), "\n", mAChangeNA.describe(), "\n", timeConstantNA.describe())
-# print("columns with N/A \n", fbkNA, "\n", mAChangeNA, "\n", timeConstantNA)
+print("columns with N/A")  #, fbkNA, "\n", mAChangeNA, "\n", timeConstantNA)
+print(fbkNA)
+print(mAChangeNA)
+print(timeConstantNA)
+print("description with N/A")
+# print("description with N/A", "\n", dfminiNA.describe(), "\n", fbkNA.describe(), "\n", mAChangeNA.describe(), "\n", timeConstantNA.describe())
+print(dfminiNA.describe())
+print(fbkNA.describe())
+print(mAChangeNA.describe())
+print(timeConstantNA.describe())
 
 fbk = fbkNA.dropna()
 mAChange = mAChangeNA.dropna()
 timeConstant = timeConstantNA.dropna()
+print("columns without N/A")  # , fbk, "\n", mAChange, "\n", timeConstant)
+print(fbk)
+print(mAChange)
+print(timeConstant)
+print("description N/A dropped")  # , "\n", fbk.describe())#, "\n", mAChange.describe(), "\n", timeConstant.describe())
+print(fbk.describe())
+print(mAChange.describe())
+print(timeConstant.describe())
 
-print("\n descricption N/A dropped", "\n", fbk.describe())#, "\n", mAChange.describe(), "\n", timeConstant.describe())
-# print("columns without N/A \n", fbk, "\n", mAChange, "\n", timeConstant)
 
 fbk0 = fbkNA.fillna(0)
 mAChange0 = mAChangeNA.fillna(0)
 timeConstant0 = timeConstantNA.fillna(0)
-#print("\n descricption N/A 0", "\n", fbk0.describe())#, "\n", mAChange0.describe(), "\n", timeConstant0.describe()) #changes values too much
+print("columns with N/A filled by 0")  # , fbk0, "\n", mAChange0, "\n", timeConstant0)
+print(fbk0)
+print(mAChange0)
+print(timeConstant0)
+print("description N/A 0")  # , "\n", fbk0.describe()), "\n", mAChange0.describe(), "\n", timeConstant0.describe()) #changes values too much
+print(fbk0.describe())
+print(mAChange0.describe())
+print(timeConstant0.describe())
 
 fbkpad = fbkNA.fillna(method="pad")
 mAChangepad = mAChangeNA.fillna(method="pad")
 timeConstantpad = timeConstantNA.fillna(method="pad")
-print("\n descricption N/A padded", "\n", fbkpad.describe())#, "\n", mAChangepad.describe(), "\n", timeConstantpad.describe())
+print("columns fill N/A padded")  # , fbkpad, "\n", mAChangepad, "\n", timeConstantpad)
+print(fbkpad)
+print(mAChangepad)
+print(timeConstantpad)
+print("description N/A padded")  #,
+print(fbkpad.describe())  # , "\n", mAChangepad.describe(), "\n", timeConstantpad.describe())
+print(mAChangepad.describe())
+print(timeConstantpad.describe())
 
-# print("\n n=5 sample")
-# print(fbkNA.sample(n=5))
-# print(mAChange.sample(n=5))
-# print(timeConstantNA.sample(n=5))
+print("n=5 sample")
+print(fbk.sample(n=5))
+print(mAChange.sample(n=5))
+print(timeConstant.sample(n=5))
 
-# print("\n first 5 position values")
-# print(fbkNA.loc[0:4])
-# print(mAChange.loc[0:4])
-# print(timeConstantNA.loc[0:4])
+print("position values before index 5")
+print(fbk.loc[0:4])
+print(mAChange.loc[0:4])
+print(timeConstant.loc[0:4])
 
 
 # go through column headers
