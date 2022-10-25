@@ -31,7 +31,7 @@ def MultiFigPlot():
     af1 = f1.add_subplot(111)
     af2 = f2.add_subplot(111)
     af1.plot([1,2,3])
-    # af2.plot([4,5,6])
+    af2.plot([4,5,6])
     pyplot.draw()
     print 'continue computing'
     pyplot.show(block = False)
@@ -167,10 +167,40 @@ def PandaFit2():
     result = model.fit(dframe['y'], params, x=dframe['x'])
     print(result.fit_report())
 
+def OOStyle():
+    # https://matplotlib.org/stable/tutorials/introductory/quick_start.html
+    x = np.linspace(0, 2, 100)  # Sample data.
+    # Note that even in the OO-style, we use `.pyplot.figure` to create the Figure.
+    fig, ax = pyplot.subplots()  #figsize=(5, 2.7), layout='constrained') doesn't work with layout option
+    ax.plot(x, x, label='linear')  # Plot some data on the axes.
+    ax.plot(x, x ** 2, label='quadratic')  # Plot more data on the axes...
+    ax.plot(x, x ** 3, label='cubic')  # ... and some more.
+    ax.set_xlabel('x label')  # Add an x-label to the axes.
+    ax.set_ylabel('y label')  # Add a y-label to the axes.
+    ax.set_title("Simple Plot")  # Add a title to the axes.
+    ax.legend();  # Add a legend.
+    pyplot.show()  # Display figure
+
+def PyPlotStyle():
+    # https://matplotlib.org/stable/tutorials/introductory/quick_start.html
+    x = np.linspace(0, 2, 100)  # Sample data.
+    pyplot.figure(figsize=(5, 2.7))  # , layout='constrained')
+    pyplot.plot(x, x, label='linear')  # Plot some data on the (implicit) axes.
+    pyplot.plot(x, x ** 2, label='quadratic')  # etc.
+    pyplot.plot(x, x ** 3, label='cubic')
+    pyplot.xlabel('x label')
+    pyplot.ylabel('y label')
+    pyplot.title("Simple Plot")
+    pyplot.legend();
+    pyplot.show()
+
 # MultiFigPlot()
 # MultiPlotFig()
 # MultiMatFig()  # Only plots if paused with debugger and stepped through
 # FitLine()  # FitLine plots on the second window and overwrites the plot created by the first function
 # PandaCurveFit()
 # PandaFit2()
+# OOStyle()
+# PyPlotStyle()
+
 
