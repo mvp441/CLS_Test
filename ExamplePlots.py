@@ -25,6 +25,19 @@ def Gauss(x, A, B):
     y = A*np.exp(-1*B*x**2)
     return y
 
+def AdjXEx():
+    # https://matplotlib.org/2.0.2/users/recipes.html
+    pyplot.close('all')
+    fig, ax = pyplot.subplots(1)
+    ax.plot(r.date, r.close)
+    # rotate and align the tick labels so they look better
+    fig.autofmt_xdate()
+    # use a more precise date string for the x axis locations in the
+    # toolbar
+    import matplotlib.dates as mdates
+    ax.fmt_xdata = mdates.DateFormatter('%Y-%m-%d')
+    pyplot.title('fig.autofmt_xdate fixes the labels')
+
 # Multiple plot figures without stopping and waiting for input at each window
 def MultiFigPlot():
     f1, f2 = pyplot.figure(), pyplot.figure()

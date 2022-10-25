@@ -21,6 +21,15 @@ def MultiFigPlot():
     plt.draw()
     print 'continue computing'
     plt.show(block = False)
+    # f1, f2 = plt.figure(), plt.figure()
+    # af1 = f1.add_subplot(111)
+    # af2 = f2.add_subplot(111)
+    # af1.plot(TSx)
+    # af2.plot(fbky)
+    # plt.draw()
+    # print 'continue computing'
+    # plt.show(block = False)
+    # print ('Test plotting 1 done')
 
 def MultiMatFig():
     # https://matplotlib.org/stable/tutorials/introductory/pyplot.html
