@@ -10,31 +10,9 @@ import pandas as pd
 from lmfit.models import LorentzianModel
 import time
 
-#dframe = pd.read_csv('peak.csv')
-
-'''
-url = 'https://raw.githubusercontent.com/jbrownlee/Datasets/master/longley.csv'
-dataframe = pd.read_csv(url, header=None)
-data = dataframe.values
+# define the true objective function
 def objective(x, a, b, c, d):
-	return a * sin(b - x) + c * x**2 + d
-# choose the input and output variables
-x, y = data[:, 4], data[:, -1]
-# curve fit
-popt, _ = curve_fit(objective, x, y)
-# summarize the parameter values
-a, b, c, d = popt
-print(popt)
-# plot input vs output
-pyplot.scatter(x, y)
-# define a sequence of inputs between the smallest and largest known inputs
-x_line = arange(min(x), max(x), 1)
-# calculate the output for the range
-y_line = objective(x_line, a, b, c, d)
-# create a line plot for the mapping function
-pyplot.plot(x_line, y_line, '--', color='red')
-#pyplot.show()
-'''
+    return a * sin(b - x) + c * x ** 2 + d
 
 df = pd.read_csv("SR1_BCaL_8h.csv", parse_dates=["Timestamp"])
 #df.dropna()
@@ -47,9 +25,9 @@ dfminiNA = dfminiNA.dropna()
 TSx = dfminiNA.iloc[:, 0]
 fbky = dfminiNA.iloc[:, 1]
 
-'''
+
 # choose the input and output variables
-x, y = dfminiNA[:, 0], dfminiNA[:, 1]
+x, y = dfminiNA.iloc[:, 0], dfminiNA.iloc[:, 1]
 x = [i for i in range(len(y))]
 # curve fit
 popt, _ = curve_fit(objective, x, y)
@@ -67,7 +45,7 @@ pyplot.plot(x_line, y_line, '--', color='red')
 pyplot.show()
 
 
-
+'''
 # seperate df into mini of each variable to plot
 # dfmNAcs = dfminiNA.cumsum() #calculate the cumulative summation
 model = LorentzianModel()
