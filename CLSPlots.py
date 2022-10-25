@@ -21,4 +21,7 @@ def PandaPlot1():
     dfminiNA.plot()  # to show only fbk curve
     plt.show()  # show all plots and wait
 
+
+
+
 PandaPlot1()

@@ -28,7 +28,7 @@ fbky = dfminiNA.iloc[:, 1]
 
 # choose the input and output variables
 x, y = dfminiNA.iloc[:, 0], dfminiNA.iloc[:, 1]
-x = [i for i in range(len(y))]
+x = [dfminiNA.iloc[i, 0] for i in range(len(y))]
 # curve fit
 popt, _ = curve_fit(objective, x, y)
 # summarize the parameter values

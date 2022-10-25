@@ -55,6 +55,40 @@ def PandaPlot1():
     dfminiNA.plot()  # to show only fbk curve
     plt.show()  # show all plots and wait
 
+# define the true objective function
+def objective(x, a, b, c, d):
+    return a * sin(b - x) + c * x ** 2 + d
+
+def CurveFit1():
+    df = pd.read_csv("SR1_BCaL_8h.csv", parse_dates=["Timestamp"])
+    #df.dropna()
+    dfminiNA = df.iloc[1:20, 0:2]
+    dfminiNA = dfminiNA.dropna()
+
+    # df = pd.DataFrame({'Timestamp': [pd.to_datetime('2022/06/02 05:44:14.975')]})
+
+    # dfminiNA = dfminiNA.values
+    TSx = dfminiNA.iloc[:, 0]
+    fbky = dfminiNA.iloc[:, 1]
+
+
+    # choose the input and output variables
+    x, y = dfminiNA.iloc[:, 0], dfminiNA.iloc[:, 1]
+    x = [i for i in range(len(y))]  # replace with actual x values depending on what information is necessary
+    # curve fit
+    popt, _ = curve_fit(objective, x, y)
+    # summarize the parameter values
+    a, b, c, d = popt
+    print(popt)
+    # plot input vs output
+    plt.scatter(x, y)
+    # define a sequence of inputs between the smallest and largest known inputs
+    x_line = arange(min(x), max(x), 1)
+    # calculate the output for the range
+    y_line = objective(x_line, a, b, c, d)
+    # create a line plot for the mapping function
+    plt.plot(x_line, y_line, '--', color='red')
+    plt.show()
 
 '''
 df = pd.read_csv("SR1_BCaL_8h.csv")  #, parse_dates=["Timestamp"])
@@ -82,27 +116,6 @@ ax = [i for i in range(len(fbky))]
 #print(ax)
 TSx = ax
 # dfminiNA.astype('int32').dtypes
-
-
-
-# choose the input and output variables
-x, y = dfminiNA[:, 0], dfminiNA[:, 1]
-x = [i for i in range(len(y))]
-# curve fit
-popt, _ = curve_fit(objective, x, y)
-# summarize the parameter values
-a, b, c, d = popt
-print(popt)
-# plot input vs output
-pyplot.scatter(x, y)
-# define a sequence of inputs between the smallest and largest known inputs
-x_line = arange(min(x), max(x), 1)
-# calculate the output for the range
-y_line = objective(x_line, a, b, c, d)
-# create a line plot for the mapping function
-pyplot.plot(x_line, y_line, '--', color='red')
-pyplot.show()
-
 
 
 

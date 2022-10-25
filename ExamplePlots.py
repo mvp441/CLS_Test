@@ -161,7 +161,7 @@ def PandaCuveFit():
 
 def PandaFit2():
     # https://lmfit.github.io/lmfit-py/examples/example_use_pandas.html#sphx-glr-download-examples-example-use-pandas-py
-    dframe = pd.read_csv('peak.csv')
+    dframe = pd.read_csv('peak.csv')  # CSV file with data could not be downloaded from site
     model = LorentzianModel()
     params = model.guess(dframe['y'], x=dframe['x'])
     result = model.fit(dframe['y'], params, x=dframe['x'])
