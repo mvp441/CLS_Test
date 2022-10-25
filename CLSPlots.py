@@ -48,8 +48,11 @@ def CurveFit1():
     x2 = pd.to_datetime(TSx, infer_datetime_format=True)  # series of Timestamps
     x3 = pd.to_datetime(x1)  # single timestamp value
     x4 = x2.iloc[0]  # single timestamp value
-    pltx = mpl.dates.date2num(x2.to_datetime())
-    TSx = pltx
+
+    # converts to float
+    pltx = mpl.dates.date2num(x4)  #.to_datetime()) # converts to float
+
+    TSx = ax
     # degree 1-4+
     m1 = np.poly1d(np.polyfit(TSx, fbky, 1))
     m2 = np.poly1d(np.polyfit(TSx, fbky, 2))
