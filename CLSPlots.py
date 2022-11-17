@@ -3,7 +3,7 @@ import numpy as np
 import scipy as sci
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-import moment
+# import moment
 
 mpl.use('TkAgg')
 
@@ -81,5 +81,5 @@ def CurveFit1():
     adjR(TSx, fbky, 5)
     plt.show()  # call at end to ensure windows dont close
 
-# PandaPlot1()
-CurveFit1()
+PandaPlot1()
+# CurveFit1()
