@@ -86,11 +86,15 @@ def Test3():
     TSx = dfminiNA.iloc[:, 0]
     fbky = dfminiNA.iloc[:, 1]
 
-    x0 = dfminiNA.iloc[:, 0]
+    x0 = TSx
     x1 = pd.to_datetime(TSx, infer_datetime_format=True)
-    x2 = pd.to_datetime(x1)
+    x2 = pd.to_datetime(x0)
     x3 = pd.to_timedelta(x2)
     x4 = pd.to_numeric(x2)
+
+    ax = x4
+    for i in range(len(x4)):
+        ax.iloc[i] = x4.iloc[i] - x4.iloc[1] # doesn't work currently only changes first value of ax
 
     plt.figure(2)  # open the figure
     plt.subplot(311)  # the first subplot in the first figure
@@ -110,7 +114,7 @@ def Test3():
 # TSFc()
 # Test1()
 # Test2()
-# Test3()
+Test3()
 print('idk')
 
 
