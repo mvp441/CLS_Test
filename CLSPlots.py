@@ -82,5 +82,5 @@ def CurveFit1():
     adjR(TSx, fbky, 5)
     plt.show()  # call at end to ensure windows dont close
 
-# PandaPlot1()
-CurveFit1()
+PandaPlot1()
+# CurveFit1()
