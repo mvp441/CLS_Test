@@ -94,7 +94,7 @@ def Test3():
 
     ax = x4
     for i in range(len(x4)):
-        ax.iloc[i] = x4.iloc[i] - x4.iloc[1] # doesn't work currently only changes first value of ax
+        ax.iloc[i] = x4.iloc[i] - x4.iloc[1]  # doesn't work currently only changes first value of ax
 
     plt.figure(2)  # open the figure
     plt.subplot(311)  # the first subplot in the first figure

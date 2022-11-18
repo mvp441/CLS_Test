@@ -101,20 +101,7 @@ def CurveFit1():
     plt.plot(x_line, y_line, '--', color='red')
     plt.show()
 
-def Test1():
-    df = pd.read_csv('SR1_BCaL_8h.csv')
-    dfmini = df.iloc[1:100, 0:2]
-    dfminiNA = dfmini.dropna()
-    TSx = dfminiNA.iloc[:, 0]
-    fbky = dfminiNA.iloc[:, 1]
-    x0 = dfminiNA.iloc[:, 0]
-    x1 = pd.to_datetime(TSx, infer_datetime_format=True)
-    x2 = pd.to_datetime(x1)
-    x3 = pd.to_timedelta(x2)
-    x4 = pd.to_numeric(x2)
-    TestPlot1(x1, x4, fbky)
-
-def Test2():
+def Test0():
     df = pd.read_csv("SR1_BCaL_8h.csv", parse_dates=["Timestamp"])
     data = df.values
 
