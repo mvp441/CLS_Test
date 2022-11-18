@@ -51,7 +51,8 @@ def CurveFit1():
     x4 = x2.iloc[0]  # single timestamp value
 
     # converts to float
-    pltx = mpl.dates.date2num(x4)  #.to_datetime()) # converts to float
+    # convert datetime to timedelta for plotting and curve fitting?
+    # pltx = mpl.dates.date2num(x4)  #.to_datetime()) # converts to float
 
     TSx = ax
     # degree 1-4+
@@ -81,5 +82,5 @@ def CurveFit1():
     adjR(TSx, fbky, 5)
     plt.show()  # call at end to ensure windows dont close
 
-PandaPlot1()
-# CurveFit1()
+# PandaPlot1()
+CurveFit1()
