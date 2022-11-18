@@ -86,10 +86,11 @@ def Test3():
     TSx = dfminiNA.iloc[:, 0]
     fbky = dfminiNA.iloc[:, 1]
 
-    x1 = dfminiNA.iloc[:, 0]
-    x2 = pd.to_datetime(TSx, infer_datetime_format=True)
+    x0 = dfminiNA.iloc[:, 0]
+    x1 = pd.to_datetime(TSx, infer_datetime_format=True)
+    x2 = pd.to_datetime(x1)
     x3 = pd.to_timedelta(x2)
-    x4 = pd.to_numeric(x3)
+    x4 = pd.to_numeric(x2)
 
     plt.figure(2)  # open the figure
     plt.subplot(311)  # the first subplot in the first figure
@@ -109,7 +110,7 @@ def Test3():
 # TSFc()
 # Test1()
 # Test2()
-# Test3()
+Test3()
 print('idk')
 
 
