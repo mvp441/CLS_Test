@@ -20,7 +20,7 @@ fbky = dfminiNA.iloc[:, 1]
 plt.scatter(TSx, fbky)  # plot data
 
 TSx2 = pd.to_datetime(dfminiNA.Timestamp, infer_datetime_format=True)
-plt.scatter(TSx2, fbky)  # plot data
+# plt.scatter(TSx2, fbky)  # plot data
 
 TSx3 = pd.to_timedelta(TSx, unit='ns')
 plt.scatter(TSx3, fbky)  # plot data
