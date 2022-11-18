@@ -14,6 +14,7 @@ def TSFc():
     plt.show()
     print('DONE')
 
+
 def PreFT():
     df = pd.read_csv('SR1_BCaL_8h.csv')  # , parse_dates=['Timestamp']) doesn't plot properly when loaded in with Timestamp in datetime format
     dfmini = df.iloc[1:100, 0:2]
@@ -42,74 +43,34 @@ def PreFT():
 
 def Test1():
     ''' Using Timestamp format. Doesn't show correct pattern.'''
-    df = pd.read_csv('SR1_BCaL_8h.csv', parse_dates=['Timestamp'])
+    df = pd.read_csv('SR1_BCaL_8h.csv')
     dfmini = df.iloc[1:100, 0:2]
     dfminiNA = dfmini.dropna()
-    TSx = dfminiNA.iloc[:, 0]
+    TSx = pd.to_datetime(dfminiNA.Timestamp, infer_datetime_format=True)
     fbky = dfminiNA.iloc[:, 1]
     plt.scatter(TSx, fbky)  # plot data
     print('done')
 
 def Test2():
-    ''' Using Timestamp format. Doesn't show correct pattern. Converts entire original df.'''
-    df = pd.read_csv('SR1_BCaL_8h.csv')
-    dfmini = df.iloc[1:100, 0:2]
-    dfminiNA = dfmini.dropna()
-    TS1 = dfminiNA.iloc[:, 0]
-    df2 = dfminiNA
-    df2['Timestamp'] = pd.to_datetime(df2['Timestamp'], infer_datetime_format=True)
-    TS2 = df2.iloc[:,0]
-    df3 = dfminiNA
-    df3['Timestamp'] = pd.to_numeric(df3['Timestamp'])
-    TS3 = df3.iloc[:,0]
-    fbky = dfminiNA.iloc[:, 1]
-
-    plt.figure(1)  # the first figure
-    plt.subplot(311)  # the first subplot in the first figure
-    plt.scatter(TS1, fbky)  # Timestamp x-axis (unreadable)
-    plt.title('Timestamp')
-    plt.subplot(312)  # the second subplot in the first figure
-    plt.scatter(TS2, fbky)  # datetime x-axis (wrong plot)
-    plt.title('datetime')
-    plt.subplot(313)  # the third subplot in the first figure
-    plt.scatter(TS3, fbky)  # Numeric x-axis (unusable)
-    plt.title('Numeric')
-    plt.show()
-
-    print('done')
-
-def Test3():
-    ''' Using Timestamp format. Doesn't show correct pattern. Only converts column value types.'''
+    ''' Using Timestamp format. Doesn't show correct pattern.'''
     df = pd.read_csv('SR1_BCaL_8h.csv')
     dfmini = df.iloc[1:100, 0:2]
     dfminiNA = dfmini.dropna()
     TSx = dfminiNA.iloc[:, 0]
     fbky = dfminiNA.iloc[:, 1]
 
+    ax = [i for i in range(len(fbky))]
     x1 = dfminiNA.iloc[:, 0]
     x2 = pd.to_datetime(TSx, infer_datetime_format=True)
-    x3 = pd.to_timedelta(x2)
-    x4 = pd.to_numeric(x3)
+    x3 = pd.to_timedelta(TSx)
 
-    plt.figure(2)  # open the figure
-    plt.subplot(311)  # the first subplot in the first figure
-    plt.scatter(x1, fbky)  # Timestamp x-axis (unreadable)
-    plt.title('Timestamp')
-    plt.subplot(312)  # the second subplot in the first figure
-    plt.scatter(x2, fbky)  # datetime x-axis (wrong plot)
-    plt.title('datetime')
-    plt.subplot(313)  # the third subplot in the first figure
-    plt.scatter(x4, fbky)  # Numeric x-axis (unusable)
-    plt.title('Numeric')
-    plt.show()
 
+    plt.scatter(TSx, fbky)  # plot data
     print('done')
 
 # PreFT()
 # TSFc()
 # Test1()
-# Test2()
-# Test3()
-print('idk')
+Test2()
 
 

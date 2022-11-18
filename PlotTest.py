@@ -99,6 +99,11 @@ def CurveFit1():
     plt.plot(x_line, y_line, '--', color='red')
     plt.show()
 
+# MultiFigPlot()
+# MultiMatFig()
+
+
+
 '''
 df = pd.read_csv("SR1_BCaL_8h.csv")  #, parse_dates=["Timestamp"])
 data = df.values
