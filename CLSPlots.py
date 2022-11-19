@@ -60,7 +60,7 @@ def CurveFit1():
     m2 = np.poly1d(np.polyfit(TSx, fbky, 2))
     m3 = np.poly1d(np.polyfit(TSx, fbky, 3))
     m4 = np.poly1d(np.polyfit(TSx, fbky, 4))
-    m5 = np.poly1d(np.polyfit(TSx, fbky, 5))  # should be max 5 put higher to test
+    m5 = np.poly1d(np.polyfit(TSx, fbky, 35))  # should be max 5 put higher to test
     polyline = np.linspace(1, 40, 100)  # fill xdata
     plt.scatter(TSx, fbky)  # plot data
     # plot fit curves
@@ -82,5 +82,49 @@ def CurveFit1():
     adjR(TSx, fbky, 5)
     plt.show()  # call at end to ensure windows dont close
 
-PandaPlot1()
-# CurveFit1()
+
+def CurveFit2():
+    df = pd.read_csv('SR1_BCaL_8h.csv')
+    dfmini = df.iloc[1:100, 0:2]
+    dfminiNA = dfmini.dropna()
+    TS1 = dfminiNA.iloc[:, 0]
+    df2 = dfminiNA
+    df2['Timestamp'] = pd.to_datetime(df2['Timestamp'], infer_datetime_format=True)
+    TS2 = df2.iloc[:, 0]
+    df3 = dfminiNA
+    df3['Timestamp'] = pd.to_numeric(df3['Timestamp'])
+    TS3 = df3.iloc[:, 0]
+    TS4 = (TS3 - TS3.values[0]) / pow(10, 9)
+    fbky = dfminiNA.iloc[:, 1]
+
+    # degree 1-4+
+    m1 = np.poly1d(np.polyfit(TS4, fbky, 1))
+    m2 = np.poly1d(np.polyfit(TS4, fbky, 2))
+    m3 = np.poly1d(np.polyfit(TS4, fbky, 3))
+    m4 = np.poly1d(np.polyfit(TS4, fbky, 4))
+    m5 = np.poly1d(np.polyfit(TS4, fbky, 35))  # should be max 5 put higher to test
+    polyline = TS4 #np.linspace(1, 40, 100)  # fill xdata
+    plt.scatter(TS4, fbky)  # plot data
+    plt.xlabel(r'$\mu$s')  # the third subplot in the first figure
+    plt.title('FBK starting from ' + TS1.values[0])
+    # plot fit curves
+    plt.plot(polyline, m1(polyline), color='orange')
+    plt.plot(polyline, m2(polyline), color='red')
+    plt.plot(polyline, m3(polyline), color='purple')
+    plt.plot(polyline, m4(polyline), color='blue')
+    plt.plot(polyline, m5(polyline), color='green')
+    # plt.draw()
+    plt.show(block=False)
+    # print equation term values
+    print('y1 = ')
+    print(m1)
+    # Calculate adjusted R values
+    adjR(TS4, fbky, 1)
+    adjR(TS4, fbky, 2)
+    adjR(TS4, fbky, 3)
+    adjR(TS4, fbky, 4)
+    adjR(TS4, fbky, 5)
+    plt.show()  # call at end to ensure windows dont close
+
+#PandaPlot1()
+CurveFit2()

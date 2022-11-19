@@ -58,22 +58,24 @@ def Test2():
     TS1 = dfminiNA.iloc[:, 0]
     df2 = dfminiNA
     df2['Timestamp'] = pd.to_datetime(df2['Timestamp'], infer_datetime_format=True)
-    TS2 = df2.iloc[:,0]
+    TS2 = df2.iloc[:, 0]
     df3 = dfminiNA
     df3['Timestamp'] = pd.to_numeric(df3['Timestamp'])
-    TS3 = df3.iloc[:,0]
+    TS3 = df3.iloc[:, 0]
+    TS4 = (TS3 - TS3.values[0])/pow(10,9)
     fbky = dfminiNA.iloc[:, 1]
 
     plt.figure(1)  # the first figure
-    plt.subplot(311)  # the first subplot in the first figure
-    plt.scatter(TS1, fbky)  # Timestamp x-axis (unreadable)
-    plt.title('Timestamp')
-    plt.subplot(312)  # the second subplot in the first figure
-    plt.scatter(TS2, fbky)  # datetime x-axis (wrong plot)
-    plt.title('datetime')
-    plt.subplot(313)  # the third subplot in the first figure
-    plt.scatter(TS3, fbky)  # Numeric x-axis (unusable)
-    plt.title('Numeric')
+    # plt.subplot(311)  # the first subplot in the first figure
+    # plt.scatter(TS1, fbky)  # Timestamp x-axis (unreadable)
+    # plt.title('Timestamp')
+    # plt.subplot(312)  # the second subplot in the first figure
+    # plt.scatter(TS2, fbky)  # datetime x-axis (wrong plot)
+    # plt.title('datetime')
+    # plt.subplot(313)
+    plt.scatter(TS4, fbky)  # Numeric x-axis (unusable)
+    plt.xlabel(r'$\mu$s')  # the third subplot in the first figure
+    plt.title('FBK starting from ' + TS1.values[0])
     plt.show()
 
     print('done')
@@ -113,8 +115,8 @@ def Test3():
 # PreFT()
 # TSFc()
 # Test1()
-# Test2()
-Test3()
+Test2()
+# Test3()
 print('idk')
 
 

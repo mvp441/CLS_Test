@@ -85,6 +85,7 @@ def CurveFit1():
 
     # choose the input and output variables
     x, y = dfminiNA.iloc[:, 0], dfminiNA.iloc[:, 1]
+    y = fbky
     x = [i for i in range(len(y))]  # replace with actual x values depending on what information is necessary
     # curve fit
     popt, _ = curve_fit(objective, x, y)
@@ -136,7 +137,7 @@ def Test0():
     print(result.fit_report())
     result.plot_fit()
 
-
-# Test1()
-# MultiFigPlot()
-# MultiMatFig()
+#MultiFigPlot()
+#MultiMatFig()
+Test0()
+#CurveFit1()
