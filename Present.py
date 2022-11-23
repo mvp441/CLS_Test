@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 def print_data(df):
     for column in df:
         print(df[column])
+        print('\n')
 
 def get_list_desc(df):
     dfdesc = list()
@@ -22,6 +23,52 @@ def get_dict_desc(df):
     for column in df:
         dfdesc[column] = df[column].describe()
     return dfdesc
+
+def PandasTest3():
+    df = pd.read_csv("SR1_BCaL_8h.csv")
+
+    print(df.columns)
+    print(df)
+
+    dfminiNA = df.iloc[1:20, 0:4]
+    print("dfmini with N/A")
+    print(dfminiNA)
+
+    fbkNA = dfminiNA.iloc[:, [1]]
+    mAChangeNA = dfminiNA.iloc[:, [2]]
+    timeConstantNA = dfminiNA.iloc[:, [3]]
+
+    NA_dict_desc = get_dict_desc(dfminiNA)
+    print("columns with N/A")
+    print(dfminiNA)
+    print("description with N/A")
+    print_data(NA_dict_desc)
+
+    fbk = fbkNA.dropna()
+    mAChange = mAChangeNA.dropna()
+    timeConstant = timeConstantNA.dropna()
+    print("columns without N/A")
+    print(fbk)
+    print(mAChange)
+    print(timeConstant)
+    print("description N/A dropped")
+    print(fbk.describe())
+    print(mAChange.describe())
+    print(timeConstant.describe())
+
+    dfmini0 = dfminiNA.copy().fillna(0)
+    dfm0_dict_desc = get_dict_desc(dfmini0)
+    print("columns with N/A filled by 0")
+    print(dfmini0)
+    print("description N/A 0")
+    print_data(dfm0_dict_desc)
+
+    dfminipad = dfminiNA.copy().fillna(method='pad')
+    dfmpad_dict_desc = get_dict_desc(dfminipad)
+    print("columns fill N/A padded")
+    print(dfminipad)
+    print("description N/A padded")
+    print_data(dfmpad_dict_desc)
 
 def PandaPlot1():
     df = pd.read_csv("SR1_BCaL_8h.csv")  # read in csv file containing data
@@ -41,10 +88,10 @@ def Test2():
     dfmini = df.iloc[1:100, 0:2]
     dfminiNA = dfmini.dropna()
     TS1 = dfminiNA.iloc[:, 0]
-    df2 = dfminiNA
+    df2 = dfminiNA.copy()
     df2['Timestamp'] = pd.to_datetime(df2['Timestamp'], infer_datetime_format=True)
     TS2 = df2.iloc[:, 0]
-    df3 = dfminiNA
+    df3 = df2.copy()
     df3['Timestamp'] = pd.to_numeric(df3['Timestamp'])
     TS3 = df3.iloc[:, 0]
     TS4 = (TS3 - TS3.values[0])/pow(10,9)
@@ -174,6 +221,7 @@ def corr_calc():
 def main():
     PandaPlot1()
     Test2()
+    PandasTest3()
     CurveFit2()
     corr_calc()
 
