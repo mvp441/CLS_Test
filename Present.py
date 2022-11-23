@@ -27,20 +27,44 @@ def PandaPlot1():
     df = pd.read_csv("SR1_BCaL_8h.csv")  # read in csv file containing data
     dfminiNA = df.iloc[1:20, 0:2]  # take small data set containing only Timestamp and fbk values
     dfminiNA = dfminiNA.dropna()  # remove Timestamps with NA fbk values
-    # separate into individual variables
-    TSx = dfminiNA.iloc[:, 0]
-    fbky = dfminiNA.iloc[:, 1]
-    dfmNAcs = dfminiNA.cumsum()  # calculate the cumulative summation
-
     plt.close("all")  # close all open plots
     # first plot
-    df.plot()  # plot using pandas method
+    df.plot(title='Entire Dataframe')  # plot using pandas method
     plt.show(block = False)  # show plot but don't pause for input
     # second plot
-    dfminiNA.plot()  # to show only fbk curve
+    dfminiNA.plot(title='Mini Dataframe')  # to show only fbk curve
     plt.show()  # show all plots and wait
 
-#define function to calculate adjusted r-squared
+def Test2():
+    ''' Using Timestamp format. Doesn't show correct pattern. Converts entire original df.'''
+    df = pd.read_csv('SR1_BCaL_8h.csv')
+    dfmini = df.iloc[1:100, 0:2]
+    dfminiNA = dfmini.dropna()
+    TS1 = dfminiNA.iloc[:, 0]
+    df2 = dfminiNA
+    df2['Timestamp'] = pd.to_datetime(df2['Timestamp'], infer_datetime_format=True)
+    TS2 = df2.iloc[:, 0]
+    df3 = dfminiNA
+    df3['Timestamp'] = pd.to_numeric(df3['Timestamp'])
+    TS3 = df3.iloc[:, 0]
+    TS4 = (TS3 - TS3.values[0])/pow(10,9)
+    fbky = dfminiNA.iloc[:, 1]
+    plt.figure(1)  # the first figure
+    plt.subplot(311)  # the first subplot in the first figure
+    plt.scatter(TS1, fbky)  # Timestamp x-axis (unreadable)
+    plt.title('Timestamp')
+    plt.subplot(312)  # the second subplot in the first figure
+    plt.scatter(TS2, fbky)  # datetime x-axis (wrong plot)
+    plt.title('datetime')
+    plt.subplot(313)    # the third subplot in the first figure
+    plt.scatter(TS3, fbky)  # Numeric x-axis (unusable)
+    plt.title('Numeric')
+    plt.figure(2)   # the second figure
+    plt.scatter(TS4, fbky)  # Numeric x-axis (usable)
+    plt.xlabel(r'$\mu$s')
+    plt.title('FBK starting from ' + TS1.values[0])
+    plt.show()
+
 def adjR(x, y, degree):
     results = {}
     coeffs = np.polyfit(x, y, degree)
@@ -49,7 +73,7 @@ def adjR(x, y, degree):
     ybar = np.sum(y)/len(y)
     ssreg = np.sum((yhat-ybar)**2)
     sstot = np.sum((y - ybar)**2)
-    results['r_squared'] = 1- (((1-(ssreg/sstot))*(len(y)-1))/(len(y)-degree-1))
+    results['r_squared'] = 1-(((1-(ssreg/sstot))*(len(y)-1))/(len(y)-degree-1))
     return results
 
 def CurveFit2():
@@ -71,7 +95,7 @@ def CurveFit2():
     m3 = np.poly1d(np.polyfit(TS4, fbky, 3))
     m4 = np.poly1d(np.polyfit(TS4, fbky, 4))
     m5 = np.poly1d(np.polyfit(TS4, fbky, 5))  # should be max 5 put higher to test
-    polyline = TS4 #np.linspace(1, 40, 100)  # fill xdata
+    polyline = TS4
     plt.scatter(TS4, fbky)  # plot data
     # plot fit curves
     plt.plot(polyline, m1(polyline), color='orange', label='degree 1')
@@ -149,6 +173,7 @@ def corr_calc():
 
 def main():
     PandaPlot1()
+    Test2()
     CurveFit2()
     corr_calc()
 

@@ -64,20 +64,21 @@ def Test2():
     TS3 = df3.iloc[:, 0]
     TS4 = (TS3 - TS3.values[0])/pow(10,9)
     fbky = dfminiNA.iloc[:, 1]
-
     plt.figure(1)  # the first figure
-    # plt.subplot(311)  # the first subplot in the first figure
-    # plt.scatter(TS1, fbky)  # Timestamp x-axis (unreadable)
-    # plt.title('Timestamp')
-    # plt.subplot(312)  # the second subplot in the first figure
-    # plt.scatter(TS2, fbky)  # datetime x-axis (wrong plot)
-    # plt.title('datetime')
-    # plt.subplot(313)
-    plt.scatter(TS4, fbky)  # Numeric x-axis (unusable)
-    plt.xlabel(r'$\mu$s')  # the third subplot in the first figure
+    plt.subplot(311)  # the first subplot in the first figure
+    plt.scatter(TS1, fbky)  # Timestamp x-axis (unreadable)
+    plt.title('Timestamp')
+    plt.subplot(312)  # the second subplot in the first figure
+    plt.scatter(TS2, fbky)  # datetime x-axis (wrong plot)
+    plt.title('datetime')
+    plt.subplot(313)    # the third subplot in the first figure
+    plt.scatter(TS3, fbky)  # Numeric x-axis (unusable)
+    plt.title('Numeric')
+    plt.figure(2)   # the second figure
+    plt.scatter(TS4, fbky)  # Numeric x-axis (usable)
+    plt.xlabel(r'$\mu$s')
     plt.title('FBK starting from ' + TS1.values[0])
     plt.show()
-
     print('done')
 
 def Test3():
@@ -116,7 +117,7 @@ def Test3():
 # TSFc()
 # Test1()
 Test2()
-# Test3()
+Test3()
 print('idk')
 
 
