@@ -94,6 +94,7 @@ def PlotMaskNaN():
     pyplot.legend()
     pyplot.title('Masked and NaN data')
     pyplot.show()
+    print('done')
 
 #define function to calculate adjusted r-squared
 def adjR(x, y, degree):
@@ -230,6 +231,7 @@ def PyPlotStyle():
 # MultiFigPlot()
 # MultiPlotFig()
 # MultiMatFig()  # Only plots if paused with debugger and stepped through
+PlotMaskNaN()
 # FitLine()  # FitLine plots on the second window and overwrites the plot created by the first function
 # PandaCurveFit()
 # PandaFit2()

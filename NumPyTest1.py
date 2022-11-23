@@ -1,12 +1,10 @@
 import numpy
-import pandas
 import csv
 import scipy.stats
 
 file = open("SR1_BCaL_8h.csv")
 csvreader = csv.reader(file)
 header = next(csvreader)
-#print(header)
 rows = []
 TimeStamp = []
 fbk = []
@@ -25,7 +23,7 @@ print('initial TimeConstant length: ' + str(len(TimeConstant)) + '\n')
 
 valueToBeRemoved = 'N/A'
 
-Change = filter(lambda val: val !=  valueToBeRemoved, Change)
+Change = filter(lambda val: val != valueToBeRemoved, Change)
 
 try:
     while True:

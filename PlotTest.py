@@ -1,3 +1,4 @@
+import numpy as np
 from numpy import sin
 from numpy import sqrt
 from numpy import arange
@@ -47,6 +48,38 @@ def MultiMatFig():
     plt.figure(1)  # figure 1 current; subplot(212) still current
     plt.subplot(211)  # make subplot(211) in figure1 current
     plt.title('Easy as 1, 2, 3')  # subplot 211 title
+
+def PlotMaskNan():
+    df = pd.read_csv('SR1_BCaL_8h.csv')
+    dfmini = df.iloc[1:100, 0:2]
+    dfminiNA = dfmini.dropna()
+    TS1 = dfminiNA.iloc[:, 0]
+    df2 = dfminiNA
+    df2['Timestamp'] = pd.to_datetime(df2['Timestamp'], infer_datetime_format=True)
+    TS2 = df2.iloc[:, 0]
+    df3 = dfminiNA
+    df3['Timestamp'] = pd.to_numeric(df3['Timestamp'])
+    TS3 = df3.iloc[:, 0]
+    TS4 = (TS3 - TS3.values[0]) / pow(10, 9)
+    fbky = dfminiNA.iloc[:, 1]
+    x = TS4
+    y = fbky
+    # 1) remove points where y > 0.7
+    x2 = x[y == 'NaN']
+    y2 = y[y == 'NaN']
+    # 2) mask points where y > 0.7
+    y3 = np.ma.masked_where(y == 'NaN', y)
+    # 3) set to NaN where y > 0.7
+    y4 = y.copy()
+    y4[y3 == 'NaN'] = np.nan
+    plt.plot(x * 0.1, y, 'o-', color='lightgrey', label='No mask')
+    plt.plot(x2 * 0.4, y2, 'o-', label='Points removed')
+    plt.plot(x * 0.7, y3, 'o-', label='Masked values')
+    plt.plot(x * 1.0, y4, 'o-', label='NaN values')
+    plt.legend()
+    plt.title('Masked and NaN data')
+    plt.show()
+    print('done')
 
 def PandaPlot1():
     df = pd.read_csv("SR1_BCaL_8h.csv")  # read in csv file containing data
@@ -139,5 +172,6 @@ def Test0():
 
 #MultiFigPlot()
 #MultiMatFig()
-Test0()
+PlotMaskNan()
+#Test0()
 #CurveFit1()
