@@ -45,7 +45,6 @@ print(fbk.describe())
 print(mAChange.describe())
 print(timeConstant.describe())
 
-
 fbk0 = fbkNA.fillna(0)
 mAChange0 = mAChangeNA.fillna(0)
 timeConstant0 = timeConstantNA.fillna(0)
