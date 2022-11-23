@@ -81,7 +81,6 @@ def CurveFit1():
     adjR(TSx, fbky, 5)
     plt.show()  # call at end to ensure windows dont close
 
-
 def CurveFit2():
     df = pd.read_csv('SR1_BCaL_8h.csv')
     dfmini = df.iloc[1:100, 0:2]
@@ -95,40 +94,84 @@ def CurveFit2():
     TS3 = df3.iloc[:, 0]
     TS4 = (TS3 - TS3.values[0]) / pow(10, 9)
     fbky = dfminiNA.iloc[:, 1]
-
     # degree 1-4+
     m1 = np.poly1d(np.polyfit(TS4, fbky, 1))
     m2 = np.poly1d(np.polyfit(TS4, fbky, 2))
     m3 = np.poly1d(np.polyfit(TS4, fbky, 3))
     m4 = np.poly1d(np.polyfit(TS4, fbky, 4))
-    m5 = np.poly1d(np.polyfit(TS4, fbky, 35))  # should be max 5 put higher to test
+    m5 = np.poly1d(np.polyfit(TS4, fbky, 5))  # should be max 5 put higher to test
     polyline = TS4 #np.linspace(1, 40, 100)  # fill xdata
     plt.scatter(TS4, fbky)  # plot data
     # plot fit curves
-    plt.plot(polyline, m1(polyline), color='orange')
-    plt.plot(polyline, m2(polyline), color='red')
-    plt.plot(polyline, m3(polyline), color='purple')
-    plt.plot(polyline, m4(polyline), color='blue')
-    plt.plot(polyline, m5(polyline), color='green')
+    plt.plot(polyline, m1(polyline), color='orange', label='degree 1')
+    plt.plot(polyline, m2(polyline), color='red', label='degree 2')
+    plt.plot(polyline, m3(polyline), color='purple', label='degree 3')
+    plt.plot(polyline, m4(polyline), color='blue', label='degree 4')
+    plt.plot(polyline, m5(polyline), color='green', label='degree 5')
     plt.legend()
     # format plot
     plt.xlabel(r'$\mu$s')
     plt.title('FBK starting from ' + TS1.values[0])
-
     # plt.draw()
     plt.show(block=False)
+    # Calculate adjusted R values
+    m1aR = adjR(TS4, fbky, 1)
+    m2aR = adjR(TS4, fbky, 2)
+    m3aR = adjR(TS4, fbky, 3)
+    m4aR = adjR(TS4, fbky, 4)
+    m5aR = adjR(TS4, fbky, 5)
     # print equation term values
     print('y1 = ')
     print(m1)
+    print(m1aR)
+
+    plt.show()  # call at end to ensure windows dont close
+
+def CurveFit3():
+    df = pd.read_csv('SR1_BCaL_8h.csv')
+    dfmini = df.iloc[1:100, 0:2]
+    dfminiNA = dfmini.dropna()
+    TS1 = dfminiNA.iloc[:, 0]
+    df2 = dfminiNA
+    df2['Timestamp'] = pd.to_datetime(df2['Timestamp'], infer_datetime_format=True)
+    TS2 = df2.iloc[:, 0]
+    df3 = dfminiNA
+    df3['Timestamp'] = pd.to_numeric(df3['Timestamp'])
+    TS3 = df3.iloc[:, 0]
+    TS4 = (TS3 - TS3.values[0]) / pow(10, 9)
+    fbky = dfminiNA.iloc[:, 1]
+    # degree 1-4+
+    m = {}
+    ma = {}
+    for i in range(5):
+        m[i+1] = np.poly1d(np.polyfit(TS4, fbky, i+1))
+        ma[i+1] = adjR(TS4, fbky, i+1)
+        print('y1 = ')  # + str(m[i+1]) + '\nadjR = ', str(ma[i+1]))
+        print(m[i + 1])
+        print(ma[i+1])
+    polyline = TS4 #np.linspace(1, 40, 100)  # fill xdata
+    plt.scatter(TS4, fbky)  # plot data
+    # plot fit curves
+    for i in range(5):
+        plt.plot(polyline, m[i+1](polyline), label='degree = '+ str(i+1))
+    plt.legend()
+    # format plot
+    plt.xlabel(r'$\mu$s')
+    plt.title('FBK starting from ' + TS1.values[0])
+    # plt.draw()
+    plt.show(block=False)
     # Calculate adjusted R values
     adjR(TS4, fbky, 1)
     adjR(TS4, fbky, 2)
     adjR(TS4, fbky, 3)
     adjR(TS4, fbky, 4)
     adjR(TS4, fbky, 5)
+    # print equation term values
+    print('y1 = ')
     plt.show()  # call at end to ensure windows dont close
     print('done')
 
 #PandaPlot1()
 #CurveFit1()
-CurveFit2()
+#CurveFit2()
+CurveFit3()

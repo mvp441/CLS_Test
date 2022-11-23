@@ -150,7 +150,7 @@ def CurveFit ():
     pyplot.legend(loc='best')
     pyplot.show()
 
-def PandaCuveFit():
+def PandaCurveFit():
     # Step 1: Create and visualize the data
     # create DataFrame
     df = pd.DataFrame({'x': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
@@ -228,14 +228,19 @@ def PyPlotStyle():
     pyplot.legend();
     pyplot.show()
 
-# MultiFigPlot()
-# MultiPlotFig()
-# MultiMatFig()  # Only plots if paused with debugger and stepped through
-PlotMaskNaN()
-# FitLine()  # FitLine plots on the second window and overwrites the plot created by the first function
-# PandaCurveFit()
-# PandaFit2()
-# OOStyle()
-# PyPlotStyle()
+def Working_functions():
+    MultiFigPlot()
+    MultiPlotFig()
+    MultiMatFig()  # Only plots if paused with debugger and stepped through
+    PlotMaskNaN()
+    FitLine()  # FitLine plots on the second window and overwrites the plot created by the first function
+    PandaCurveFit()
+    OOStyle()
+
+def Not_Working_functions():
+    PandaFit2()
+    PyPlotStyle()
+
+Working_functions()
 
 
