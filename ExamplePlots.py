@@ -75,6 +75,26 @@ def MultiMatFig():
     pyplot.subplot(211)  # make subplot(211) in figure1 current
     pyplot.title('Easy as 1, 2, 3')  # subplot 211 title
 
+def PlotMaskNaN():
+    # https://matplotlib.org/stable/gallery/lines_bars_and_markers/masked_demo.html#sphx-glr-gallery-lines-bars-and-markers-masked-demo-py
+    x = np.linspace(-np.pi / 2, np.pi / 2, 31)
+    y = np.cos(x) ** 3
+    # 1) remove points where y > 0.7
+    x2 = x[y <= 0.7]
+    y2 = y[y <= 0.7]
+    # 2) mask points where y > 0.7
+    y3 = np.ma.masked_where(y > 0.7, y)
+    # 3) set to NaN where y > 0.7
+    y4 = y.copy()
+    y4[y3 > 0.7] = np.nan
+    pyplot.plot(x * 0.1, y, 'o-', color='lightgrey', label='No mask')
+    pyplot.plot(x2 * 0.4, y2, 'o-', label='Points removed')
+    pyplot.plot(x * 0.7, y3, 'o-', label='Masked values')
+    pyplot.plot(x * 1.0, y4, 'o-', label='NaN values')
+    pyplot.legend()
+    pyplot.title('Masked and NaN data')
+    pyplot.show()
+
 #define function to calculate adjusted r-squared
 def adjR(x, y, degree):
     results = {}

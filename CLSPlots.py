@@ -47,14 +47,13 @@ def CurveFit1():
     ax = [i for i in range(len(fbky))]
     x1 = dfminiNA.iloc[0, 0]  # single string value
     x2 = pd.to_datetime(TSx, infer_datetime_format=True)  # series of Timestamps
-    x3 = pd.to_datetime(x1)  # single timestamp value
-    x4 = x2.iloc[0]  # single timestamp value
-
+    x3 = pd.to_numeric(x2)  # single timestamp value
+    x4 = (x3 - x2.values[0]) / pow(10, 9) # single timestamp value
     # converts to float
     # convert datetime to timedelta for plotting and curve fitting?
     # pltx = mpl.dates.date2num(x4)  #.to_datetime()) # converts to float
 
-    TSx = ax
+    TSx = x4
     # degree 1-4+
     m1 = np.poly1d(np.polyfit(TSx, fbky, 1))
     m2 = np.poly1d(np.polyfit(TSx, fbky, 2))
@@ -105,14 +104,17 @@ def CurveFit2():
     m5 = np.poly1d(np.polyfit(TS4, fbky, 35))  # should be max 5 put higher to test
     polyline = TS4 #np.linspace(1, 40, 100)  # fill xdata
     plt.scatter(TS4, fbky)  # plot data
-    plt.xlabel(r'$\mu$s')  # the third subplot in the first figure
-    plt.title('FBK starting from ' + TS1.values[0])
     # plot fit curves
     plt.plot(polyline, m1(polyline), color='orange')
     plt.plot(polyline, m2(polyline), color='red')
     plt.plot(polyline, m3(polyline), color='purple')
     plt.plot(polyline, m4(polyline), color='blue')
     plt.plot(polyline, m5(polyline), color='green')
+    plt.legend()
+    # format plot
+    plt.xlabel(r'$\mu$s')
+    plt.title('FBK starting from ' + TS1.values[0])
+
     # plt.draw()
     plt.show(block=False)
     # print equation term values
@@ -125,6 +127,8 @@ def CurveFit2():
     adjR(TS4, fbky, 4)
     adjR(TS4, fbky, 5)
     plt.show()  # call at end to ensure windows dont close
+    print('done')
 
 #PandaPlot1()
+#CurveFit1()
 CurveFit2()

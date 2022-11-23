@@ -1,5 +1,21 @@
 import pandas as pd
+
+def print_data(df):
+    for column in df:
+        print(df[column])
+
+def print_desc(df):
+    print(df)
+
+def get_desc(df):
+    dfdesc = list()
+    dfdesc.append(df.describe())
+    for column in df:
+        dfdesc.append(df[column].describe())
+    return dfdesc
+
 df = pd.read_csv("SR1_BCaL_8h.csv")
+
 print(df.columns)
 print(df)
 
@@ -11,16 +27,19 @@ Timestamp = dfminiNA.iloc[:, [0]]
 fbkNA = dfminiNA.iloc[:, [1]]
 mAChangeNA = dfminiNA.iloc[:, [2]]
 timeConstantNA = dfminiNA.iloc[:, [3]]
+
+dfminiNAdesc = dfminiNA.describe()
+fbkNAdesc = fbkNA.describe()
+mAChangeNAdesc = mAChangeNA.describe()
+timeConstantNAdesc = timeConstantNA.describe()
+
+NAdesc = get_desc(dfminiNA)
+
 print("columns with N/A")  #, fbkNA, "\n", mAChangeNA, "\n", timeConstantNA)
-print(fbkNA)
-print(mAChangeNA)
-print(timeConstantNA)
+print_data(dfminiNA)
 print("description with N/A")
 # print("description with N/A", "\n", dfminiNA.describe(), "\n", fbkNA.describe(), "\n", mAChangeNA.describe(), "\n", timeConstantNA.describe())
-print(dfminiNA.describe())
-print(fbkNA.describe())
-print(mAChangeNA.describe())
-print(timeConstantNA.describe())
+print_desc(NAdesc)
 
 fbk = fbkNA.dropna()
 mAChange = mAChangeNA.dropna()
