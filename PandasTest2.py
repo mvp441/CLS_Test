@@ -4,24 +4,9 @@ def print_data(df):
     for column in df:
         print(df[column])
 
-def get_list_desc(df):
-    dfdesc = list()
-    dfdesc.append(df.describe())
+def print_desc(df, fbk, mAChange, timeConstant):
     for column in df:
-        dfdesc.append(df[column].describe())
-    return dfdesc
-
-def get_dict_desc(df):
-    dfdesc = {}
-    for column in df:
-        dfdesc[column] = df[column].describe()
-    return dfdesc
-
-def drop_NA(df):
-    dfnoNA = {}
-    for column in df:
-        dfnoNA[column] = df[column].dropna()
-    return dfnoNA
+        print(df[column].describe())
 
 df = pd.read_csv("SR1_BCaL_8h.csv")
 
@@ -42,14 +27,11 @@ fbkNAdesc = fbkNA.describe()
 mAChangeNAdesc = mAChangeNA.describe()
 timeConstantNAdesc = timeConstantNA.describe()
 
-NA_list_desc = get_list_desc(dfminiNA)
-NA_dict_desc = get_dict_desc(dfminiNA)
-
 print("columns with N/A")  #, fbkNA, "\n", mAChangeNA, "\n", timeConstantNA)
 print_data(dfminiNA)
 print("description with N/A")
 # print("description with N/A", "\n", dfminiNA.describe(), "\n", fbkNA.describe(), "\n", mAChangeNA.describe(), "\n", timeConstantNA.describe())
-print_data(NA_dict_desc)
+print_desc(dfminiNAdesc, fbkNAdesc, mAChangeNAdesc, timeConstantNAdesc)
 
 fbk = fbkNA.dropna()
 mAChange = mAChangeNA.dropna()
@@ -62,6 +44,7 @@ print("description N/A dropped")  # , "\n", fbk.describe())#, "\n", mAChange.des
 print(fbk.describe())
 print(mAChange.describe())
 print(timeConstant.describe())
+
 
 fbk0 = fbkNA.fillna(0)
 mAChange0 = mAChangeNA.fillna(0)
