@@ -170,8 +170,108 @@ def Test0():
     print(result.fit_report())
     result.plot_fit()
 
+def print_data(df):
+    for column in df:
+        print(df[column])
+        print('\n')
+
+def get_list_desc(df):
+    dfdesc = list()
+    dfdesc.append(df.describe())
+    for column in df:
+        dfdesc.append(df[column].describe())
+    return dfdesc
+
+def get_dict_desc(df):
+    dfdesc = {}
+    for column in df:
+        dfdesc[column] = df[column].describe()
+    return dfdesc
+
+def PandasTest3():
+    df = pd.read_csv("SR1_BCaL_8h.csv")
+
+    print(df.columns)
+    print(df)
+
+    dfminiNA = df.iloc[1:20, 0:4]
+    print("dfmini with N/A")
+    print(dfminiNA)
+
+    dfmini = dfminiNA.copy()
+
+    dfminiNA['Timestamp'] = pd.to_datetime(dfminiNA['Timestamp'], infer_datetime_format=True)
+    dfminiNA['Timestamp'] = pd.to_numeric(dfminiNA['Timestamp'])
+
+    TSNA = dfminiNA.iloc[:, [0]]
+    fbkNA = dfminiNA.iloc[:, [1]]
+    mAChangeNA = dfminiNA.iloc[:, [2]]
+    timeConstantNA = dfminiNA.iloc[:, [3]]
+
+    NA_dict_desc = get_dict_desc(dfminiNA)
+    print("columns with N/A")
+    print(dfminiNA)
+    print("description with N/A")
+    print_data(NA_dict_desc)
+
+    TS = TSNA.dropna()
+    fbk = fbkNA.dropna()
+    mAChange = mAChangeNA.dropna()
+    timeConstant = timeConstantNA.dropna()
+    print("columns without N/A")
+    print(fbk)
+    print(mAChange)
+    print(timeConstant)
+    print("description N/A dropped")
+    print(fbk.describe())
+    print(mAChange.describe())
+    print(timeConstant.describe())
+
+    dfmini0 = dfmini.copy().fillna(0)
+    dfm0_dict_desc = get_dict_desc(dfmini0)
+    print("columns with N/A filled by 0")
+    print(dfmini0)
+    print("description N/A 0")
+    print_data(dfm0_dict_desc)
+
+    dfminipad = dfmini.copy().fillna(method='pad')
+    dfmpad_dict_desc = get_dict_desc(dfminipad)
+    print("columns fill N/A padded")
+    print(dfminipad)
+    print("description N/A padded")
+    print_data(dfmpad_dict_desc)
+
+    TSNAx = (TSNA - TSNA.values[0]) / pow(10, 9)
+    TSx = (TS - TS.values[0]) / pow(10, 9)
+
+    df0 = dfmini0.copy()
+    df0['Timestamp'] = pd.to_datetime(df0['Timestamp'], infer_datetime_format=True)
+    df0['Timestamp'] = pd.to_numeric(df0['Timestamp'])
+    TS0 = df0.iloc[:, 0]
+    TSx0 = (TS0 - TS0.values[0]) / pow(10, 9)
+    fbky0 = df0.iloc[:, 1]
+
+    dfp = dfminipad.copy()
+    dfp['Timestamp'] = pd.to_datetime(dfp['Timestamp'], infer_datetime_format=True)
+    dfp['Timestamp'] = pd.to_numeric(dfp['Timestamp'])
+    TSp = dfp.iloc[:, 0]
+    TSxp = (TSp - TSp.values[0]) / pow(10, 9)
+    fbkyp = dfp.iloc[:, 1]
+
+    plt.plot(TSNAx, fbkNA, 'o', label='With NaN')
+    plt.show(block=False)
+    # plt.plot(TSx,  fbk, 'o-', label='No NaN')
+    plt.plot(TSx0, fbky0, 'x', label='NaN = 0')
+    plt.plot(TSxp, fbkyp, '-', label='NaN padded')
+    plt.legend()
+    plt.title('Masked and NaN data')
+    plt.show()
+
+    print('done')
+
 #MultiFigPlot()
 #MultiMatFig()
-PlotMaskNan()
+#PlotMaskNan()
+PandasTest3()
 #Test0()
 #CurveFit1()
