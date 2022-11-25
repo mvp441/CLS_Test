@@ -316,5 +316,6 @@ def main():
     CurveFit2()
     corr_calc()
 
-main()
+corr_calc()
+#main()
 
