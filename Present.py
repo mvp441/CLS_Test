@@ -30,7 +30,7 @@ def PandasTest3():
     print(df.columns)
     print(df)
 
-    dfminiNA = df.iloc[1:20, 0:4]
+    dfminiNA = df.iloc[1:100, 0:4]
     print("dfmini with N/A")
     print(dfminiNA)
 
@@ -77,6 +77,27 @@ def PandasTest3():
     print("description N/A padded")
     print_data(dfmpad_dict_desc)
 
+    dfminibackfill = dfmini.copy().fillna(method='backfill')
+    dfmbackfill_dict_desc = get_dict_desc(dfminibackfill)
+    print("columns fill N/A padded")
+    print(dfminibackfill)
+    print("description N/A padded")
+    print_data(dfmbackfill_dict_desc)
+
+    dfminibf = dfmini.copy().fillna(method='bfill')
+    dfmbf_dict_desc = get_dict_desc(dfminibf)
+    print("columns fill N/A padded")
+    print(dfminibf)
+    print("description N/A padded")
+    print_data(dfmbf_dict_desc)
+
+    dfminiff = dfmini.copy().fillna(method='ffill')
+    dfmff_dict_desc = get_dict_desc(dfminiff)
+    print("columns fill N/A padded")
+    print(dfminiff)
+    print("description N/A padded")
+    print_data(dfmff_dict_desc)
+
     TSNAx = (TSNA - TSNA.values[0]) / pow(10, 9)
     TSx = (TS - TS.values[0]) / pow(10, 9)
 
@@ -94,11 +115,35 @@ def PandasTest3():
     TSxp = (TSp - TSp.values[0]) / pow(10, 9)
     fbkyp = dfp.iloc[:, 1]
 
-    plt.plot(TSNAx, fbkNA, 'o', label='With NaN')
+    dfback = dfminibackfill.copy()
+    dfback['Timestamp'] = pd.to_datetime(dfback['Timestamp'], infer_datetime_format=True)
+    dfback['Timestamp'] = pd.to_numeric(dfback['Timestamp'])
+    TSback = dfback.iloc[:, 0]
+    TSxback = (TSback - TSback.values[0]) / pow(10, 9)
+    fbkyback = dfback.iloc[:, 1]
+
+    dfbf = dfminibf.copy()
+    dfbf['Timestamp'] = pd.to_datetime(dfbf['Timestamp'], infer_datetime_format=True)
+    dfbf['Timestamp'] = pd.to_numeric(dfbf['Timestamp'])
+    TSbf = dfbf.iloc[:, 0]
+    TSxbf = (TSbf - TSbf.values[0]) / pow(10, 9)
+    fbkybf = dfbf.iloc[:, 1]
+
+    dfff = dfminiff.copy()
+    dfff['Timestamp'] = pd.to_datetime(dfff['Timestamp'], infer_datetime_format=True)
+    dfff['Timestamp'] = pd.to_numeric(dfff['Timestamp'])
+    TSff = dfff.iloc[:, 0]
+    TSxff = (TSff - TSff.values[0]) / pow(10, 9)
+    fbkyff = dfff.iloc[:, 1]
+
+    plt.plot(TSNAx, fbkNA, 'X', label='With NaN')
     plt.show(block=False)
     # plt.plot(TSx,  fbk, 'o-', label='No NaN')
-    plt.plot(TSx0, fbky0, 'x', label='NaN = 0')
-    plt.plot(TSxp, fbkyp, '-', label='NaN padded')
+    #plt.plot(TSx0, fbky0, 'x', label='NaN = 0')
+    plt.plot(TSxp, fbkyp, '*', label='NaN padded')
+    plt.plot(TSxback, fbkyback, '.', label='NaN backfill')
+    plt.plot(TSxbf, fbkybf, '-', label='NaN bfill')
+    plt.plot(TSxff, fbkyff, '+', label='NaN ffill')
     plt.legend()
     plt.title('Masked and NaN data')
     plt.show()
@@ -175,7 +220,9 @@ def CurveFit2():
     m3 = np.poly1d(np.polyfit(TS4, fbky, 3))
     m4 = np.poly1d(np.polyfit(TS4, fbky, 4))
     m5 = np.poly1d(np.polyfit(TS4, fbky, 5))  # should be max 5 put higher to test
+    mhigh = np.poly1d(np.polyfit(TS4, fbky, 35))
     polyline = TS4
+    plt.figure(1)
     plt.scatter(TS4, fbky)  # plot data
     # plot fit curves
     plt.plot(polyline, m1(polyline), color='orange', label='degree 1')
@@ -183,8 +230,15 @@ def CurveFit2():
     plt.plot(polyline, m3(polyline), color='purple', label='degree 3')
     plt.plot(polyline, m4(polyline), color='blue', label='degree 4')
     plt.plot(polyline, m5(polyline), color='green', label='degree 5')
+#    plt.plot(polyline, mhigh(polyline), color='green', label='degree 35')
     plt.legend()
     # format plot
+    plt.xlabel(r'$\mu$s')
+    plt.title('FBK starting from ' + TS1.values[0])
+    plt.figure(2)
+    plt.scatter(TS4, fbky)  # plot data
+    plt.plot(polyline, mhigh(polyline), color='green', label='degree 35')
+    plt.legend()
     plt.xlabel(r'$\mu$s')
     plt.title('FBK starting from ' + TS1.values[0])
     # plt.draw()
@@ -195,6 +249,7 @@ def CurveFit2():
     m3aR = adjR(TS4, fbky, 3)
     m4aR = adjR(TS4, fbky, 4)
     m5aR = adjR(TS4, fbky, 5)
+    mhighaR = adjR(TS4, fbky, 35)
     # print equation term values
     print('y1 = ')
     print(m1)
@@ -211,6 +266,9 @@ def CurveFit2():
     print('\ny5 = ')
     print(m5)
     print(m5aR)
+    print('\ny35 = ')
+    print(mhigh)
+    print(mhighaR)
     plt.show()  # call at end to ensure windows don't close
 
 def corr_calc():

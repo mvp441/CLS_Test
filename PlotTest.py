@@ -241,6 +241,27 @@ def PandasTest3():
     print("description N/A padded")
     print_data(dfmpad_dict_desc)
 
+    dfminibackfill = dfmini.copy().fillna(method='backfill')
+    dfmbackfill_dict_desc = get_dict_desc(dfminibackfill)
+    print("columns fill N/A padded")
+    print(dfminibackfill)
+    print("description N/A padded")
+    print_data(dfmbackfill_dict_desc)
+
+    dfminibf = dfmini.copy().fillna(method='bfill')
+    dfmbf_dict_desc = get_dict_desc(dfminibf)
+    print("columns fill N/A padded")
+    print(dfminibf)
+    print("description N/A padded")
+    print_data(dfmbf_dict_desc)
+
+    dfminiff = dfmini.copy().fillna(method='ffill')
+    dfmff_dict_desc = get_dict_desc(dfminiff)
+    print("columns fill N/A padded")
+    print(dfminiff)
+    print("description N/A padded")
+    print_data(dfmff_dict_desc)
+
     TSNAx = (TSNA - TSNA.values[0]) / pow(10, 9)
     TSx = (TS - TS.values[0]) / pow(10, 9)
 
@@ -258,11 +279,35 @@ def PandasTest3():
     TSxp = (TSp - TSp.values[0]) / pow(10, 9)
     fbkyp = dfp.iloc[:, 1]
 
-    plt.plot(TSNAx, fbkNA, 'o', label='With NaN')
+    dfback = dfminibackfill.copy()
+    dfback['Timestamp'] = pd.to_datetime(dfback['Timestamp'], infer_datetime_format=True)
+    dfback['Timestamp'] = pd.to_numeric(dfback['Timestamp'])
+    TSback = dfback.iloc[:, 0]
+    TSxback = (TSback - TSback.values[0]) / pow(10, 9)
+    fbkyback = dfback.iloc[:, 1]
+
+    dfbf = dfminibf.copy()
+    dfbf['Timestamp'] = pd.to_datetime(dfbf['Timestamp'], infer_datetime_format=True)
+    dfbf['Timestamp'] = pd.to_numeric(dfbf['Timestamp'])
+    TSbf = dfbf.iloc[:, 0]
+    TSxbf = (TSbf - TSbf.values[0]) / pow(10, 9)
+    fbkybf = dfbf.iloc[:, 1]
+
+    dfff = dfminiff.copy()
+    dfff['Timestamp'] = pd.to_datetime(dfff['Timestamp'], infer_datetime_format=True)
+    dfff['Timestamp'] = pd.to_numeric(dfff['Timestamp'])
+    TSff = dfff.iloc[:, 0]
+    TSxff = (TSff - TSff.values[0]) / pow(10, 9)
+    fbkyff = dfff.iloc[:, 1]
+
+    plt.plot(TSNAx, fbkNA, 'X', label='With NaN')
     plt.show(block=False)
     # plt.plot(TSx,  fbk, 'o-', label='No NaN')
-    plt.plot(TSx0, fbky0, 'x', label='NaN = 0')
-    plt.plot(TSxp, fbkyp, '-', label='NaN padded')
+    #plt.plot(TSx0, fbky0, 'x', label='NaN = 0')
+    plt.plot(TSxp, fbkyp, '*', label='NaN padded')
+    plt.plot(TSxback, fbkyback, '.', label='NaN backfill')
+    plt.plot(TSxbf, fbkybf, '-', label='NaN bfill')
+    plt.plot(TSxff, fbkyff, '+', label='NaN ffill')
     plt.legend()
     plt.title('Masked and NaN data')
     plt.show()
