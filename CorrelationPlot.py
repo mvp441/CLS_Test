@@ -70,14 +70,14 @@ def plot_scatter_1(df0):
     plt.ylabel('mAChange percent change')
     plt.subplot(212)
     plt.scatter(df0['PCT1402-01:mA:fbk_Ret'], df0['PCT1402-01:mAChange_Ret'], color='blue')
-    plt.ylim([-2, 3])
+    plt.ylim([-1, 3])
     plt.xlim([-0.002, 0.0045])
     plt.xlabel('fbk percent change')
     plt.ylabel('mAChange percent change')
 
 
 def cmp_2_plot_1(df2, df_pad):
-    plt.figure(3)
+    fig = plt.figure(3)
     plt.subplot(211)
     plt.scatter(df2['PCT1402-01:mA:fbk_Ret'], df2['PCT1402-01:mAChange_Ret'], color='blue')
     plt.xlabel('fbk percent change')
@@ -106,7 +106,10 @@ def plot_all(dfs, df2, df_pad, df_int, dfi2):
     plt.title('Correlation of Sample Data')
 
     plot_scatter_1(df0)
+    plt.subplot(211)
     plt.title('Correlation of Actual Data with NA')
+    plt.subplot(212)
+    plt.title('Correlation of Actual Data with NA zoomed in')
 
     cmp_2_plot_1(df2, df_pad)
     plt.subplot(211)
