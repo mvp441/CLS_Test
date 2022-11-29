@@ -70,6 +70,36 @@ def PandasTest3():
     print("description N/A 0")
     print_data(dfm0_dict_desc)
 
+    dfmmean = dfmini.copy()
+    for column in dfmmean.columns[1:]:
+        mean = dfmmean[column].mean()
+        dfmmean[column] = dfmmean[column].fillna(mean)
+    dfmean_dict_desc = get_dict_desc(dfmmean)
+    print("columns with N/A filled by mean")
+    print(dfmmean)
+    print("description N/A mean")
+    print_data(dfmean_dict_desc)
+
+    dfmmedian = dfmini.copy()
+    for column in dfmmedian.columns[1:]:
+        median = dfmmedian[column].mean()
+        dfmmedian[column] = dfmmedian[column].fillna(median )
+    dfmedian_dict_desc = get_dict_desc(dfmmedian)
+    print("columns with N/A filled by median")
+    print(dfmmedian)
+    print("description N/A median")
+    print_data(dfmedian_dict_desc)
+
+    dfmmode = dfmini.copy().mode()
+    for column in dfmmode.columns[1:]:
+        mode = dfmmode[column].mode()
+        dfmmode[column] = dfmmode[column].fillna(mode)
+    dfmode_dict_desc = get_dict_desc(dfmmode)
+    print("columns with N/A filled by mode")
+    print(dfmmode)
+    print("description N/A mode")
+    print_data(dfmode_dict_desc)
+
     dfminipad = dfmini.copy().fillna(method='pad')
     dfmpad_dict_desc = get_dict_desc(dfminipad)
     print("columns fill N/A padded")
@@ -316,6 +346,7 @@ def main():
     CurveFit2()
     corr_calc()
 
-corr_calc()
+PandasTest3()
+#corr_calc()
 #main()
 
