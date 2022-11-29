@@ -63,7 +63,8 @@ def dfs_pct_test(df):
 
     for column in df_test.columns[1:]:
         mean = df_test[column].mean()
-        df_test.drop(df_test[df_test[column] > mean].index, inplace=True)
+        check = df_test[df_test[column] > (2*mean)].index
+        df_test.drop(check, inplace=True)
 
     dfts = df_test.sort_values(by=['PCT1402-01:mA:fbk_Ret', 'PCT1402-01:mAChange_Ret'])
     dftsx = df_test.sort_values('PCT1402-01:mA:fbk_Ret', ascending=False)
