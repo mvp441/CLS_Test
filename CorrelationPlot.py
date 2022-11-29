@@ -64,9 +64,17 @@ def sample_plot(dfs):
 
 def plot_scatter_1(df0):
     plt.figure(2)
+    plt.subplot(211)
     plt.scatter(df0['PCT1402-01:mA:fbk_Ret'], df0['PCT1402-01:mAChange_Ret'], color='blue')
     plt.xlabel('fbk percent change')
     plt.ylabel('mAChange percent change')
+    plt.subplot(212)
+    plt.scatter(df0['PCT1402-01:mA:fbk_Ret'], df0['PCT1402-01:mAChange_Ret'], color='blue')
+    plt.ylim([-2, 3])
+    plt.xlim([-0.002, 0.0045])
+    plt.xlabel('fbk percent change')
+    plt.ylabel('mAChange percent change')
+
 
 def cmp_2_plot_1(df2, df_pad):
     plt.figure(3)
@@ -87,6 +95,7 @@ def cmp_2_plot_2(df_int, dfi2):
     plt.ylabel('mAChange percent change')
     plt.subplot(212)
     plt.scatter(dfi2['PCT1402-01:mA:fbk_Ret'], dfi2['PCT1402-01:mAChange_Ret'], color='red')
+    plt.xlim([-0.001, 0.002])
     plt.xlabel('fbk percent change')
     plt.ylabel('mAChange percent change')
 
@@ -109,7 +118,7 @@ def plot_all(dfs, df2, df_pad, df_int, dfi2):
     plt.subplot(211)
     plt.title('Correlation of Actual Data with NA Interpolated')
     plt.subplot(212)
-    plt.title('Correlation of first 230 points of Actual Data with NA Interpolated')
+    plt.title('Correlation of first 225 points of Actual Data with NA Interpolated')
     plt.show(block='False')
 
 def corr_calc(dfs, df2, df_pad, df_int, dfi2):
@@ -127,10 +136,10 @@ def print_corr(correlation_s, correlation0, correlation2, correlation_pad, corre
     print("Padded correlation using pct_change fill is: ", correlation2)
     print("Padded correlation using fillna is: ", correlation_pad)
     print("Correlation of all data points using interpolation is: ", correlation_int)
-    print("Correlation of first 230 data points using interpolation is: ", correlation_i2)
+    print("Correlation of first 225 data points using interpolation is: ", correlation_i2)
 
 df = pd.read_csv("SR1_BCaL_8h.csv")
-dfm = df.iloc[1:230, 0:4]
+dfm = df.iloc[1:225, 0:4]
 
 dfs = sample_df()
 dfs = dfs_pct_c(dfs)
