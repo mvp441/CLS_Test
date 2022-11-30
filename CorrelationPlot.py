@@ -62,8 +62,8 @@ def dfs_pct_test(df):
     df_test['PCT1402-01:mAChange_Ret'] = df_test['PCT1402-01:mAChange'].pct_change()
 
     for column in df_test.columns[1:]:
-        mean = df_test[column].mean()
-        check = df_test[df_test[column] > (2*mean)].index
+        mean = df_test[column].abs().mean()
+        check = df_test[df_test[column].abs() > (2*mean)].index
         df_test.drop(check, inplace=True)
 
     dfts = df_test.sort_values(by=['PCT1402-01:mA:fbk_Ret', 'PCT1402-01:mAChange_Ret'])
@@ -185,10 +185,10 @@ df_int, dfis, dfisx2, dfisy2 = dfs_pct_c4(df)
 dfi2, dfi2s, dfi2sx2, dfi2sy2 = dfs_pct_c4(dfm)
 
 df_test, dfts, dftsx2, dftsy2 = dfs_pct_test(df)
-plot_scatter_2(df_test)
-plt.show()
+#plot_scatter_2(df_test)
+#plt.show()
 
-# plot_all(dfs, df2, df_pad, df_int, dfi2, df_test)
+plot_all(dfs, df2, df_pad, df_int, dfi2, df_test)
 correlation_s, correlation0, correlation2, correlation_pad, correlation_int, correlation_i2, correlation_test = corr_calc(dfs, df2, df_pad, df_int, dfi2, df_test)
 print_corr(correlation_s, correlation0, correlation2, correlation_pad, correlation_int, correlation_i2, correlation_test)
 
