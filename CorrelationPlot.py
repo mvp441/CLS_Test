@@ -161,7 +161,7 @@ def plot_all(dfs, df2, df_pad, df_int, dfi2, df_test):
 
 def corr_calc(dfs, df2, df_pad, df_int, dfi2, df_test):
     correlation_s = dfs['x_Ret'].corr(dfs['y_Ret'])
-    correlation0 = df0['PCT1402-01:mA:fbk_Ret'].corr(df0['PCT1402-01:mAChange_Ret'])
+    correlation0 = df0['PCT1402-01:mA:fbk_Ret'].corr(df0['PCT1402-01:mAChange_Ret']) # method = pearson, kendall, etc.
     correlation2 = df2['PCT1402-01:mA:fbk_Ret'].corr(df2['PCT1402-01:mAChange_Ret'])
     correlation_pad = df_pad['PCT1402-01:mA:fbk_Ret'].corr(df_pad['PCT1402-01:mAChange_Ret'])
     correlation_int = df_int['PCT1402-01:mA:fbk_Ret'].corr(df_int['PCT1402-01:mAChange_Ret'])
