@@ -345,8 +345,7 @@ def main():
     PandasTest3()
     CurveFit2()
     corr_calc()
-
-PandasTest3()
+#PandasTest3()
 #corr_calc()
-#main()
+main()
 
