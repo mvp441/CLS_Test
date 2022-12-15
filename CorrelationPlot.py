@@ -148,24 +148,24 @@ def plot_all(dfs, df2, df_pad, df_int, dfi2, df_test, correlation_s, correlation
 
     plot_scatter_1(df0)
     plt.subplot(211)
-    plt.title('Correlation of Actual Data with NA')
+    plt.title('Correlation of Actual Data with NA \n correlation = ' + str(correlation0))
     plt.subplot(212)
-    plt.title('Correlation of Actual Data with NA zoomed in')
+    plt.title('Correlation of Actual Data with NA zoomed in \n correlation = ' + str(correlation0))
 
     cmp_2_plot_1(df2, df_pad)
     plt.subplot(211)
-    plt.title('Correlation of Actual Data with NA filled')
+    plt.title('Correlation of Actual Data with NA filled \n correlation = ' + str(correlation2))
     plt.subplot(212)
-    plt.title('Correlation of Actual Data with NA Padded')
+    plt.title('Correlation of Actual Data with NA Padded \n correlation = ' + str(correlation_pad))
 
     cmp_2_plot_2(df_int, dfi2)
     plt.subplot(211)
-    plt.title('Correlation of Actual Data with NA Interpolated')
+    plt.title('Correlation of Actual Data with NA Interpolated \n correlation = ' + str(correlation_int))
     plt.subplot(212)
-    plt.title('Correlation of first 225 points of Actual Data with NA Interpolated')
+    plt.title('Correlation of first 225 points of Actual Data with NA Interpolated \n correlation = ' + str(correlation_i2))
 
     plot_scatter_2(df_test)
-    plt.title('Correlation of Actual Data with NA and outliers ignored \n correlation = ' + str(correlation_s)')
+    plt.title('Correlation of Actual Data with NA and outliers ignored \n correlation = ' + str(correlation_test))
 
     plt.show(block='False')
 
