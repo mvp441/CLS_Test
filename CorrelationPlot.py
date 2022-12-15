@@ -130,11 +130,21 @@ def plot_scatter_2(df_test):
     plt.xlabel('fbk percent change')
     plt.ylabel('mAChange percent change')
 
-def plot_all(dfs, df2, df_pad, df_int, dfi2, df_test):
+def corr_calc(dfs, df2, df_pad, df_int, dfi2, df_test):
+    correlation_s = dfs['x_Ret'].corr(dfs['y_Ret'])
+    correlation0 = df0['PCT1402-01:mA:fbk_Ret'].corr(df0['PCT1402-01:mAChange_Ret']) # method = pearson, kendall, etc.
+    correlation2 = df2['PCT1402-01:mA:fbk_Ret'].corr(df2['PCT1402-01:mAChange_Ret'])
+    correlation_pad = df_pad['PCT1402-01:mA:fbk_Ret'].corr(df_pad['PCT1402-01:mAChange_Ret'])
+    correlation_int = df_int['PCT1402-01:mA:fbk_Ret'].corr(df_int['PCT1402-01:mAChange_Ret'])
+    correlation_i2 = dfi2['PCT1402-01:mA:fbk_Ret'].corr(dfi2['PCT1402-01:mAChange_Ret'])
+    correlation_test = df_test['PCT1402-01:mA:fbk_Ret'].corr(df_test['PCT1402-01:mAChange_Ret'])
+    return correlation_s, correlation0, correlation2, correlation_pad, correlation_int, correlation_i2, correlation_test
+
+def plot_all(dfs, df2, df_pad, df_int, dfi2, df_test, correlation_s, correlation0, correlation2, correlation_pad, correlation_int, correlation_i2, correlation_test):
     plt.close('all')
 
     sample_plot(dfs)
-    plt.title('Correlation of Sample Data')
+    plt.title('Correlation of Sample Data \n correlation = ' + str(correlation_s))
 
     plot_scatter_1(df0)
     plt.subplot(211)
@@ -155,19 +165,9 @@ def plot_all(dfs, df2, df_pad, df_int, dfi2, df_test):
     plt.title('Correlation of first 225 points of Actual Data with NA Interpolated')
 
     plot_scatter_2(df_test)
-    plt.title('Correlation of Actual Data with NA and outliers ignored')
+    plt.title('Correlation of Actual Data with NA and outliers ignored \n correlation = ' + str(correlation_s)')
 
     plt.show(block='False')
-
-def corr_calc(dfs, df2, df_pad, df_int, dfi2, df_test):
-    correlation_s = dfs['x_Ret'].corr(dfs['y_Ret'])
-    correlation0 = df0['PCT1402-01:mA:fbk_Ret'].corr(df0['PCT1402-01:mAChange_Ret']) # method = pearson, kendall, etc.
-    correlation2 = df2['PCT1402-01:mA:fbk_Ret'].corr(df2['PCT1402-01:mAChange_Ret'])
-    correlation_pad = df_pad['PCT1402-01:mA:fbk_Ret'].corr(df_pad['PCT1402-01:mAChange_Ret'])
-    correlation_int = df_int['PCT1402-01:mA:fbk_Ret'].corr(df_int['PCT1402-01:mAChange_Ret'])
-    correlation_i2 = dfi2['PCT1402-01:mA:fbk_Ret'].corr(dfi2['PCT1402-01:mAChange_Ret'])
-    correlation_test = df_test['PCT1402-01:mA:fbk_Ret'].corr(df_test['PCT1402-01:mAChange_Ret'])
-    return correlation_s, correlation0, correlation2, correlation_pad, correlation_int, correlation_i2, correlation_test
 
 def print_corr(correlation_s, correlation0, correlation2, correlation_pad, correlation_int, correlation_i2, correlation_test):
     print("Sample correlation is: ", correlation_s)
@@ -198,8 +198,9 @@ df_test, dfts, dftsx2, dftsy2 = dfs_pct_test(df)
 plt.show()
 
 
-plot_all(dfs, df2, df_pad, df_int, dfi2, df_test)
+
 correlation_s, correlation0, correlation2, correlation_pad, correlation_int, correlation_i2, correlation_test = corr_calc(dfs, df2, df_pad, df_int, dfi2, df_test)
+plot_all(dfs, df2, df_pad, df_int, dfi2, df_test, correlation_s, correlation0, correlation2, correlation_pad, correlation_int, correlation_i2, correlation_test)
 print_corr(correlation_s, correlation0, correlation2, correlation_pad, correlation_int, correlation_i2, correlation_test)
 
 
