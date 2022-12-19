@@ -1,6 +1,17 @@
 import pandas as pd
 from matplotlib import pyplot as plt
 
+# add function for calculating correlation between multiple variables and sorting them
+
+def corr_check(df):
+    dft = df.copy().interpolate(method='polynomial', order=5)
+    dfc1= dft.corrwith(dft, axis =1)  # method = pearson, kendall, etc.
+    dfc2 = dft.corrwith(dft, axis=1, drop=True)  # method = pearson, kendall, etc.
+    print(dfc1, '\n', dfc2)
+#    dfc3 = dft.corrwith(dft, axis=1, method = pearson) #, kendall, etc.
+
+# add function for pulling live data and compairing to fault patterns
+
 def df_pct_corr(df):
     dft = df.copy().interpolate(method='polynomial', order=5)
     dft['PCT1402-01:mA:fbk_Ret'] = dft['PCT1402-01:mA:fbk'].pct_change()
@@ -39,6 +50,8 @@ def dfpc_plot(df_int, dfi2):
     plt.ylabel('mAChange percent change')
 
 df = pd.read_csv("SR1_BCaL_8h.csv")
+
+corr_check((df))
 
 dft, dfc = df_pct_corr(df)
 cor_plot(dft, dfc)
