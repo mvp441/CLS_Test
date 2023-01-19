@@ -14,7 +14,7 @@ import time
 def objective(x, a, b, c, d):
     return a * sin(b - x) + c * x ** 2 + d
 
-df = pd.read_csv("SR1_BCaL_8h.csv", parse_dates=["Timestamp"])
+df = pd.read_csv("../PV Data/SR1_BCaL_8h.csv", parse_dates=["Timestamp"])
 #df.dropna()
 dfminiNA = df.iloc[1:20, 0:2]
 dfminiNA = dfminiNA.dropna()

@@ -178,7 +178,7 @@ def print_corr(correlation_s, correlation0, correlation2, correlation_pad, corre
     print("Correlation of first 225 data points using interpolation is: ", correlation_i2)
     print("Correlation of all data points using interpolation and ignoring outliers is: ", correlation_test)
 
-df = pd.read_csv("SR1_BCaL_8h.csv")
+df = pd.read_csv("../PV Data/SR1_BCaL_8h.csv")
 dfm = df.iloc[1:225, 0:4]
 
 dfs = sample_df()

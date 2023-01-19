@@ -3,28 +3,12 @@ import pandas as pd
 def print_data(df):
     for column in df:
         print(df[column])
-        print('\n')
 
-def get_list_desc(df):
-    dfdesc = list()
-    dfdesc.append(df.describe())
+def print_desc(df, fbk, mAChange, timeConstant):
     for column in df:
-        dfdesc.append(df[column].describe())
-    return dfdesc
+        print(df[column].describe())
 
-def get_dict_desc(df):
-    dfdesc = {}
-    for column in df:
-        dfdesc[column] = df[column].describe()
-    return dfdesc
-
-def drop_NA(df):  # Won't work because of NA placement - need seperated columns which loses time
-    dfnoNA = {}
-    for column in df:
-        dfnoNA[column] = df[column].dropna()
-    return dfnoNA
-
-df = pd.read_csv("SR1_BCaL_8h.csv")
+df = pd.read_csv("../PV Data/SR1_BCaL_8h.csv")
 
 print(df.columns)
 print(df)
@@ -43,13 +27,11 @@ fbkNAdesc = fbkNA.describe()
 mAChangeNAdesc = mAChangeNA.describe()
 timeConstantNAdesc = timeConstantNA.describe()
 
-NA_list_desc = get_list_desc(dfminiNA)
-NA_dict_desc = get_dict_desc(dfminiNA)
-
-print("columns with N/A")
+print("columns with N/A")  #, fbkNA, "\n", mAChangeNA, "\n", timeConstantNA)
 print_data(dfminiNA)
 print("description with N/A")
-print_data(NA_dict_desc)
+# print("description with N/A", "\n", dfminiNA.describe(), "\n", fbkNA.describe(), "\n", mAChangeNA.describe(), "\n", timeConstantNA.describe())
+print_desc(dfminiNAdesc, fbkNAdesc, mAChangeNAdesc, timeConstantNAdesc)
 
 fbk = fbkNA.dropna()
 mAChange = mAChangeNA.dropna()
@@ -63,19 +45,29 @@ print(fbk.describe())
 print(mAChange.describe())
 print(timeConstant.describe())
 
-dfmini0 = dfminiNA.copy().fillna(0)
-dfm0_dict_desc = get_dict_desc(dfmini0)
-print("columns with N/A filled by 0")
-print_data(dfmini0)
-print("description N/A 0")
-print_data(dfm0_dict_desc)
+fbk0 = fbkNA.fillna(0)
+mAChange0 = mAChangeNA.fillna(0)
+timeConstant0 = timeConstantNA.fillna(0)
+print("columns with N/A filled by 0")  # , fbk0, "\n", mAChange0, "\n", timeConstant0)
+print(fbk0)
+print(mAChange0)
+print(timeConstant0)
+print("description N/A 0")  # , "\n", fbk0.describe()), "\n", mAChange0.describe(), "\n", timeConstant0.describe()) #changes values too much
+print(fbk0.describe())
+print(mAChange0.describe())
+print(timeConstant0.describe())
 
-dfminipad = dfminiNA.copy().fillna(method='pad')
-dfmpad_dict_desc = get_dict_desc(dfminipad)
-print("columns fill N/A padded")
-print_data(dfminipad)
-print("description N/A padded")
-print_data(dfmpad_dict_desc)
+fbkpad = fbkNA.fillna(method="pad")
+mAChangepad = mAChangeNA.fillna(method="pad")
+timeConstantpad = timeConstantNA.fillna(method="pad")
+print("columns fill N/A padded")  # , fbkpad, "\n", mAChangepad, "\n", timeConstantpad)
+print(fbkpad)
+print(mAChangepad)
+print(timeConstantpad)
+print("description N/A padded")  #,
+print(fbkpad.describe())  # , "\n", mAChangepad.describe(), "\n", timeConstantpad.describe())
+print(mAChangepad.describe())
+print(timeConstantpad.describe())
 
 print("n=5 sample")
 print(fbk.sample(n=5))

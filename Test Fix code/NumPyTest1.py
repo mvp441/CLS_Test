@@ -2,7 +2,7 @@ import numpy
 import csv
 import scipy.stats
 
-file = open("SR1_BCaL_8h.csv")
+file = open("../PV Data/SR1_BCaL_8h.csv")
 csvreader = csv.reader(file)
 header = next(csvreader)
 rows = []

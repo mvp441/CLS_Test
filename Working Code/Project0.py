@@ -49,7 +49,7 @@ def dfpc_plot(df_int, dfi2):
     plt.xlabel('fbk percent change')
     plt.ylabel('mAChange percent change')
 
-df = pd.read_csv("SR1_BCaL_8h.csv")
+df = pd.read_csv("../PV Data/SR1_BCaL_8h.csv")
 
 corr_check((df))
 

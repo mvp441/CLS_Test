@@ -34,7 +34,7 @@ def adjR(x, y, degree):
 mpl.use('TkAgg')
 
 
-df = pd.read_csv("SR1_BCaL_8h.csv")#, parse_dates=["Timestamp"])
+df = pd.read_csv("../PV Data/SR1_BCaL_8h.csv")#, parse_dates=["Timestamp"])
 data = df.values
 df.dropna()
 

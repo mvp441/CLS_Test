@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 mpl.use('TkAgg')
 
 def PandaPlot1():
-    df = pd.read_csv("SR1_BCaL_8h.csv")  # read in csv file containing data
+    df = pd.read_csv("../PV Data/SR1_BCaL_8h.csv")  # read in csv file containing data
     dfminiNA = df.iloc[1:20, 0:2]  # take small data set containing only Timestamp and fbk values
     dfminiNA = dfminiNA.dropna()  # remove Timestamps with NA fbk values
     # separate into individual variables
@@ -38,7 +38,7 @@ def adjR(x, y, degree):
     return results
 
 def CurveFit1():
-    df = pd.read_csv("SR1_BCaL_8h.csv")  # , parse_dates=["Timestamp"])
+    df = pd.read_csv("../PV Data/SR1_BCaL_8h.csv")  # , parse_dates=["Timestamp"])
     data = df.values
     dfminiNA = df.iloc[1:100, 0:2]
     dfminiNA = dfminiNA.dropna()
@@ -82,7 +82,7 @@ def CurveFit1():
     plt.show()  # call at end to ensure windows dont close
 
 def CurveFit2():
-    df = pd.read_csv('SR1_BCaL_8h.csv')
+    df = pd.read_csv('../PV Data/SR1_BCaL_8h.csv')
     dfmini = df.iloc[1:100, 0:2]
     dfminiNA = dfmini.dropna()
     TS1 = dfminiNA.iloc[:, 0]
@@ -128,7 +128,7 @@ def CurveFit2():
     plt.show()  # call at end to ensure windows dont close
 
 def CurveFit3():
-    df = pd.read_csv('SR1_BCaL_8h.csv')
+    df = pd.read_csv('../PV Data/SR1_BCaL_8h.csv')
     dfmini = df.iloc[1:100, 0:2]
     dfminiNA = dfmini.dropna()
     TS1 = dfminiNA.iloc[:, 0]
