@@ -50,6 +50,7 @@ def dfpc_plot(df_int, dfi2):
     plt.ylabel('mAChange percent change')
 
 df = pd.read_csv("../PV Data/SR1_BCaL_8h.csv")
+dfColumns = df.columns.to_list()
 
 corr_check((df))
 
