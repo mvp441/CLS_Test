@@ -1,5 +1,6 @@
 import pandas as pd
 from matplotlib import pyplot as plt
+from lib import CSV
 
 # add function for calculating correlation between multiple variables and sorting them
 
@@ -49,22 +50,23 @@ def dfpc_plot(df_int, dfi2):
     plt.xlabel('fbk percent change')
     plt.ylabel('mAChange percent change')
 
-df = pd.read_csv("../PV Data/SR1_BCaL_8h.csv")
-dfColumns = df.columns.to_list()
+# df = pd.read_csv("../PV Data/SR1_BCaL_8h.csv")
+# dfColumns = df.columns.to_list()
+#
+# corr_check((df))
+#
+# dft, dfc = df_pct_corr(df)
+# cor_plot(dft, dfc)
+# plt.show()
+#
 
-corr_check((df))
+csv_list = CSV.CSVList(["../PV Data/Trip 1 data/gLYHVdm+.csv"])
 
-dft, dfc = df_pct_corr(df)
-cor_plot(dft, dfc)
-plt.show()
+csv_list.add_csv('../PV Data/Trip 1 data/tdL5QoZo.csv')
+# csv_list.add_csv("../PV Data/Trip 1 data/gLYHVdm+.csv")
 
+csv_list.sort_by_column("Timestamp")
 
-
-
-
-
-
-
-
-
+csv_list.interpolate_data()
+csv_list.output_dataframe_to_console()
 
