@@ -1,10 +1,13 @@
 
-
-
+#
 
 # import csv data file
 
-# copy column names into list
+# add csv files together
+
+# copy column names into list - class attribute
+
+# get column names function
 
 # fill in missing data
 
