@@ -61,6 +61,8 @@ def dfpc_plot(df_int, dfi2):
 
 csv_list = CSV.CSVList(["../PV Data/Trip 1 data/gLYHVdm+.csv"])
 
+print(csv_list.get_column_names())
+
 csv_list.add_csv('../PV Data/Trip 1 data/tdL5QoZo.csv')
 # csv_list.add_csv("../PV Data/Trip 1 data/gLYHVdm+.csv")
 

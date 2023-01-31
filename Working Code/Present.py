@@ -83,7 +83,7 @@ def PandasTest3():
     dfmmedian = dfmini.copy()
     for column in dfmmedian.columns[1:]:
         median = dfmmedian[column].mean()
-        dfmmedian[column] = dfmmedian[column].fillna(median )
+        dfmmedian[column] = dfmmedian[column].fillna(median)
     dfmedian_dict_desc = get_dict_desc(dfmmedian)
     print("columns with N/A filled by median")
     print(dfmmedian)

@@ -48,24 +48,34 @@ class CSVList:
         if column_list is None:
             column_list = self.dataframe.columns
         for column in column_list:
-            print(self[column])
+            print(self.dataframe[column])
             print('\n')
 
     def get_list_description(self):
-        datafram_description = list()
-        datafram_description.append(self.dataframe.describe())
+        dataframe_description = list()
+        dataframe_description.append(self.dataframe.describe())
         for column in self.dataframe:
-            datafram_description.append(self.dataframe[column].describe())
-        return datafram_description
+            dataframe_description.append(self.dataframe[column].describe())
+        return dataframe_description
 
     def get_dictionary_description(self):
-        datafram_description = {}
+        dataframe_description = {}
         for column in self.dataframe:
-            datafram_description[column] = self.dataframe[column].describe()
-        return datafram_description
+            dataframe_description[column] = self.dataframe[column].describe()
+        return dataframe_description
 
     def drop_na_values(self):
         for column in self.dataframe:
             self.dataframe[column] = self.dataframe[column].dropna()
 
+    def fill_na_values(self, method=None):
+        if type(method) == int or float:
+            self.dataframe.fillna(method)
+        elif method in ['mean', 'median', 'mode']:
+            for column in self.dataframe.columns[1:]:
+                fill_value = self.dataframe.columns[column].method  # Check if method after . is string
+                self.dataframe[column] = self.dataframe[column].fillna(fill_value)
+        else:
+            # Test with backfill, bfill, ffill, and pad
+            self.dataframe.fillna(method=method)    # Check if dataframe needs to equal this
 
