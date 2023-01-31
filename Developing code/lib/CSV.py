@@ -40,7 +40,7 @@ class CSVList:
         print(tabulate(self.dataframe[1:50], headers='keys', tablefmt='rst'))
 
     # NEW - CHECK ALL
-    def print_columns(self, column_list):
+    def print_columns(self, column_list=None):
         if column_list is None:
             column_list = self.dataframe.columns
         for column in column_list:
@@ -69,7 +69,9 @@ class CSVList:
             self.dataframe.fillna(method)
         elif method in ['mean', 'median', 'mode']:
             for column in self.dataframe.columns[1:]:
-                fill_value = self.dataframe.columns[column].method  # Check if method after . is string
+                method_function = getattr(self.dataframes.columns[column], method)
+                fill_value = method_function()
+                # fill_value = self.dataframe.columns[column].method  # Check if method after . is string
                 self.dataframe[column] = self.dataframe[column].fillna(fill_value)
         else:
             # Test with backfill, bfill, ffill, and pad
