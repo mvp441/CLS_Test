@@ -11,7 +11,7 @@ class CSVList:
         for csv in self.csv_files:
             self.__add_csv_to_dataframe(csv)
 
-    # FIX
+    # CHECK
     def __add_csv_to_dataframe(self, csv):
         data_frame = pd.read_csv(csv)
         data_frame["Timestamp"] = data_frame["Timestamp"].apply(pd.to_datetime)
@@ -21,21 +21,17 @@ class CSVList:
             self.dataframe = pd.merge(self.dataframe, data_frame, how="outer", on=['Timestamp'])
 
     # CHECK
-    def sort_by_column(self, columns):
-        self.dataframe.sort_values(columns)
-
-    # FIX
     def add_csv(self, csv):
         self.csv_files.append(csv)
         self.__add_csv_to_dataframe(csv)
 
+    # CHECK
+    def sort_by_column(self, columns):
+        self.dataframe.sort_values(columns)
+
+
     def get_column_names(self):
         return self.dataframe.columns.to_list()
-
-    # CHECK
-    def interpolate_data(self, method='polynomial', order=None):
-        self.dataframe = self.dataframe.interpolate(method='polynomial', order=1)
-        self.dataframe = self.dataframe.fillna(0)
 
     def get_column_values(self, column):
         return self.dataframe.loc[:, column]
@@ -79,3 +75,7 @@ class CSVList:
             # Test with backfill, bfill, ffill, and pad
             self.dataframe.fillna(method=method)    # Check if dataframe needs to equal this
 
+    # CHECK
+    def interpolate_data(self, method='polynomial', order=None):
+        self.dataframe = self.dataframe.interpolate(method='polynomial', order=1)
+        self.dataframe = self.dataframe.fillna(0)
