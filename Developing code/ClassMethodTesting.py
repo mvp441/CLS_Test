@@ -6,7 +6,8 @@ def test_csv_add(csv_list, csv_2):
 
 
 def test_get_column_names(csv_list):
-    print(csv_list.get_column_names())
+    column_names = csv_list.get_column_names()
+    print(column_names)
 
 def test_get_column_values(csv_list):
     column_names = csv_list.get_column_names()
@@ -18,12 +19,21 @@ def test_output_dataframe_to_console(csv_list):
 def test_print_columns(csv_list):
     csv_list.print_columns()
 
+def test_get_list_descriptions(csv_list):
+    desc = csv_list.get_list_description()
+    print(desc)
+
+def test_get_dictionary_descriptions(csv_list):
+    desc = csv_list.get_dictionary_description()
+    print(desc)
+
 #Present
 #Pandas3: plotting
 #
 
 def currently_testing(csv_1, csv_2):
     csv_list = CSV.CSVList([csv_1])
+
 
 
 def tested_working(csv_1, csv_2):
@@ -33,6 +43,8 @@ def tested_working(csv_1, csv_2):
     test_get_column_values(csv_list)
     test_output_dataframe_to_console(csv_list)
     test_print_columns(csv_list)
+    test_get_list_descriptions(csv_list)
+    test_get_dictionary_descriptions(csv_list)
 
 
 csv_1 = "../PV Data/Trip 1 data/gLYHVdm+.csv"

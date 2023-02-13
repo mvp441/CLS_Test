@@ -11,7 +11,6 @@ class CSVList:
         for csv in self.csv_files:
             self.__add_csv_to_dataframe(csv)
 
-    # CHECK
     def __add_csv_to_dataframe(self, csv):
         data_frame = pd.read_csv(csv)
         data_frame["Timestamp"] = data_frame["Timestamp"].apply(pd.to_datetime)
@@ -20,12 +19,10 @@ class CSVList:
         else:
             self.dataframe = pd.merge(self.dataframe, data_frame, how="outer", on=['Timestamp'])
 
-    # CHECK
     def add_csv(self, csv):
         self.csv_files.append(csv)
         self.__add_csv_to_dataframe(csv)
 
-    # CHECK
     def sort_by_column(self, columns):
         self.dataframe.sort_values(columns)
 
@@ -38,7 +35,6 @@ class CSVList:
     def output_dataframe_to_console(self):
         print(tabulate(self.dataframe[1:50], headers='keys', tablefmt='rst'))
 
-    # NEW - CHECK ALL
     def print_columns(self, column_list=None):
         if column_list is None:
             column_list = self.dataframe.columns
@@ -46,6 +42,7 @@ class CSVList:
             print(self.dataframe[column])
             print('\n')
 
+    # NEW - CHECK ALL
     def get_list_description(self):
         dataframe_description = list()
         dataframe_description.append(self.dataframe.describe())
