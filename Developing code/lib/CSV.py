@@ -60,7 +60,7 @@ class CSVList:
         for column in self.dataframe:
             self.dataframe[column] = self.dataframe[column].dropna()
 
-    def fill_na_values(self, method=None):
+    def fill_na_values(self, method):
         if type(method) == int or float:
             self.dataframe.fillna(method)
         elif method in ['mean', 'median', 'mode']:

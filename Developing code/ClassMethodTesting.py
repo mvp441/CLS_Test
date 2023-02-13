@@ -27,13 +27,22 @@ def test_get_dictionary_descriptions(csv_list):
     desc = csv_list.get_dictionary_description()
     print(desc)
 
+def test_drop_na_values(csv_list):
+    csv_list.drop_na_values()
+    csv_list.output_dataframe_to_console()
+
+def test_fill_na_values(csv_list, fill):
+    csv_list.fill_na_values(fill)
+    csv_list.output_dataframe_to_console()
+
 #Present
 #Pandas3: plotting
 #
 
 def currently_testing(csv_1, csv_2):
     csv_list = CSV.CSVList([csv_1])
-
+    #test_drop_na_values(csv_list)
+    test_fill_na_values(csv_list, 0)
 
 
 def tested_working(csv_1, csv_2):
