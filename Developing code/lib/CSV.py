@@ -5,9 +5,9 @@ class CSVList:
     def __init__(self, csv_files):
         self.csv_files = csv_files
         self.dataframe = pd.DataFrame()
-        self.read_csvs()
+        self.read_csv()
 
-    def read_csvs(self):
+    def read_csv(self):
         for csv in self.csv_files:
             self.__add_csv_to_dataframe(csv)
 
@@ -28,7 +28,6 @@ class CSVList:
     # CHECK
     def sort_by_column(self, columns):
         self.dataframe.sort_values(columns)
-
 
     def get_column_names(self):
         return self.dataframe.columns.to_list()
