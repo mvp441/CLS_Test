@@ -35,6 +35,10 @@ def test_fill_na_values(csv_list, fill):
     csv_list.fill_na_values(fill)
     csv_list.output_dataframe_to_console()
 
+def test_interpolate_data(csv_list):
+    csv_list.interpolate_data()
+    csv_list.output_datafram_to_console()
+
 #Present
 #Pandas3: plotting
 #
@@ -42,8 +46,8 @@ def test_fill_na_values(csv_list, fill):
 def currently_testing(csv_1, csv_2):
     csv_list = CSV.CSVList([csv_1])
     #test_drop_na_values(csv_list)
-    test_fill_na_values(csv_list, 0)
-
+    test_fill_na_values(csv_list, 'mean') # test with int, float, mean, median, mode, backfill, bfill, ffill, and pad
+    #test_interpolate_data(csv_list)
 
 def tested_working(csv_1, csv_2):
     csv_list = CSV.CSVList([csv_1])

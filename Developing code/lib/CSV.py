@@ -42,7 +42,6 @@ class CSVList:
             print(self.dataframe[column])
             print('\n')
 
-    # NEW - CHECK ALL
     def get_list_description(self):
         dataframe_description = list()
         dataframe_description.append(self.dataframe.describe())
@@ -56,16 +55,19 @@ class CSVList:
             dataframe_description[column] = self.dataframe[column].describe()
         return dataframe_description
 
+# HAVE NOT CURRENTLY PASSED WORKING TEST
     def drop_na_values(self):
-        for column in self.dataframe:
-            self.dataframe[column] = self.dataframe[column].dropna()
+        self.dataframe.dropna(axis='columns')
+        #for column in self.dataframe:
+        #    self.dataframe[column] = self.dataframe[column].dropna()
 
     def fill_na_values(self, method):
-        if type(method) == int or float:
+        print(type(method))
+        if type(method) == int or type(method) == float:
             self.dataframe.fillna(method)
         elif method in ['mean', 'median', 'mode']:
             for column in self.dataframe.columns[1:]:
-                method_function = getattr(self.dataframes.columns[column], method)
+                method_function = getattr(self.dataframe.columns[column], method)
                 fill_value = method_function()
                 # fill_value = self.dataframe.columns[column].method  # Check if method after . is string
                 self.dataframe[column] = self.dataframe[column].fillna(fill_value)
@@ -73,7 +75,7 @@ class CSVList:
             # Test with backfill, bfill, ffill, and pad
             self.dataframe.fillna(method=method)    # Check if dataframe needs to equal this
 
-    # CHECK
+    # HAS NOT BEEN CHECKED YET
     def interpolate_data(self, method='polynomial', order=None):
         self.dataframe = self.dataframe.interpolate(method='polynomial', order=1)
         self.dataframe = self.dataframe.fillna(0)
