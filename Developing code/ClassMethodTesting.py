@@ -45,8 +45,8 @@ def test_interpolate_data(csv_list):
 
 def currently_testing(csv_1, csv_2):
     csv_list = CSV.CSVList([csv_1])
-    #test_drop_na_values(csv_list)
-    test_fill_na_values(csv_list, 'mean') # test with int, float, mean, median, mode, backfill, bfill, ffill, and pad
+    test_drop_na_values(csv_list)
+    #test_fill_na_values(csv_list, 'mean') # test with int, float, mean, median, mode, backfill, bfill, ffill, and pad
     #test_interpolate_data(csv_list)
 
 def tested_working(csv_1, csv_2):
