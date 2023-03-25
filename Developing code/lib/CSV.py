@@ -79,3 +79,21 @@ class CSVList:
     def interpolate_data(self, method='polynomial', order=None):
         self.dataframe = self.dataframe.interpolate(method='polynomial', order=1)
         self.dataframe = self.dataframe.fillna(0)
+
+    #JUST STARTING TO WRITE
+    # df.corr() calculates the pair-wise correlation values between all the columns within a dataframe
+    def calculate_correlation(self, check_list=None):
+        position = 0
+        if check_list is None:
+            for column in self.dataframe.columns:
+                check_list[position] = column
+        #for PV in check_list:
+
+
+
+
+
+
+
+
+

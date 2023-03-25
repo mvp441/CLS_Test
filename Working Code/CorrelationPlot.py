@@ -203,5 +203,7 @@ correlation_s, correlation0, correlation2, correlation_pad, correlation_int, cor
 plot_all(dfs, df2, df_pad, df_int, dfi2, df_test, correlation_s, correlation0, correlation2, correlation_pad, correlation_int, correlation_i2, correlation_test)
 print_corr(correlation_s, correlation0, correlation2, correlation_pad, correlation_int, correlation_i2, correlation_test)
 
-
+# statology.org/partial-correlation-python/
+#pingouin-stats.org/build/html/index.html
+# pairwise correlation between columns of a dataframe
 
