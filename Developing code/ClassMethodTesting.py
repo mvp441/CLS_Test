@@ -39,15 +39,24 @@ def test_interpolate_data(csv_list):
     csv_list.interpolate_data()
     csv_list.output_datafram_to_console()
 
+def test_calculate_correlation_matrix(csv_list):
+    correlation_matrix = csv_list.calculate_correlation_matrix()
+    print(correlation_matrix)
+
+def test_output_correlation_matrix(csv_list):
+    csv_list.output_correlation_matrix()
+
 #Present
 #Pandas3: plotting
 #
 
 def currently_testing(csv_1, csv_2):
-    csv_list = CSV.CSVList([csv_1])
+    csv_list = CSV.CSVList([csv_2])
     test_drop_na_values(csv_list)
     #test_fill_na_values(csv_list, 'mean') # test with int, float, mean, median, mode, backfill, bfill, ffill, and pad
     #test_interpolate_data(csv_list)
+    test_calculate_correlation_matrix(csv_list)
+    test_output_correlation_matrix(csv_list)
 
 def tested_working(csv_1, csv_2):
     csv_list = CSV.CSVList([csv_1])
@@ -63,6 +72,6 @@ def tested_working(csv_1, csv_2):
 csv_1 = "../PV Data/Trip 1 data/gLYHVdm+.csv"
 csv_2 = '../PV Data/Trip 1 data/tdL5QoZo.csv'
 
-#currently_testing(csv_1, csv_2)
-tested_working(csv_1, csv_2)
+currently_testing(csv_1, csv_2)
+#tested_working(csv_1, csv_2)
 

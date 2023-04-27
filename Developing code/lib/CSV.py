@@ -81,7 +81,6 @@ class CSVList:
         self.dataframe = self.dataframe.fillna(0)
 
     #JUST STARTING TO WRITE
-    # df.corr() calculates the pair-wise correlation values between all the columns within a dataframe
     def calculate_correlation(self, check_list=None):
         position = 0
         if check_list is None:
@@ -89,8 +88,13 @@ class CSVList:
                 check_list[position] = column
         #for PV in check_list:
 
+    def calculate_correlation_matrix(self):
+        return self.dataframe.corr() #calculates the pair-wise correlation values between all the columns within a dataframe
 
-
+    def output_correlation_matrix(self):
+        correlation_matrix = self.calculate_correlation_matrix()
+        for PV in correlation_matrix:
+            print(PV)
 
 
 
