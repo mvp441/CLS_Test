@@ -55,12 +55,10 @@ class CSVList:
             dataframe_description[column] = self.dataframe[column].describe()
         return dataframe_description
 
-# HAVE NOT CURRENTLY PASSED WORKING TEST
     def drop_na_values(self):
         self.dataframe.dropna(axis='rows', inplace=True)
-        #for column in self.dataframe:
-        #    self.dataframe[column] = self.dataframe[column].dropna()
 
+    # HAVE NOT CURRENTLY PASSED WORKING TEST
     def fill_na_values(self, method):
         print(type(method))
         if type(method) == int or type(method) == float:
