@@ -57,7 +57,7 @@ class CSVList:
 
 # HAVE NOT CURRENTLY PASSED WORKING TEST
     def drop_na_values(self):
-        self.dataframe.dropna(axis='columns')
+        self.dataframe.dropna(axis='rows')
         #for column in self.dataframe:
         #    self.dataframe[column] = self.dataframe[column].dropna()
 

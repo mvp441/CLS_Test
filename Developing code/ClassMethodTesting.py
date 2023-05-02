@@ -52,7 +52,7 @@ def test_output_correlation_matrix(csv_list):
 
 def currently_testing(csv_1, csv_2):
     csv_list = CSV.CSVList([csv_2])
-    test_drop_na_values(csv_list)
+    test_drop_na_values(csv_list)  # may need to copy data frame into a new object dropping the NA values then updating the item?
     #test_fill_na_values(csv_list, 'mean') # test with int, float, mean, median, mode, backfill, bfill, ffill, and pad
     #test_interpolate_data(csv_list)
     test_calculate_correlation_matrix(csv_list)
