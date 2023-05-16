@@ -1,4 +1,7 @@
 import pandas as pd
+pd.set_option('display.max_rows', 500)
+pd.set_option('display.max_columns', 500)
+pd.set_option('display.width', 1000)
 #from tabulate import tabulate
 
 class CSVList:
@@ -19,9 +22,16 @@ class CSVList:
         else:
             self.dataframe = pd.merge(self.dataframe, data_frame, how="outer", on=['Timestamp'])
 
+    # modify to add in multiple csv files at a time
     def add_csv(self, csv):
+        # check if one or more csv files passed in
+        # if more than one file loop through all
+        # add each one as follows still
         self.csv_files.append(csv)
         self.__add_csv_to_dataframe(csv)
+
+    #def add_txt(self, tct):
+        #copy from experiment.py file
 
     def sort_by_column(self, columns):
         self.dataframe.sort_values(columns)
@@ -64,11 +74,14 @@ class CSVList:
         if type(method) == int or type(method) == float:
             self.dataframe.fillna(method, axis='rows', inplace=True)
         elif method in ['mean', 'median', 'mode']:
+            if method == 'median':
+                df_median = self.dataframe.median(axis=1, skipna=True)
             for column in self.dataframe.columns[1:]:
-                method_function = getattr(self.dataframe.columns[column], method)
-                fill_value = method_function()
+                #method_function = getattr(self.dataframe.columns[column], method)
+                fill_value = df_median[column]
+                #fill_value = method_function()
                 # fill_value = self.dataframe.columns[column].method  # Check if method after . is string
-                self.dataframe[column] = self.dataframe[column].fillna(fill_value)
+                self.dataframe[column] = self.dataframe[column].fillna(fill_value, axis='rows', inplace=True)
         else:
             # Test with backfill, bfill, ffill, and pad
             self.dataframe.fillna(method=method)    # Check if dataframe needs to equal this
