@@ -1,5 +1,5 @@
 import pandas as pd
-from tabulate import tabulate
+#from tabulate import tabulate
 
 class CSVList:
     def __init__(self, csv_files):
@@ -62,7 +62,7 @@ class CSVList:
     def fill_na_values(self, method):
         print(type(method))
         if type(method) == int or type(method) == float:
-            self.dataframe.fillna(method)
+            self.dataframe.fillna(method, axis='rows', inplace=True)
         elif method in ['mean', 'median', 'mode']:
             for column in self.dataframe.columns[1:]:
                 method_function = getattr(self.dataframe.columns[column], method)
