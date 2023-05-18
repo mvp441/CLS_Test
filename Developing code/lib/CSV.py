@@ -30,8 +30,10 @@ class CSVList:
         self.csv_files.append(csv)
         self.__add_csv_to_dataframe(csv)
 
-    #def add_txt(self, tct):
+    #def add_txt(self, txt):
         #copy from experiment.py file
+
+    #def add_json(self, json):
 
     def sort_by_column(self, columns):
         self.dataframe.sort_values(columns)
