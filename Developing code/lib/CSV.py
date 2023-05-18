@@ -75,13 +75,13 @@ class CSVList:
             self.dataframe.fillna(method, axis='rows', inplace=True)
         elif method in ['mean', 'median', 'mode']:
             if method == 'median':
-                df_median = self.dataframe.median(axis=1, skipna=True)
+                df_median = self.dataframe.median(axis=0, skipna=True)
             for column in self.dataframe.columns[1:]:
                 #method_function = getattr(self.dataframe.columns[column], method)
                 fill_value = df_median[column]
                 #fill_value = method_function()
                 # fill_value = self.dataframe.columns[column].method  # Check if method after . is string
-                self.dataframe[column] = self.dataframe[column].fillna(fill_value, axis='rows', inplace=True)
+                self.dataframe[column].fillna(fill_value, axis='rows', inplace=True)
         else:
             # Test with backfill, bfill, ffill, and pad
             self.dataframe.fillna(method=method)    # Check if dataframe needs to equal this

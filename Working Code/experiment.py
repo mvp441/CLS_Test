@@ -17,12 +17,12 @@ pvnamelist = {PV_BPM_x, PV_BPM_y }
 df = pd.DataFrame(columns=pvnamelist)
 datetime.datetime.now()
 
-try:
-    dfx = caget('BPM1402-04:TruncatedTbTDataX')
-except Exception:
-    print(Exception.message)
+#try:
+    #dfx = caget('BPM1402-04:TruncatedTbTDataX')
+#except Exception:
+#    print(Exception.message)
 
-dfy = caget('BPM1402-04:TruncatedTbTDataY')
+#dfy = caget('BPM1402-04:TruncatedTbTDataY')
 
 # save file names
 test_filename = "../Data/BPM1402-04_Data.txt"
@@ -74,7 +74,7 @@ print(the_now.strftime('%Y-%m-%d_%H-%M-%S'))
 # save raw data
 filenamex = 'TuneChange_x' + the_now.strftime('%Y-%m-%d_%H-%M-%S') + '.csv'  # or .txt
 filenamey = 'TuneChange_y' + the_now.strftime('%Y-%m-%d_%H-%M-%S') + '.csv'
-np.savetxt(r'BPM140204X.txt', dfx*1e6, fmt='%d')
+#np.savetxt(r'BPM140204X.txt', dfx*1e6, fmt='%d')
 #np.savetxt(r'BPM140204Y.txt', dfy*1e6, fmt='%d')
 print('Data Saved, Done!')
 
@@ -139,4 +139,4 @@ filename4 = 'FT_with_max' + the_now.strftime('%Y-%m-%d_%H-%M-%S')
 #plt.savefig(filename4)
 plt.show(block = False)
 
-#plt.show()
+plt.show()
