@@ -2,7 +2,7 @@ import pandas as pd
 pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
-#from tabulate import tabulate
+from tabulate import tabulate
 
 class CSVList:
     def __init__(self, csv_files):
@@ -51,6 +51,9 @@ class CSVList:
         for column in column_list:
             print(self.dataframe[column])
             print('\n')
+
+    #def remove_columns(self, columns_to_remove):
+    
 
     def get_list_description(self):
         dataframe_description = list()
