@@ -53,7 +53,7 @@ class CSVList:
             print('\n')
 
     #def remove_columns(self, columns_to_remove):
-    
+
 
     def get_list_description(self):
         dataframe_description = list()
@@ -115,6 +115,10 @@ class CSVList:
         correlation_matrix = self.calculate_correlation_matrix()
         for PV in correlation_matrix:
             print(PV)
+
+
+    #include plotting helper functions? Or fill in DataPlotter class?
+    
 
 
 
