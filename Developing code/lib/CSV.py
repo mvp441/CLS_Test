@@ -65,6 +65,12 @@ class CSVList:
             dataframe_description[column] = self.dataframe[column].describe()
         return dataframe_description
 
+    #def calculate_mean(self, columns=None):
+
+    #def calculate_median(self, columns=None):
+
+    #def calculate_mode(self, columns=None):
+
     def drop_na_values(self):
         self.dataframe.dropna(axis='rows', inplace=True)
 
