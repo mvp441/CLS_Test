@@ -92,11 +92,11 @@ class CSVList:
     def fill_na_values(self, method):
         print(type(method))
         if type(method) == int or type(method) == float:
-            self.dataframe.fillna(method, axis='rows', inplace=True)
+            self.dataframe.fillna(method, axis='rows', inplace=True)  # Has been initially tested and is working at the moment
         elif method in ['mean', 'median', 'mode']:
             if method == 'mean':
                 column_fill_values = self.calculate_mean()
-            if method == 'median':
+            if method == 'median':  # Has been initially tested and is working at the moment
                 column_fill_values = self.calculate_median()
             elif method == 'mode':
                 column_fill_values = self.calculate_mode()
@@ -104,14 +104,13 @@ class CSVList:
                 fill_value = column_fill_values[column]
                 self.dataframe[column].fillna(fill_value, axis='rows', inplace=True)
         elif method in ['backfill', 'bfill', 'ffill', 'pad']:
-            # Test with backfill, bfill, ffill, and pad
             if method == 'backfill':
-                self.dataframe.fillna(method='backfill', inplace=True)    # Check if dataframe needs to equal this
+                self.dataframe.fillna(method='backfill', inplace=True) 
             if method == 'bfill':
                 self.dataframe.fillna(method='bfill', inplace=True)
             if method == 'ffill':
                 self.dataframe.fillna(method='ffill', inplace=True)
-            if method == 'pad':
+            if method == 'pad':  # Has been initially tested and is working at the moment
                 self.dataframe.fillna(method='pad', inplace=True)
 
 
