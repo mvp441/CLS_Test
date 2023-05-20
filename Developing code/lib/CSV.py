@@ -73,11 +73,11 @@ class CSVList:
             dataframe_description[column] = self.dataframe[column].describe()
         return dataframe_description
 
-    def calculate_mean(self, columns=None):
+    def calculate_mean(self, columns=None):  # keep columns=none?
         df_mean = self.dataframe.mean(axis=0, skipna=True)
         return df_mean
 
-    def calculate_median(self, columns=None):  # keep columns=none?
+    def calculate_median(self, columns=None):
         df_median = self.dataframe.median(axis=0, skipna=True)
         return df_median
 
@@ -88,7 +88,7 @@ class CSVList:
     def drop_na_values(self):
         self.dataframe.dropna(axis='rows', inplace=True)
 
-    # HAVE NOT CURRENTLY PASSED WORKING TEST
+    # NOT ALL HAVE CURRENTLY PASSED WORKING TEST
     def fill_na_values(self, method):
         print(type(method))
         if type(method) == int or type(method) == float:
@@ -105,7 +105,7 @@ class CSVList:
                 self.dataframe[column].fillna(fill_value, axis='rows', inplace=True)
         elif method in ['backfill', 'bfill', 'ffill', 'pad']:
             if method == 'backfill':
-                self.dataframe.fillna(method='backfill', inplace=True) 
+                self.dataframe.fillna(method='backfill', inplace=True)
             if method == 'bfill':
                 self.dataframe.fillna(method='bfill', inplace=True)
             if method == 'ffill':
