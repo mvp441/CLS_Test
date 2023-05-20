@@ -3,6 +3,6 @@ class DataPoltter:
         self.csv_list = csv_list
 
 # copy from ExamplePlots.py file
-    def MultiFigPlot(self):
-        for
+    #def MultiFigPlot(self):
+      #  for
 

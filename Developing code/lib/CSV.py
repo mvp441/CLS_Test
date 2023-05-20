@@ -34,6 +34,7 @@ class CSVList:
         #copy from experiment.py file
 
     #def add_json(self, json):
+        #copy from ecperiment sample_read_json_file
 
     def sort_by_column(self, columns):
         self.dataframe.sort_values(columns)
@@ -72,7 +73,9 @@ class CSVList:
 
     #def calculate_mean(self, columns=None):
 
-    #def calculate_median(self, columns=None):
+    def calculate_median(self, columns=None):  # keep columns=none?
+        df_median = self.dataframe.median(axis=0, skipna=True)
+        return df_median
 
     #def calculate_mode(self, columns=None):
 
