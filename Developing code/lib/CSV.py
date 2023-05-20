@@ -92,9 +92,12 @@ class CSVList:
         if type(method) == int or type(method) == float:
             self.dataframe.fillna(method, axis='rows', inplace=True)
         elif method in ['mean', 'median', 'mode']:
+            if method == 'mean':
+                column_fill_values = self.calculate_mean()
             if method == 'median':
                 column_fill_values = self.calculate_median()
-                #df_median = self.dataframe.median(axis=0, skipna=True)
+            elif method == 'mode':
+                column_fill_values = self.calculate_mode()
             for column in self.dataframe.columns[1:]:
                 #method_function = getattr(self.dataframe.columns[column], method)  # doesn't work?
                 fill_value = column_fill_values[column]
