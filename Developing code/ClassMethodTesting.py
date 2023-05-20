@@ -53,7 +53,7 @@ def test_output_correlation_matrix(csv_list):
 
 def currently_testing(csv_1, csv_2):
     csv_list = CSV.CSVList([csv_2])
-    test_fill_na_values(csv_list, 'median') # test with  float, mean, median, mode, backfill, bfill, ffill, and pad - works with 5
+    test_fill_na_values(csv_list, 'pad') # test with  float, mean, median, mode, backfill, bfill, ffill, and pad - works with 5
     #test_interpolate_data(csv_list)
     #test_calculate_correlation_matrix(csv_list)
     #test_output_correlation_matrix(csv_list)

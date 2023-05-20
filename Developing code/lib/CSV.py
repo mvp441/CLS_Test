@@ -106,7 +106,13 @@ class CSVList:
         elif method in ['backfill', 'bfill', 'ffill', 'pad']:
             # Test with backfill, bfill, ffill, and pad
             if method == 'backfill':
-                self.dataframe.fillna(method=backfill)    # Check if dataframe needs to equal this
+                self.dataframe.fillna(method='backfill', inplace=True)    # Check if dataframe needs to equal this
+            if method == 'bfill':
+                self.dataframe.fillna(method='bfill', inplace=True)
+            if method == 'ffill':
+                self.dataframe.fillna(method='ffill', inplace=True)
+            if method == 'pad':
+                self.dataframe.fillna(method='pad', inplace=True)
 
 
     # HAS NOT BEEN CHECKED YET
