@@ -1,4 +1,6 @@
 import pandas as pd
+from pandas._libs.algos import backfill
+
 pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
@@ -30,8 +32,11 @@ class CSVList:
         self.csv_files.append(csv)
         self.__add_csv_to_dataframe(csv)
 
-    #def add_txt(self, tct):
+    #def add_txt(self, txt):
         #copy from experiment.py file
+
+    #def add_json(self, json):
+        #copy from ecperiment sample_read_json_file
 
     def sort_by_column(self, columns):
         self.dataframe.sort_values(columns)
@@ -68,32 +73,46 @@ class CSVList:
             dataframe_description[column] = self.dataframe[column].describe()
         return dataframe_description
 
-    #def calculate_mean(self, columns=None):
+    def calculate_mean(self, columns=None):  # keep columns=none?
+        df_mean = self.dataframe.mean(axis=0, skipna=True)
+        return df_mean
 
-    #def calculate_median(self, columns=None):
+    def calculate_median(self, columns=None):
+        df_median = self.dataframe.median(axis=0, skipna=True)
+        return df_median
 
-    #def calculate_mode(self, columns=None):
+    def calculate_mode(self, columns=None):
+        df_mode = self.dataframe.mode(axis=0, skipna=True)
+        return df_mode
 
     def drop_na_values(self):
         self.dataframe.dropna(axis='rows', inplace=True)
 
-    # HAVE NOT CURRENTLY PASSED WORKING TEST
+    # NOT ALL HAVE CURRENTLY PASSED WORKING TEST
     def fill_na_values(self, method):
         print(type(method))
         if type(method) == int or type(method) == float:
-            self.dataframe.fillna(method, axis='rows', inplace=True)
+            self.dataframe.fillna(method, axis='rows', inplace=True)  # Has been initially tested and is working at the moment
         elif method in ['mean', 'median', 'mode']:
-            if method == 'median':
-                df_median = self.dataframe.median(axis=0, skipna=True)
+            if method == 'mean':
+                column_fill_values = self.calculate_mean()
+            if method == 'median':  # Has been initially tested and is working at the moment
+                column_fill_values = self.calculate_median()
+            elif method == 'mode':
+                column_fill_values = self.calculate_mode()
             for column in self.dataframe.columns[1:]:
-                #method_function = getattr(self.dataframe.columns[column], method)
-                fill_value = df_median[column]
-                #fill_value = method_function()
-                # fill_value = self.dataframe.columns[column].method  # Check if method after . is string
+                fill_value = column_fill_values[column]
                 self.dataframe[column].fillna(fill_value, axis='rows', inplace=True)
-        else:
-            # Test with backfill, bfill, ffill, and pad
-            self.dataframe.fillna(method=method)    # Check if dataframe needs to equal this
+        elif method in ['backfill', 'bfill', 'ffill', 'pad']:
+            if method == 'backfill':
+                self.dataframe.fillna(method='backfill', inplace=True)
+            if method == 'bfill':
+                self.dataframe.fillna(method='bfill', inplace=True)
+            if method == 'ffill':
+                self.dataframe.fillna(method='ffill', inplace=True)
+            if method == 'pad':  # Has been initially tested and is working at the moment
+                self.dataframe.fillna(method='pad', inplace=True)
+
 
     # HAS NOT BEEN CHECKED YET
     def interpolate_data(self, method='polynomial', order=None):
