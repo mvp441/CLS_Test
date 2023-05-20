@@ -1,4 +1,6 @@
 import pandas as pd
+from pandas._libs.algos import backfill
+
 pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
@@ -99,14 +101,13 @@ class CSVList:
             elif method == 'mode':
                 column_fill_values = self.calculate_mode()
             for column in self.dataframe.columns[1:]:
-                #method_function = getattr(self.dataframe.columns[column], method)  # doesn't work?
                 fill_value = column_fill_values[column]
-                #fill_value = method_function()
-                # fill_value = self.dataframe.columns[column].method  # Check if method after . is string
                 self.dataframe[column].fillna(fill_value, axis='rows', inplace=True)
-        else:
+        elif method in ['backfill', 'bfill', 'ffill', 'pad']:
             # Test with backfill, bfill, ffill, and pad
-            self.dataframe.fillna(method=method)    # Check if dataframe needs to equal this
+            if method == 'backfill':
+                self.dataframe.fillna(method=backfill)    # Check if dataframe needs to equal this
+
 
     # HAS NOT BEEN CHECKED YET
     def interpolate_data(self, method='polynomial', order=None):
