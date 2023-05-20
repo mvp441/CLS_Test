@@ -93,7 +93,7 @@ class CSVList:
             self.dataframe.fillna(method, axis='rows', inplace=True)
         elif method in ['mean', 'median', 'mode']:
             if method == 'median':
-                df_median = self.dataframe.median(axis=0, skipna=True)
+                df_median = self.dataframe.median(axis=0, skipna=True
             for column in self.dataframe.columns[1:]:
                 #method_function = getattr(self.dataframe.columns[column], method)
                 fill_value = df_median[column]
