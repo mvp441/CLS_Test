@@ -92,8 +92,8 @@ class CSVList:
         # add each one as follows still
         self.list_of_file_names.append(csv)  # should be in but add again because initalized since missing type check
         self.csv_files.append(csv)
-        #self.add_csv_to_dictionary(csv)
-        #self.csv_files.append(csv)
+        self.add_csv_to_dictionary(csv)
+        self.csv_files.append(csv)
         self.__add_csv_to_dataframe(csv)
 
 
@@ -115,10 +115,11 @@ class CSVList:
 
     # Construct master dataframe from list of modified (or original if no modified) dataframes
     def construct_master_dataframe(self, data_frame):
-        if len(self.master_dataframe.columns.to_list()) == 0:
-            self.master_dataframe = data_frame
-        else:
-            self.master_dataframe = pd.merge(self.dataframe, data_frame, how="outer", on=['Timestamp'])
+        #if len(self.master_dataframe.columns.to_list()) == 0:
+         #   self.master_dataframe = data_frame
+        #else:
+            #self.master_dataframe = pd.merge(self.dataframe, data_frame, how="outer", on=['Timestamp'])
+        self.master_dataframe = pd.concat(self.dataframe_list, ignore_index=True)
 
     def output_csv_list(self):
         for csv in range(len(self.csv_files)):
