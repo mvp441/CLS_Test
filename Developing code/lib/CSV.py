@@ -10,11 +10,11 @@ from tabulate import tabulate
 class CSVList:
     def __init__(self, csv_files):
         self.csv_files = csv_files  # Consider renaming to list_of_file_names
-        #self.dataframe_list = []  # List of dataframes
-        #seld.master_dataframe = pd.DataFrame()  # Concatenated all Dataframe
+        self.dataframe_list = []  # List of dataframes
+        self.master_dataframe = pd.DataFrame()  # Concatenated all Dataframe
         self.dataframe = pd.DataFrame()
         # create dictionary to store original data in before fill or editing
-        #self.original_data {}
+        self.original_data = {}
         self.read_csv()
 
 
@@ -25,8 +25,16 @@ class CSVList:
         for csv in self.csv_files:
             self.__add_csv_to_dataframe(csv)
 
+
+    #def add_csv_to_dictionary(self):
+    # https://www.educative.io/answers/how-to-create-a-dictionary-of-data-frames-in-python
+        #self.dataframe_list
+
+
     def __add_csv_to_dataframe(self, csv):
         data_frame = pd.read_csv(csv)
+        self.dataframe_list.append(data_frame)
+        self.original_data[csv] = data_frame
         data_frame["Timestamp"] = data_frame["Timestamp"].apply(pd.to_datetime)
         if len(self.dataframe.columns.to_list()) == 0:
             self.dataframe = data_frame
