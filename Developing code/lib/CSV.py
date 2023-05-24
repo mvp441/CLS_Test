@@ -90,7 +90,7 @@ class CSVList:
         # if more than one file loop through all
         # add each one as follows still
         #self.list_of_file_names.append(csv)  # should be in but add again because initalized since missing type check
-        #self.csv_files.append(csv)
+        self.csv_files.append(csv)
         self.add_csv_to_dictionary(csv)
         #self.csv_files.append(csv)
         #self.__add_csv_to_dataframe(csv)
