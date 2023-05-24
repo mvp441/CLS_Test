@@ -17,11 +17,12 @@ from tabulate import tabulate
 class CSVList:
     def __init__(self, csv_files):
         self.list_of_file_names = csv_files
+        self.csv_files = []
         self.list_of_csv_dataframes = []
-        self.csv_files = csv_files
-        self.dataframe_list = []  # List of dataframes
-        self.master_dataframe = pd.DataFrame()  # Concatenated all Dataframe
         self.dataframe = pd.DataFrame()  # Working dataframe
+        self.dataframe_list = []  # List of dataframes
+        self.dataframe_dictionary_list = []  # List of dictionary of dataframes
+        self.master_dataframe = pd.DataFrame()  # Concatenated all Dataframes
         self.original_data = {}  # create dictionary to store original data in before fill or editing
         self.read_csv_file()
 
@@ -63,7 +64,7 @@ class CSVList:
             "modified_dataframe": None
         }
         #self.__add_csv_to_dataframe(csv)
-        self.dataframe_list.append(dataframe_info)
+        self.dataframe_dictionary_list.append(dataframe_info)
 
     def __add_csv_to_dataframe(self, csv):
         # change to convert csv to dataframe and store in dictionary
@@ -82,6 +83,7 @@ class CSVList:
         # check if one or more csv files passed in
         # if more than one file loop through all
         # add each one as follows still
+        self.list_of_file_names.append(csv)
         self.csv_files.append(csv)
         self.add_csv_to_dictionary(csv)
         #self.csv_files.append(csv)
