@@ -17,13 +17,14 @@ from tabulate import tabulate
 class CSVList:
     def __init__(self, csv_files):
         self.list_of_file_names = csv_files
-        self.csv_files = []
+        self.csv_files = csv_files
         self.list_of_csv_dataframes = []
         self.dataframe = pd.DataFrame()  # Working dataframe
         self.dataframe_list = []  # List of dataframes
         self.dataframe_dictionary_list = []  # List of dictionary of dataframes
         self.master_dataframe = pd.DataFrame()  # Concatenated all Dataframes
         self.original_data = {}  # create dictionary to store original data in before fill or editing
+
         self.read_csv_file()
 
 
@@ -37,6 +38,8 @@ class CSVList:
     # input file name(s) to add
     # add file names to list
     # go through list
+    #   check file type
+    #   save in according places for type
     #   create dictionary entry for each file
     #       store file name
     #       convert file to dataframe
@@ -54,12 +57,15 @@ class CSVList:
         data_frame = pd.read_csv(csv)
         data_frame["Timestamp"] = data_frame["Timestamp"].apply(pd.to_datetime)
         self.list_of_csv_dataframes.append(data_frame)
+        self.dataframe_list.append(data_frame)
+        self.construct_master_dataframe(data_frame)
         return data_frame
 
     def add_csv_to_dictionary(self, csv):
     # https://www.educative.io/answers/how-to-create-a-dictionary-of-data-frames-in-python
         dataframe_info = {
             "file_name": csv,
+            "file_type": "csv",
             "original_dataframe": self.csv_to_df(csv),
             "modified_dataframe": None
         }
@@ -83,8 +89,8 @@ class CSVList:
         # check if one or more csv files passed in
         # if more than one file loop through all
         # add each one as follows still
-        self.list_of_file_names.append(csv)
-        self.csv_files.append(csv)
+        #self.list_of_file_names.append(csv)  # should be in but add again because initalized since missing type check
+        #self.csv_files.append(csv)
         self.add_csv_to_dictionary(csv)
         #self.csv_files.append(csv)
         #self.__add_csv_to_dataframe(csv)
@@ -107,8 +113,11 @@ class CSVList:
 
 
     # Construct master dataframe from list of modified (or original if no modified) dataframes
-    #def construct_master_dataframe(self):
-
+    def construct_master_dataframe(self, data_frame):
+        if len(self.dataframe.columns.to_list()) == 0:
+            self.master_dataframe = data_frame
+        else:
+            self.master_dataframe = pd.merge(self.dataframe, data_frame, how="outer", on=['Timestamp'])
 
     def output_csv_list(self):
         for csv in range(len(self.csv_files)):
