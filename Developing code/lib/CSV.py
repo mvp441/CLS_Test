@@ -36,22 +36,30 @@ class CSVList:
     def read_csv_file(self):
         # remove redundancy with add_csv by reading csv into dictionary item in list
         for csv in self.csv_files:
-            self.__add_csv_to_dataframe(csv)
+            #self.__add_csv_to_dataframe(csv)
+            self.add_csv_to_dictionary(csv)
 
 
     def add_csv_to_dictionary(self, csv):
     # https://www.educative.io/answers/how-to-create-a-dictionary-of-data-frames-in-python
-        frame = {
-            "file_name": csv
+        self.original_data = {
+            "file_name": csv,
+            "original_dataframe": self.csv_to_dic(csv),
+            "modified_dataframe": None
         }
+        #self.__add_csv_to_dataframe(csv)
         #self.dataframe_list
 
+    def csv_to_dic(self, csv):
+        data_frame = pd.read_csv(csv)
+        data_frame["Timestamp"] = data_frame["Timestamp"].apply(pd.to_datetime)
+        return data_frame
 
     def __add_csv_to_dataframe(self, csv):
         # change to convert csv to dataframe and store in dictionary
         data_frame = pd.read_csv(csv)
         self.dataframe_list.append(data_frame)
-        self.original_data[csv] = data_frame
+        #self.original_data[csv] = data_frame
         data_frame["Timestamp"] = data_frame["Timestamp"].apply(pd.to_datetime)
         if len(self.dataframe.columns.to_list()) == 0:
             self.dataframe = data_frame
