@@ -54,7 +54,7 @@ def test_output_correlation_matrix(csv_list):
 
 def currently_testing(csv_1, csv_2):
     csv_list = CSV.CSVList([csv_1])
-    test_csv_add(csv_list, csv_2)  # test readding the same files 
+    test_csv_add(csv_list, csv_2)  # test readding the same files
 
     #test_interpolate_data(csv_list)
     #test_calculate_correlation_matrix(csv_list)
