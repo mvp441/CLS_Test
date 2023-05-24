@@ -28,7 +28,6 @@ def test_get_dictionary_descriptions(csv_list):
     print(desc)
 
 def test_drop_na_values(csv_list):
-    csv_list.output_dataframe_to_console()
     csv_list.drop_na_values()
     csv_list.output_dataframe_to_console()
 

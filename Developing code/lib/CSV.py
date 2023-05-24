@@ -10,6 +10,8 @@ class CSVList:
     def __init__(self, csv_files):
         self.csv_files = csv_files
         self.dataframe = pd.DataFrame()
+        # create dictionary to store original data in before fill or editing
+        #self.original_data {}
         self.read_csv()
 
     def read_csv(self):
@@ -56,6 +58,7 @@ class CSVList:
         for column in column_list:
             print(self.dataframe[column])
             print('\n')
+
 
     #def remove_columns(self, columns_to_remove):
 
