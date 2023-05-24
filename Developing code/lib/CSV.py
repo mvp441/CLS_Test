@@ -16,29 +16,39 @@ from tabulate import tabulate
 
 class CSVList:
     def __init__(self, csv_files):
-        self.csv_files = csv_files  # Consider renaming to list_of_file_names
+        self.list_of_file_names = csv_files
+        self.csv_files = csv_files
         self.dataframe_list = []  # List of dataframes
         self.master_dataframe = pd.DataFrame()  # Concatenated all Dataframe
-        self.dataframe = pd.DataFrame()
-        # create dictionary to store original data in before fill or editing
-        self.original_data = {}
-        self.read_csv()
+        self.dataframe = pd.DataFrame()  # Working dataframe
+        self.original_data = {}  # create dictionary to store original data in before fill or editing
+        self.read_csv_file()
 
 
     # Read Multiple CSV Files from a Folder
     # https://sparkbyexamples.com/pandas/pandas-read-multiple-csv-files/
 
-    def read_csv(self):
+    #Add files
+    #def add_file(self):
+
+
+
+    def read_csv_file(self):
+        # remove redundancy with add_csv by reading csv into dictionary item in list
         for csv in self.csv_files:
             self.__add_csv_to_dataframe(csv)
 
 
-    #def add_csv_to_dictionary(self):
+    def add_csv_to_dictionary(self, csv):
     # https://www.educative.io/answers/how-to-create-a-dictionary-of-data-frames-in-python
+        frame = {
+            "file_name": csv
+        }
         #self.dataframe_list
 
 
     def __add_csv_to_dataframe(self, csv):
+        # change to convert csv to dataframe and store in dictionary
         data_frame = pd.read_csv(csv)
         self.dataframe_list.append(data_frame)
         self.original_data[csv] = data_frame
@@ -49,6 +59,7 @@ class CSVList:
             self.dataframe = pd.merge(self.dataframe, data_frame, how="outer", on=['Timestamp'])
 
     # modify to add in multiple csv files at a time
+    # instead of modifying this function create which adds all in the list
     def add_csv(self, csv):
         # check if one or more csv files passed in
         # if more than one file loop through all
@@ -70,6 +81,10 @@ class CSVList:
     #def add_txt_files_from_folder(self, path=None):
     #def add_json_files_from_folder(self, path=None):
     #def add_files_from_folder(self, path=None):
+
+
+    # Construct master dataframe from list of modified (or original if no modified) dataframes
+    #def construct_master_dataframe(self):
 
 
     def output_csv_list(self):
