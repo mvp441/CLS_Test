@@ -16,7 +16,8 @@ from tabulate import tabulate
 
 class CSVList:
     def __init__(self, csv_files):
-        self.list_of_file_names = []
+        self.list_of_file_names = csv_files
+        self.list_of_csv_dataframes = []
         self.csv_files = csv_files
         self.dataframe_list = []  # List of dataframes
         self.master_dataframe = pd.DataFrame()  # Concatenated all Dataframe
@@ -51,7 +52,7 @@ class CSVList:
     def csv_to_df(self, csv):
         data_frame = pd.read_csv(csv)
         data_frame["Timestamp"] = data_frame["Timestamp"].apply(pd.to_datetime)
-        self.list_of_file_names.append(data_frame)
+        self.list_of_csv_dataframes.append(data_frame)
         return data_frame
 
     def add_csv_to_dictionary(self, csv):
@@ -82,7 +83,10 @@ class CSVList:
         # if more than one file loop through all
         # add each one as follows still
         self.csv_files.append(csv)
-        self.__add_csv_to_dataframe(csv)
+        self.read_csv_file()
+        #self.csv_files.append(csv)
+        #self.__add_csv_to_dataframe(csv)
+
 
 
     #def add_txt(self, txt):
