@@ -1,4 +1,5 @@
 import glob
+import copy
 import pandas as pd
 from pandas._libs.algos import backfill
 
@@ -16,8 +17,8 @@ from tabulate import tabulate
 
 class CSVList:
     def __init__(self, csv_files):
-        self.list_of_file_names = csv_files
-        self.csv_files = csv_files
+        self.list_of_file_names = copy.deepcopy(csv_files)  # possibly switch deep copies once type check is set up
+        self.csv_files = copy.deepcopy(csv_files)
         self.list_of_csv_dataframes = []
         self.dataframe = pd.DataFrame()  # Working dataframe
         self.dataframe_list = []  # List of dataframes
