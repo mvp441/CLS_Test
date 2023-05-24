@@ -20,9 +20,6 @@ class CSVList:
     # Read Multiple CSV Files from a Folder
     # https://sparkbyexamples.com/pandas/pandas-read-multiple-csv-files/
 
-    # Get CSV files list from a folder
-
-
     def read_csv(self):
         for csv in self.csv_files:
             self.__add_csv_to_dataframe(csv)
@@ -55,6 +52,10 @@ class CSVList:
 
     #def add_files_from_folder(self, path=None):
 
+    # Get CSV files list
+    def output_csv_list(self):
+        for csv in range(len(self.csv_files)):
+            print(self.csv_files[csv])
 
     def sort_by_column(self, columns):
         self.dataframe.sort_values(columns)

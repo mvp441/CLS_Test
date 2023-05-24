@@ -4,6 +4,8 @@ def test_csv_add(csv_list, csv_2):
     csv_list.add_csv(csv_2)
     print(csv_list.print_columns())
 
+def test_output_csv_list(csv_list):
+    csv_list.output_csv_list()
 
 def test_get_column_names(csv_list):
     column_names = csv_list.get_column_names()
@@ -51,8 +53,10 @@ def test_output_correlation_matrix(csv_list):
 #
 
 def currently_testing(csv_1, csv_2):
-    csv_list = CSV.CSVList([csv_2])
-    test_fill_na_values(csv_list, 'pad') # test with  float, mean, median, mode, backfill, bfill, ffill, and pad - works with 5
+#    csv_list = CSV.CSVList([csv_2])
+    csv_list = CSV.CSVList([csv_1])
+    test_csv_add(csv_list, csv_2)
+    test_output_csv_list(csv_list)
     #test_interpolate_data(csv_list)
     #test_calculate_correlation_matrix(csv_list)
     #test_output_correlation_matrix(csv_list)
@@ -67,11 +71,11 @@ def tested_working(csv_1, csv_2):
     test_get_list_descriptions(csv_list)
     test_get_dictionary_descriptions(csv_list)
     test_drop_na_values(csv_list)
-
+    test_fill_na_values(csv_list, 'pad') # test with  float, mean, median, mode, backfill, bfill, ffill, and pad - works with 5
 
 csv_1 = "../PV Data/Trip 1 data/gLYHVdm+.csv"
 csv_2 = '../PV Data/Trip 1 data/tdL5QoZo.csv'
 
-#currently_testing(csv_1, csv_2)
-tested_working(csv_1, csv_2)
+currently_testing(csv_1, csv_2)
+#tested_working(csv_1, csv_2)
 
