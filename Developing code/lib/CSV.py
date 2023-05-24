@@ -9,8 +9,9 @@ from tabulate import tabulate
 
 class CSVList:
     def __init__(self, csv_files):
-        self.csv_files = csv_files
-        #self.dataframe_list = pd.DataFrame()
+        self.csv_files = csv_files  # Consider renaming to list_of_file_names
+        #self.dataframe_list = []  # List of dataframes
+        #seld.master_dataframe = pd.DataFrame()  # Concatenated all Dataframe
         self.dataframe = pd.DataFrame()
         # create dictionary to store original data in before fill or editing
         #self.original_data {}
@@ -40,19 +41,22 @@ class CSVList:
         self.csv_files.append(csv)
         self.__add_csv_to_dataframe(csv)
 
+
     #def add_txt(self, txt):
         #copy from experiment.py file
 
     #def add_json(self, json):
         #copy from ecperiment sample_read_json_file
 
+    # Read Multiple CSV Files from a Folder
+        # https://sparkbyexamples.com/pandas/pandas-read-multiple-csv-files/
     #def add_CSV_files_from_folder(self, path=None):
+
     #def add_txt_files_from_folder(self, path=None):
     #def add_json_files_from_folder(self, path=None):
-
     #def add_files_from_folder(self, path=None):
 
-    # Get CSV files list
+
     def output_csv_list(self):
         for csv in range(len(self.csv_files)):
             print(self.csv_files[csv])
