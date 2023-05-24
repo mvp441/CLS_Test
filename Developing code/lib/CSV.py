@@ -51,8 +51,8 @@ class CSVList:
 
     def read_csv_file(self):
         for csv in self.csv_files:
-            self.add_csv_to_dictionary(csv)
-            # self.__add_csv_to_dataframe(csv)
+            #self.add_csv_to_dictionary(csv)  # new
+            self.__add_csv_to_dataframe(csv)  # old
 
     def csv_to_df(self, csv):
         data_frame = pd.read_csv(csv)
@@ -70,7 +70,7 @@ class CSVList:
             "original_dataframe": self.csv_to_df(csv),
             "modified_dataframe": None
         }
-        #self.__add_csv_to_dataframe(csv)
+        self.__add_csv_to_dataframe(csv)  # old
         self.dataframe_dictionary_list.append(dataframe_info)
 
     def __add_csv_to_dataframe(self, csv):
@@ -90,11 +90,11 @@ class CSVList:
         # check if one or more csv files passed in
         # if more than one file loop through all
         # add each one as follows still
-        #self.list_of_file_names.append(csv)  # should be in but add again because initalized since missing type check
+        self.list_of_file_names.append(csv)  # should be in but add again because initalized since missing type check
         self.csv_files.append(csv)
-        self.add_csv_to_dictionary(csv)
+        #self.add_csv_to_dictionary(csv)
         #self.csv_files.append(csv)
-        #self.__add_csv_to_dataframe(csv)
+        self.__add_csv_to_dataframe(csv)
 
 
 
@@ -115,7 +115,7 @@ class CSVList:
 
     # Construct master dataframe from list of modified (or original if no modified) dataframes
     def construct_master_dataframe(self, data_frame):
-        if len(self.dataframe.columns.to_list()) == 0:
+        if len(self.master_dataframe.columns.to_list()) == 0:
             self.master_dataframe = data_frame
         else:
             self.master_dataframe = pd.merge(self.dataframe, data_frame, how="outer", on=['Timestamp'])
