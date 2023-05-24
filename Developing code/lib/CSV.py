@@ -32,14 +32,23 @@ class CSVList:
     #def add_file(self):
 
 
+    # input file name(s) to add
+    # add file names to list
+    # go through list
+    #   create dictionary entry for each file
+    #       store file name
+    #       convert file to dataframe
+    #       save original dataframe in dictionary
+    #   store dictionary entry in list
+    # create master dataframe from list
+
 
     def read_csv_file(self):
-        # remove redundancy with add_csv by reading csv into dictionary item in list
         for csv in self.csv_files:
             self.add_csv_to_dictionary(csv)
             # self.__add_csv_to_dataframe(csv)
 
-    def csv_to_dic(self, csv):
+    def csv_to_df(self, csv):
         data_frame = pd.read_csv(csv)
         data_frame["Timestamp"] = data_frame["Timestamp"].apply(pd.to_datetime)
         return data_frame
@@ -48,7 +57,7 @@ class CSVList:
     # https://www.educative.io/answers/how-to-create-a-dictionary-of-data-frames-in-python
         dataframe_info = {
             "file_name": csv,
-            "original_dataframe": self.csv_to_dic(csv),
+            "original_dataframe": self.csv_to_df(csv),
             "modified_dataframe": None
         }
         #self.__add_csv_to_dataframe(csv)
