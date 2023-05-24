@@ -7,6 +7,13 @@ pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 from tabulate import tabulate
 
+
+# create list of dictionaries of files
+# each dictionary has a file_name, raw_data, and data_frame
+# [{file_name: 'example.ext', dataframe: {}]
+
+
+
 class CSVList:
     def __init__(self, csv_files):
         self.csv_files = csv_files  # Consider renaming to list_of_file_names
