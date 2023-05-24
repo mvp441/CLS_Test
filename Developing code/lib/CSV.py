@@ -10,6 +10,7 @@ from tabulate import tabulate
 class CSVList:
     def __init__(self, csv_files):
         self.csv_files = csv_files
+        #self.dataframe_list = pd.DataFrame()
         self.dataframe = pd.DataFrame()
         # create dictionary to store original data in before fill or editing
         #self.original_data {}
@@ -18,6 +19,8 @@ class CSVList:
 
     # Read Multiple CSV Files from a Folder
     # https://sparkbyexamples.com/pandas/pandas-read-multiple-csv-files/
+
+    # Get CSV files list from a folder
 
 
     def read_csv(self):
@@ -45,6 +48,13 @@ class CSVList:
 
     #def add_json(self, json):
         #copy from ecperiment sample_read_json_file
+
+    #def add_CSV_files_from_folder(self, path=None):
+    #def add_txt_files_from_folder(self, path=None):
+    #def add_json_files_from_folder(self, path=None):
+
+    #def add_files_from_folder(self, path=None):
+
 
     def sort_by_column(self, columns):
         self.dataframe.sort_values(columns)
