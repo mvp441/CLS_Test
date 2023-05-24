@@ -1,3 +1,4 @@
+import glob
 import pandas as pd
 from pandas._libs.algos import backfill
 
@@ -13,6 +14,11 @@ class CSVList:
         # create dictionary to store original data in before fill or editing
         #self.original_data {}
         self.read_csv()
+
+
+    # Read Multiple CSV Files from a Folder
+    # https://sparkbyexamples.com/pandas/pandas-read-multiple-csv-files/
+
 
     def read_csv(self):
         for csv in self.csv_files:
