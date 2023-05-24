@@ -60,6 +60,8 @@ def currently_testing(csv_1, csv_2):
     #test_calculate_correlation_matrix(csv_list)
     #test_output_correlation_matrix(csv_list)
 
+    print('done testing')
+
 def tested_working(csv_1, csv_2):
     csv_list = CSV.CSVList([csv_1])
     test_csv_add(csv_list, csv_2)
