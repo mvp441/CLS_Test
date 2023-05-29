@@ -119,7 +119,7 @@ class CSVList:
          #   self.master_dataframe = data_frame
         #else:
             #self.master_dataframe = pd.merge(self.dataframe, data_frame, how="outer", on=['Timestamp'])
-        self.master_dataframe = pd.concat(self.dataframe_list, ignore_index=True)
+        self.master_dataframe = pd.concat(self.dataframe_list, ignore_index=True, sort=False)
 
     def output_csv_list(self):
         for csv in range(len(self.csv_files)):

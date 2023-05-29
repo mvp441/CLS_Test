@@ -79,5 +79,5 @@ csv_1 = "../PV Data/Trip 1 data/gLYHVdm+.csv"
 csv_2 = '../PV Data/Trip 1 data/tdL5QoZo.csv'
 
 currently_testing(csv_1, csv_2)
-#tested_working(csv_1, csv_2)
+tested_working(csv_1, csv_2)
 
