@@ -9,6 +9,8 @@ pd.set_option('display.width', 1000)
 from tabulate import tabulate
 
 
+# ADD CATCH STATEMENTS TO ALL IF ELSE STATEMENTS
+
 # create list of dictionaries of files
 # each dictionary has a file_name, raw_data, and data_frame
 # [{file_name: 'example.ext', dataframe: {}]
