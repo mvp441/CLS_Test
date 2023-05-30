@@ -52,22 +52,15 @@ def test_output_correlation_matrix(csv_list):
 #Pandas3: plotting
 #
 
-def currently_testing(csv_1, csv_2):
-    csv_list = CSV.CSVList([csv_1])
+def currently_testing(csv_list, csv_file=None):
+     # test readding the same files
+    #test_csv_add(csv_list, csv_file)  # adding same file twice shouldn't add data
 
-    #test_output_dataframe_to_console(csv_list)
-
-    test_csv_add(csv_list, csv_2)  # test readding the same files
-    #test_csv_add(csv_list, csv_2)  # adding same file twice shouldn't add data
-
-
-    #test_calculate_correlation_matrix(csv_list)
+    test_calculate_correlation_matrix(csv_list)
     #test_output_correlation_matrix(csv_list)
 
     #test adding other file types
-
     #test removing files
-
     print('done testing')
 
 def tested_working(csv_1, csv_2):
@@ -83,9 +76,15 @@ def tested_working(csv_1, csv_2):
     test_drop_na_values(csv_list)
     test_fill_na_values(csv_list, 'pad') # test with  float, mean, median, mode, backfill, bfill, ffill, and pad - works with 5
     test_interpolate_data(csv_list, 'linear') # works with linear and polynomial 1, try other orders
-csv_1 = "../PV Data/Trip 1 data/gLYHVdm+.csv"
-csv_2 = '../PV Data/Trip 1 data/tdL5QoZo.csv'
 
-currently_testing(csv_1, csv_2)
+def file_setup():
+    csv_1 = "../PV Data/Trip 1 data/gLYHVdm+.csv"
+    csv_2 = '../PV Data/Trip 1 data/tdL5QoZo.csv'
+    csv_list = CSV.CSVList([csv_1])
+    test_csv_add(csv_list, csv_2)
+    return csv_list
+
+csv_list = file_setup()
+currently_testing(csv_list)
 #tested_working(csv_1, csv_2)
 
