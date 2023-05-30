@@ -24,9 +24,10 @@ class CSVList:
         self.dataframe_list = []  # List of dataframes
         self.dataframe_dictionary_list = []  # List of dictionary of dataframes
         self.master_dataframe = pd.DataFrame()  # Concatenated all Dataframes
-        self.original_data = {}  # create dictionary to store original data in before fill or editing
+        #self.original_data = {}  # create dictionary to store original data in before fill or editing
 
         self.read_csv_file()
+        #self.add_csv()
 
 
     # Read Multiple CSV Files from a Folder
@@ -51,8 +52,8 @@ class CSVList:
 
     def read_csv_file(self):
         for csv in self.csv_files:
-            #self.add_csv_to_dictionary(csv)  # new
-            self.__add_csv_to_dataframe(csv)  # old
+            self.add_csv_to_dictionary(csv)  # new
+            #self.__add_csv_to_dataframe(csv)  # old
 
     def csv_to_df(self, csv):
         data_frame = pd.read_csv(csv)
@@ -73,10 +74,10 @@ class CSVList:
         self.__add_csv_to_dataframe(csv)  # old
         self.dataframe_dictionary_list.append(dataframe_info)
 
-    def __add_csv_to_dataframe(self, csv):
+    def __add_csv_to_dataframe(self, csv):  # original function used before reformating
         # change to convert csv to dataframe and store in dictionary
         data_frame = pd.read_csv(csv)
-        self.dataframe_list.append(data_frame)
+        #self.dataframe_list.append(data_frame)
         #self.original_data[csv] = data_frame
         data_frame["Timestamp"] = data_frame["Timestamp"].apply(pd.to_datetime)
         if len(self.dataframe.columns.to_list()) == 0:
@@ -115,11 +116,10 @@ class CSVList:
 
     # Construct master dataframe from list of modified (or original if no modified) dataframes
     def construct_master_dataframe(self, data_frame):
-        #if len(self.master_dataframe.columns.to_list()) == 0:
-         #   self.master_dataframe = data_frame
-        #else:
-            #self.master_dataframe = pd.merge(self.dataframe, data_frame, how="outer", on=['Timestamp'])
-        self.master_dataframe = pd.concat(self.dataframe_list, ignore_index=True, sort=False)
+        if len(self.master_dataframe.columns.to_list()) == 0:
+            self.master_dataframe = data_frame
+        else:
+            self.master_dataframe = pd.concat(self.dataframe_list, ignore_index=True, sort=False)
 
     def output_csv_list(self):
         for csv in range(len(self.csv_files)):
