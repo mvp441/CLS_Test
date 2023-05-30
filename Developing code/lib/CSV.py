@@ -218,13 +218,13 @@ class CSVList:
         elif method == 'polynomial':
             if str(order) == '1':
                 self.dataframe = self.dataframe.interpolate(method='polynomial', order=1, inplace=True)
-            if order == 2:
+            elif order == 2:
                 self.dataframe = self.dataframe.interpolate(method='polynomial', order=2, inplace=True)
-            if order == 3:
+            elif order == 3:
                 self.dataframe = self.dataframe.interpolate(method='polynomial', order=3, inplace=True)
-            if order == 4:
+            elif order == 4:
                 self.dataframe = self.dataframe.interpolate(method='polynomial', order=4, inplace=True)
-            if order == 5:
+            elif order == 5:
                 self.dataframe = self.dataframe.interpolate(method='polynomial', order=5, inplace=True)
 
     # JUST STARTING TO WRITE
