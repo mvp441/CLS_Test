@@ -50,6 +50,10 @@ class CSVList:
     # create master dataframe from list
 
 
+    # file type detection
+    # https://stackoverflow.com/questions/54698130/determine-if-a-file-is-more-likely-json-or-csv
+
+
     def read_csv_file(self):
         for csv in self.csv_files:
             self.add_csv_to_dictionary(csv)  # new
