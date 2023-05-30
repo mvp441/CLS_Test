@@ -210,6 +210,8 @@ class CSVList:
 
 
     def interpolate_data(self, method='polynomial', order=1):
+        # Could try using match case instead of if-else statements
+        # https://learnpython.com/blog/python-match-case-statement/
         if method == 'polynomial':
             if order == 1:
                 self.dataframe = self.dataframe.interpolate(method='polynomial', order=1, inplace=True)
