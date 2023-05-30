@@ -2,7 +2,7 @@ from lib import CSV
 
 def test_csv_add(csv_list, csv_2):
     csv_list.add_csv(csv_2)
-    print(csv_list.print_columns())
+    #print(csv_list.print_columns())
 
 def test_output_csv_list(csv_list):
     csv_list.output_csv_list()
