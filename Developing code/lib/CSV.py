@@ -119,6 +119,8 @@ class CSVList:
         if len(self.master_dataframe.columns.to_list()) == 0:
             self.master_dataframe = data_frame
         else:
+            # 4. Assigning Keys to the Concatenated DataFrame Indexes
+            # https://www.digitalocean.com/community/tutorials/pandas-concat-examples
             self.master_dataframe = pd.concat(self.dataframe_list, ignore_index=True, sort=False)
 
     def output_csv_list(self):
@@ -205,7 +207,7 @@ class CSVList:
     # HAS NOT BEEN CHECKED YET
     def interpolate_data(self, method='polynomial', order=None):
         self.dataframe = self.dataframe.interpolate(method='polynomial', order=1)
-        self.dataframe = self.dataframe.fillna(0)
+        #self.dataframe = self.dataframe.fillna(0)
 
     #JUST STARTING TO WRITE
     def calculate_correlation(self, check_list=None):
