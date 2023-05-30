@@ -209,11 +209,13 @@ class CSVList:
                 self.dataframe.fillna(method='pad', inplace=True)
 
 
-    def interpolate_data(self, method='polynomial', order=1):
+    def interpolate_data(self, method='polynomial', order=5):
         # Could try using match case instead of if-else statements
         # https://learnpython.com/blog/python-match-case-statement/
-        if method == 'polynomial':
-            if order == 1:
+        if method == 'linear':
+             self.dataframe.interpolate(method='linear', inplace=True)
+        elif method == 'polynomial':
+            if str(order) == '1':
                 self.dataframe = self.dataframe.interpolate(method='polynomial', order=1, inplace=True)
             if order == 2:
                 self.dataframe = self.dataframe.interpolate(method='polynomial', order=2, inplace=True)
