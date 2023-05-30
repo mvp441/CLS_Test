@@ -183,8 +183,8 @@ class CSVList:
         self.dataframe.dropna(axis='rows', inplace=True)
 
     # NOT ALL HAVE CURRENTLY PASSED WORKING TEST
-    def fill_na_values(self, method):
-        print(type(method))
+    def fill_na_values(self, method='pad'):
+        #print(type(method))
         if type(method) == int or type(method) == float:
             self.dataframe.fillna(method, axis='rows', inplace=True)  # Has been initially tested and is working at the moment
         elif method in ['mean', 'median', 'mode']:
@@ -209,7 +209,17 @@ class CSVList:
 
 
     def interpolate_data(self, method='polynomial', order=1):
-        self.dataframe = self.dataframe.interpolate(method=method, order=order)
+        if method == 'polynomial':
+            if order == 1:
+                self.dataframe = self.dataframe.interpolate(method='polynomial', order=1, inplace=True)
+            if order == 2:
+                self.dataframe = self.dataframe.interpolate(method='polynomial', order=2, inplace=True)
+            if order == 3:
+                self.dataframe = self.dataframe.interpolate(method='polynomial', order=3, inplace=True)
+            if order == 4:
+                self.dataframe = self.dataframe.interpolate(method='polynomial', order=4, inplace=True)
+            if order == 5:
+                self.dataframe = self.dataframe.interpolate(method='polynomial', order=5, inplace=True)
 
     # JUST STARTING TO WRITE
     # HAS NOT BEEN CHECKED YET

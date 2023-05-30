@@ -38,7 +38,7 @@ def test_fill_na_values(csv_list, fill):
     csv_list.output_dataframe_to_console()
 
 def test_interpolate_data(csv_list):
-    csv_list.interpolate_data()
+    csv_list.interpolate_data('polynomial', 1)
     csv_list.output_datafram_to_console()
 
 def test_calculate_correlation_matrix(csv_list):
@@ -54,6 +54,7 @@ def test_output_correlation_matrix(csv_list):
 
 def currently_testing(csv_1, csv_2):
     csv_list = CSV.CSVList([csv_1])
+    test_csv_add(csv_list, csv_2)  # test readding the same files
     test_csv_add(csv_list, csv_2)  # test readding the same files
 
     test_interpolate_data(csv_list)
