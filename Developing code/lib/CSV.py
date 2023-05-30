@@ -208,12 +208,11 @@ class CSVList:
                 self.dataframe.fillna(method='pad', inplace=True)
 
 
-    # HAS NOT BEEN CHECKED YET
     def interpolate_data(self, method='polynomial', order=None):
         self.dataframe = self.dataframe.interpolate(method='polynomial', order=1)
-        #self.dataframe = self.dataframe.fillna(0)
 
-    #JUST STARTING TO WRITE
+    # JUST STARTING TO WRITE
+    # HAS NOT BEEN CHECKED YET
     def calculate_correlation(self, check_list=None):
         position = 0
         if check_list is None:
@@ -230,7 +229,7 @@ class CSVList:
             print(PV)
 
 
-    #include plotting helper functions? Or fill in DataPlotter class?
+    #include plotting helper functions? Or filvcl in DataPlotter class?
     
 
 
