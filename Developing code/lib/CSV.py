@@ -208,8 +208,8 @@ class CSVList:
                 self.dataframe.fillna(method='pad', inplace=True)
 
 
-    def interpolate_data(self, method='polynomial', order=None):
-        self.dataframe = self.dataframe.interpolate(method='polynomial', order=1)
+    def interpolate_data(self, method='polynomial', order=1):
+        self.dataframe = self.dataframe.interpolate(method=method, order=order)
 
     # JUST STARTING TO WRITE
     # HAS NOT BEEN CHECKED YET
