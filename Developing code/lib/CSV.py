@@ -53,6 +53,7 @@ class CSVList:
     # file type detection
     # https://stackoverflow.com/questions/54698130/determine-if-a-file-is-more-likely-json-or-csv
 
+    # add check for if file has already been added
 
     def read_csv_file(self):
         for csv in self.csv_files:
