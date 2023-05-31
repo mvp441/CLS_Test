@@ -130,6 +130,13 @@ class CSVList:
             # https://www.digitalocean.com/community/tutorials/pandas-concat-examples
             self.master_dataframe = pd.concat(self.dataframe_list, ignore_index=True, sort=False)
 
+    def select_dataframe(self, data_frame='master_dataframe'):
+        print('something')
+        #self.dataframe = self.
+
+    def set_dataframe_as_master(self):
+        self.dataframe = copy.deepcopy(self.master_dataframe)
+
     def output_csv_list(self):
         for csv in range(len(self.csv_files)):
             print(self.csv_files[csv])
@@ -187,7 +194,6 @@ class CSVList:
 
     # NOT ALL HAVE CURRENTLY PASSED WORKING TEST
     def fill_na_values(self, method='pad'):
-        #print(type(method))
         if type(method) == int or type(method) == float:
             self.dataframe.fillna(method, axis='rows', inplace=True)  # Has been initially tested and is working at the moment
         elif method in ['mean', 'median', 'mode']:
@@ -209,15 +215,18 @@ class CSVList:
                 self.dataframe.fillna(method='ffill', inplace=True)
             if method == 'pad':  # Has been initially tested and is working at the moment
                 self.dataframe.fillna(method='pad', inplace=True)
+        # Add catch statement/check default
 
 
-    def interpolate_data(self, method='polynomial', order=5):
+    def interpolate_data(self, method='polynomial', order=5):  # Check default works without options
         # Could try using match case instead of if-else statements
         # https://learnpython.com/blog/python-match-case-statement/
+        # Check method is a valid option
         if order == None:
             if method == 'linear':
                 self.dataframe.interpolate(method='linear', inplace=True)
         elif method == 'polynomial':
+            # typecheck order is int
             if str(order) == '1':
                 self.dataframe.interpolate(method='polynomial', order=1, inplace=True)
             elif str(order) == '2':
@@ -228,6 +237,7 @@ class CSVList:
                 self.dataframe.interpolate(method='polynomial', order=4, inplace=True)
             elif str(order) == '5':
                 self.dataframe.interpolate(method='polynomial', order=5, inplace=True)
+            # add catch for negative/fractional/higher orders entered
 
     # JUST STARTING TO WRITE
     # HAS NOT BEEN CHECKED YET
