@@ -79,7 +79,7 @@ class CSVList:
             "original_dataframe": self.csv_to_df(csv),
             "modified_dataframe": None
         }
-        self.__add_csv_to_dataframe(csv)  # old
+        #self.__add_csv_to_dataframe(csv)  # old
         self.dataframe_dictionary_list.append(dataframe_info)
 
     def __add_csv_to_dataframe(self, csv):  # original function used before reformating
@@ -91,7 +91,7 @@ class CSVList:
         if len(self.dataframe.columns.to_list()) == 0:
             self.dataframe = data_frame
         else:
-            self.dataframe = pd.merge(self.dataframe, data_frame, how="outer", on=['Timestamp'])
+            self.dataframe = pd.merge(self.dataframe, data_frame, how="outer", on=['Timestamp'])  # USES MERGE INSTEAD OF CONCAT
 
     # modify to add in multiple csv files at a time
     # instead of modifying this function create which adds all in the list
@@ -102,8 +102,8 @@ class CSVList:
         self.list_of_file_names.append(csv)  # should be in but add again because initalized since missing type check
         self.csv_files.append(csv)
         self.add_csv_to_dictionary(csv)
-        self.csv_files.append(csv)
-        self.__add_csv_to_dataframe(csv)
+        #self.csv_files.append(csv)
+        #self.__add_csv_to_dataframe(csv)
 
 
 
