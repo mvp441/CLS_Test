@@ -1,5 +1,11 @@
 from lib import CSV
 
+#def test_read_csv_file(csv_file):
+
+#def test_csv_to_df(csv):
+
+#def test_add_csv_to_dictionary(csv):
+
 def test_csv_add(csv_list, csv_2):
     csv_list.add_csv(csv_2)
     #print(csv_list.print_columns())
@@ -7,8 +13,13 @@ def test_csv_add(csv_list, csv_2):
 def test_output_csv_list(csv_list):
     csv_list.output_csv_list()
 
+#def test_construct_master_dataframe(csv_list):
+
 def test_select_dataframe(csv_list, dataframe_name):
     csv_list.select_dataframe(dataframe_name)
+
+#def test_set_dataframe_as_master(csv_lsit, dataframe='master_dataframe')
+    #csv_list.set_dataframe_as_master(dataframe)
 
 def test_get_column_names(csv_list):
     column_names = csv_list.get_column_names()
@@ -31,6 +42,8 @@ def test_get_list_descriptions(csv_list):
 def test_get_dictionary_descriptions(csv_list):
     desc = csv_list.get_dictionary_description()
     print(desc)
+
+#def test_remove_columns(csv_list, columns):
 
 def test_drop_na_values(csv_list):
     csv_list.drop_na_values()
