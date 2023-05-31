@@ -219,15 +219,15 @@ class CSVList:
                 self.dataframe.interpolate(method='linear', inplace=True)
         elif method == 'polynomial':
             if str(order) == '1':
-                self.dataframe = self.dataframe.interpolate(method='polynomial', order=1, inplace=True)
+                self.dataframe.interpolate(method='polynomial', order=1, inplace=True)
             elif order == 2:
-                self.dataframe = self.dataframe.interpolate(method='polynomial', order=2, inplace=True)
+                self.dataframe.interpolate(method='polynomial', order=2, inplace=True)
             elif order == 3:
-                self.dataframe = self.dataframe.interpolate(method='polynomial', order=3, inplace=True)
+                self.dataframe.interpolate(method='polynomial', order=3, inplace=True)
             elif order == 4:
-                self.dataframe = self.dataframe.interpolate(method='polynomial', order=4, inplace=True)
+                self.dataframe.interpolate(method='polynomial', order=4, inplace=True)
             elif order == 5:
-                self.dataframe = self.dataframe.interpolate(method='polynomial', order=5, inplace=True)
+                self.dataframe.interpolate(method='polynomial', order=5, inplace=True)
 
     # JUST STARTING TO WRITE
     # HAS NOT BEEN CHECKED YET
