@@ -124,7 +124,7 @@ class CSVList:
 
     # Construct master dataframe from list of modified (or original if no modified) dataframes
     def construct_master_dataframe(self, data_frame):
-        if len(self.master_dataframe.columns.to_list()) == 0:
+        if len(self.original_master_dataframe.columns.to_list()) == 0:
             self.original_master_dataframe = data_frame
         else:
             # 4. Assigning Keys to the Concatenated DataFrame Indexes
