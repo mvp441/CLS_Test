@@ -123,7 +123,7 @@ class CSVList:
 
 
     # Construct master dataframe from list of modified (or original if no modified) dataframes
-    def construct_master_dataframe(self, data_frame):
+    def construct_master_dataframe(self, data_frame=None):
         if len(self.original_master_dataframe.columns.to_list()) == 0:
             self.original_master_dataframe = data_frame
         else:
@@ -131,11 +131,11 @@ class CSVList:
             # https://www.digitalocean.com/community/tutorials/pandas-concat-examples
             self.original_master_dataframe = pd.concat(self.dataframe_list, ignore_index=True, sort=False)
 
-    def select_dataframe(self, data_frame='master_dataframe', version='modified'):
+    def select_dataframe(self, dataframe_name='master_dataframe', version='modified'):
         dataframe_found = 0
         dataframe_checking = 0
         while dataframe_found != 1:
-            if self.dataframe_dictionary_list[dataframe_checking]['file_name'] == data_frame:
+            if self.dataframe_dictionary_list[dataframe_checking]['file_name'] == dataframe_name:
                 dataframe_found = 1
                 if (version == 'modified' and self.dataframe_dictionary_list[dataframe_checking]['modified_dataframe'] != None):
                     self.dataframe = copy.deepcopy(self.dataframe_dictionary_list[dataframe_checking]['modified_dataframe'])
