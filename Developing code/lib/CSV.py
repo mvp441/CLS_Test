@@ -132,8 +132,12 @@ class CSVList:
             self.original_master_dataframe = pd.concat(self.dataframe_list, ignore_index=True, sort=False)
 
     def select_dataframe(self, data_frame='master_dataframe'):
-        print('something')
-        #self.dataframe = self.
+        dataframe_found = 0
+        dataframe_checking = 0
+        while dataframe_found != 1:
+            if self.dataframe_dictionary_list[dataframe_checking]['file_name'] == data_frame:
+                dataframe_found = 1
+                self.dataframe = copy.deepcopy(self.dataframe_dictionary_list[dataframe_checking]['original_dataframe'])
 
     def set_dataframe_as_master(self):
         self.dataframe = copy.deepcopy(self.master_dataframe)

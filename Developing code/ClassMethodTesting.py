@@ -7,6 +7,9 @@ def test_csv_add(csv_list, csv_2):
 def test_output_csv_list(csv_list):
     csv_list.output_csv_list()
 
+def test_select_dataframe(csv_list, dataframe_name):
+    csv_list.select_dataframe(dataframe_name)
+
 def test_get_column_names(csv_list):
     column_names = csv_list.get_column_names()
     print(column_names)
@@ -62,6 +65,8 @@ def file_setup():
 def currently_testing(csv_list, csv_file=None):
      # test readding the same files
     #test_csv_add(csv_list, csv_file)  # adding same file twice shouldn't add data
+
+    test_select_dataframe('../PV Data/Trip 1 data/gLYHVdm+.csv')
 
     test_interpolate_data(csv_list, 'polynomial', 5)
     test_calculate_correlation_matrix(csv_list)
