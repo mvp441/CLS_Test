@@ -63,7 +63,7 @@ def currently_testing(csv_list, csv_file=None):
      # test readding the same files
     #test_csv_add(csv_list, csv_file)  # adding same file twice shouldn't add data
 
-    test_interpolate_data(csv_list, 'polynomial', 1)
+    test_interpolate_data(csv_list, 'polynomial', 5)
     test_calculate_correlation_matrix(csv_list)
     #test_output_correlation_matrix(csv_list)
 
