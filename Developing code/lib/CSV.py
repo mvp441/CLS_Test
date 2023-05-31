@@ -141,7 +141,7 @@ class CSVList:
                     self.dataframe = copy.deepcopy(self.dataframe_dictionary_list[dataframe_checking]['modified_dataframe'])
                 else:
                     self.dataframe = copy.deepcopy(self.dataframe_dictionary_list[dataframe_checking]['original_dataframe'])
-
+            dataframe_checking += 1
     def set_dataframe_as_master(self):
         self.dataframe = copy.deepcopy(self.master_dataframe)
 
