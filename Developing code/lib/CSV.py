@@ -25,6 +25,7 @@ class CSVList:
         self.dataframe = pd.DataFrame()  # Working dataframe
         self.dataframe_list = []  # List of dataframes
         self.dataframe_dictionary_list = []  # List of dictionary of dataframes
+        self.original_master_dataframe = pd.DataFrame()  # Concatenated all original Dataframes
         self.master_dataframe = pd.DataFrame()  # Concatenated all Dataframes
         #self.original_data = {}  # create dictionary to store original data in before fill or editing
 
@@ -124,11 +125,11 @@ class CSVList:
     # Construct master dataframe from list of modified (or original if no modified) dataframes
     def construct_master_dataframe(self, data_frame):
         if len(self.master_dataframe.columns.to_list()) == 0:
-            self.master_dataframe = data_frame
+            self.original_master_dataframe = data_frame
         else:
             # 4. Assigning Keys to the Concatenated DataFrame Indexes
             # https://www.digitalocean.com/community/tutorials/pandas-concat-examples
-            self.master_dataframe = pd.concat(self.dataframe_list, ignore_index=True, sort=False)
+            self.original_master_dataframe = pd.concat(self.dataframe_list, ignore_index=True, sort=False)
 
     def select_dataframe(self, data_frame='master_dataframe'):
         print('something')
