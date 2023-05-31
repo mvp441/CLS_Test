@@ -58,11 +58,6 @@ class CSVList:
 
     # add check for if file has already been added
 
-    def read_csv_file(self):
-        for csv in self.csv_files:
-            self.add_csv_to_dictionary(csv)  # new
-            #self.__add_csv_to_dataframe(csv)  # old
-
     def csv_to_df(self, csv):
         data_frame = pd.read_csv(csv)
         data_frame["Timestamp"] = data_frame["Timestamp"].apply(pd.to_datetime)
@@ -81,6 +76,11 @@ class CSVList:
         }
         #self.__add_csv_to_dataframe(csv)  # old
         self.dataframe_dictionary_list.append(dataframe_info)
+
+    def read_csv_file(self):
+        for csv in self.csv_files:
+            self.add_csv_to_dictionary(csv)  # new
+            # self.__add_csv_to_dataframe(csv)  # old
 
     def __add_csv_to_dataframe(self, csv):  # original function used before reformating
         # change to convert csv to dataframe and store in dictionary

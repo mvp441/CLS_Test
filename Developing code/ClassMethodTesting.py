@@ -1,12 +1,12 @@
 from lib import CSV
 
-#def test_read_csv_file(csv_file):
-
 #def test_csv_to_df(csv_file):
 
 #def test_add_csv_to_dictionary(csv_file):
 
-def test_csv_add(csv_list, csv_2):
+#def test_read_csv_file(csv_file):
+
+def test_add_csv(csv_list, csv_2):
     csv_list.add_csv(csv_2)
     #print(csv_list.print_columns())
 
@@ -74,12 +74,12 @@ def file_setup():
     csv_1 = "../PV Data/Trip 1 data/gLYHVdm+.csv"
     csv_2 = '../PV Data/Trip 1 data/tdL5QoZo.csv'
     csv_list = CSV.CSVList([csv_1])
-    test_csv_add(csv_list, csv_2)
+    test_add_csv(csv_list, csv_2)
     return csv_list
 
 def currently_testing(csv_list, csv_file=None):
     # test re-adding the same files
-    # test_csv_add(csv_list, csv_file)  # adding same file twice shouldn't add data
+    # test_add_csv(csv_list, csv_file)  # adding same file twice shouldn't add data
 
     test_select_dataframe('../PV Data/Trip 1 data/gLYHVdm+.csv')
 
@@ -94,9 +94,10 @@ def currently_testing(csv_list, csv_file=None):
     print('done testing')
 
 def tested_working(csv_list):
-    # test_read_csv_file(csv_file)
     # test_csv_to_df(csv_file)
     # test_add_csv_to_dictionary(csv_file)
+    # test_read_csv_file(csv_file)
+    # test_add_csv(csv_file)
     # test_construct_master_dataframe(csv_list)
     test_output_csv_list(csv_list)
     test_get_column_names(csv_list)
