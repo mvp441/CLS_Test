@@ -2,9 +2,9 @@ from lib import CSV
 
 #def test_read_csv_file(csv_file):
 
-#def test_csv_to_df(csv):
+#def test_csv_to_df(csv_file):
 
-#def test_add_csv_to_dictionary(csv):
+#def test_add_csv_to_dictionary(csv_file):
 
 def test_csv_add(csv_list, csv_2):
     csv_list.add_csv(csv_2)
@@ -45,6 +45,8 @@ def test_get_dictionary_descriptions(csv_list):
 
 #def test_remove_columns(csv_list, columns):
 
+#def test_removing_files(csv_list, file_name):
+
 def test_drop_na_values(csv_list):
     csv_list.drop_na_values()
     csv_list.output_dataframe_to_console()
@@ -76,20 +78,26 @@ def file_setup():
     return csv_list
 
 def currently_testing(csv_list, csv_file=None):
-     # test readding the same files
-    #test_csv_add(csv_list, csv_file)  # adding same file twice shouldn't add data
+    # test re-adding the same files
+    # test_csv_add(csv_list, csv_file)  # adding same file twice shouldn't add data
 
     test_select_dataframe('../PV Data/Trip 1 data/gLYHVdm+.csv')
 
     test_interpolate_data(csv_list, 'polynomial', 5)
     test_calculate_correlation_matrix(csv_list)
-    #test_output_correlation_matrix(csv_list)
+    # test_output_correlation_matrix(csv_list)
 
-    #test adding other file types
-    #test removing files
+    # test adding other file types
+    # test_remove_columns(csv_list, columns)
+    # test_removing_files(csv_list, file_name)
+
     print('done testing')
 
 def tested_working(csv_list):
+    # test_read_csv_file(csv_file)
+    # test_csv_to_df(csv_file)
+    # test_add_csv_to_dictionary(csv_file)
+    # test_construct_master_dataframe(csv_list)
     test_output_csv_list(csv_list)
     test_get_column_names(csv_list)
     test_get_column_values(csv_list)
@@ -98,8 +106,8 @@ def tested_working(csv_list):
     test_get_list_descriptions(csv_list)
     test_get_dictionary_descriptions(csv_list)
     test_drop_na_values(csv_list)
-    test_fill_na_values(csv_list, 'pad') # test with  float, mean, median, mode, backfill, bfill, ffill, and pad - works with 5
-    test_interpolate_data(csv_list, 'linear') # works with linear and polynomial 1 and 5, try orders 2-4 still
+    test_fill_na_values(csv_list, 'pad')  # test with  float, mean, median, mode, backfill, bfill, ffill, and pad - works with 5
+    test_interpolate_data(csv_list, 'linear')  # works with linear and polynomial 1 and 5, try orders 2-4 still
 
 
 
