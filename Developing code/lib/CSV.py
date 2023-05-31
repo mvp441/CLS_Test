@@ -236,6 +236,7 @@ class CSVList:
         if check_list is None:
             for column in self.dataframe.columns:
                 check_list[position] = column
+        print('done checklist')
         #for PV in check_list:
 
     def calculate_correlation_matrix(self):
