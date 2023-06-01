@@ -266,6 +266,7 @@ class CSVList:
         for PV in correlation_matrix:
             print(PV)
 
+    #add FFT function?
 
     #include plotting helper functions? Or filvcl in DataPlotter class?
     
