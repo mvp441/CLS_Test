@@ -71,6 +71,7 @@ class CSVList:
         dataframe_info = {
             "file_name": csv,
             "file_type": "csv",
+            # add and check "list_of_column_names": self.get_column_names(),
             "original_dataframe": self.csv_to_df(csv),
             "modified_dataframe": None
         }
@@ -267,6 +268,8 @@ class CSVList:
             print(PV)
 
     #add FFT function?
+
+    #frequency map analysis experiment txt page 24
 
     #include plotting helper functions? Or filvcl in DataPlotter class?
     
