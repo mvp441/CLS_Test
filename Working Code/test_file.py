@@ -79,9 +79,13 @@ def json_to_dataframe(json_file):
     # Need to make second dataframe of just json data (anything in a list)
     # add second dataframe to dictionary entry
     dataframe_with_file_info = pd.read_json(json_file)
-    # Create second dataframe of changing variables
-    dataframe_with_changing_data = dataframe_with_file_info.iloc[#]
-    # Use dataframe_with_file_info.iloc[#] to get entire row or .loc['column/variable_name']
+    dataframe_with_changing_data = pd.DataFrame  # Create second dataframe of changing variables
+    dataframe_columns = dataframe_with_file_info.columns.to_list()
+    for i in dataframe_columns:  # loop through all variales in dataframe
+        if dataframe_with_file_info[i] is type(list):  # check if variable has a single value or is a list of values
+            column_with_changing_data = dataframe_with_file_info.iloc[i] # if a list add to second dataframe
+            # Use dataframe_with_file_info.iloc[#] to get entire row or .loc['column/variable_name']
+            #dataframe_with_changing_data append column
     return dataframe_with_file_info, dataframe_with_changing_data
 
 def jsons_to_dataframe_list(filename_list):
