@@ -82,12 +82,12 @@ def test_load_data_to_dictionary():
     json_manager = JSON.JsonManager()
     test_filename_list = json_manager.load_filenames_from_folder()
     test_dictionary_with_file_data = json_manager.json_to_dictionary(test_filename_list[0])
-    test_json_dictionary_list = json_manager.jsons_to_dictionary_list(test_filename_list)
-    test_select_dictionary = json_manager.select_dictionary(test_json_dictionary_list, test_filename_list[0])
-    test_add_dictionary_description = json_manager.add_dictionary_description(test_json_dictionary_list, test_filename_list[0], "Test description 1")
-    test_add_dictionary_description = json_manager.add_experiment_number(test_json_dictionary_list, test_filename_list[0], 2)
-    test_add_to_dictionary1 = json_manager.add_to_dictionary(test_json_dictionary_list, test_filename_list[0], "experiment", 3)
-    test_add_to_dictionary2 = json_manager.add_to_dictionary(test_json_dictionary_list, test_filename_list[0], "description", "Test decription 2")
+    test_json_dictionary_list = json_manager.jsons_to_dictionary_list()
+    test_select_dictionary = json_manager.select_dictionary(test_filename_list[0])
+    test_add_dictionary_description = json_manager.add_dictionary_description(test_filename_list[0], "Test description 1")
+    test_add_dictionary_description = json_manager.add_experiment_number(test_filename_list[0], 2)
+    test_add_to_dictionary1 = json_manager.add_to_dictionary(test_filename_list[0], "experiment", 3)
+    test_add_to_dictionary2 = json_manager.add_to_dictionary(test_filename_list[0], "description", "Test decription 2")
     print('finished test of loading json data into dictionary')
 
 def currently_testing(csv_list, csv_file=None):
