@@ -17,7 +17,7 @@ from tabulate import tabulate
 
 
 
-class CSVList:
+class CSVList:  # Rename to DataManager
     def __init__(self, csv_files):
         self.list_of_file_names = copy.deepcopy(csv_files)  # possibly switch deep copies once type check is set up
         self.csv_files = copy.deepcopy(csv_files)
