@@ -143,7 +143,6 @@ class JsonManager:
             return file_FFT
 
         """
-
         # test_load_data_to_dictionary()
         test_load_data_to_dataframe()
 
