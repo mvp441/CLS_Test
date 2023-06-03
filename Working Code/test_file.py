@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 
 
-def load_filenames_from_folder(folder_location='/home/parmarm/Documents/experiment/Data/tune-data', file_name='/getTbTBPMData_2023-05-07*.json'):
+def load_filenames_from_folder(folder_location='/home/parmarm/Documents/CLS_Test/Data/tune-data', file_name='/getTbTBPMData_2023-05-07*.json'):
     filename_list = glob(folder_location + file_name)
     return filename_list
 

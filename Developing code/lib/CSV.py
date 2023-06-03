@@ -34,7 +34,7 @@ class CSVList:  # Rename to DataManager
         self.master_dataframe = pd.DataFrame()  # Concatenated all Dataframes
         #self.original_data = {}  # create dictionary to store original data in before fill or editing
 
-        self.read_csv_file()
+        self.load_csv_file()
         #self.add_csv()
 
 
@@ -74,7 +74,7 @@ class CSVList:  # Rename to DataManager
 
     # add check for if file has already been added
 
-    def read_csv_file(self):
+    def load_csv_file(self):
         for csv in self.csv_files:
             self.add_csv_to_dictionary(csv)  # new
             # self.__add_csv_to_dataframe(csv)  # old

@@ -4,7 +4,7 @@ from lib import CSV
 
 #def test_add_csv_to_dictionary(csv_file):
 
-#def test_read_csv_file(csv_file):
+#def test_load_csv_file(csv_file):
 
 def test_add_csv(csv_list, csv_2):
     csv_list.add_csv(csv_2)
