@@ -55,17 +55,15 @@ class JsonManager:
             key_list_list.append(key_list)
             i = + 1
 
-
-    def select_dictionary(list_of_json_dictionaries, filename):
+    def select_dictionary(self, filename):
         dictionary_found = 0
         dictionary_checking = 0
         while dictionary_found != 1:
-            if list_of_json_dictionaries[dictionary_checking]['file_name'] == filename:
+            if self.list_of_json_dictionaries[dictionary_checking]['file_name'] == filename:
                 dictionary_found = 1
-                dictionary = list_of_json_dictionaries[dictionary_checking]
+                self.dictionary = self.list_of_json_dictionaries[dictionary_checking]
             dictionary_checking += 1
-        return dictionary
-
+            
     def add_dictionary_description(list_of_json_dictionaries, filename,
                                    description):  # should not need if add works
         dictionary = select_dictionary(list_of_json_dictionaries, filename)
