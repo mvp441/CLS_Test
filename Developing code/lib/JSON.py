@@ -3,7 +3,7 @@ from glob import glob
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-
+import copy
 
 class JsonManager:
     def __init__(self):
@@ -42,9 +42,8 @@ class JsonManager:
         # possibly remove the following two lines for non experiment use or make optional
         self.dictionary["experiment"] = None  # add
         self.dictionary["description"] = None  # to identify and distinguish files
-        self.dictionary, dataframe_with_changing_data = self.json_to_dataframe(self.dictionary["file_name"])
-        self.dictionary["dataframe_with_file_info"] = self.dictionary
-        self.dictionary["changing_data"] = dataframe_with_changing_data
+        self.dictionary["dataframe_with_file_info"] = self.json_to_dataframe()
+        self.dictionary["original_data"] = copy.deepcopy(self.get_json_data())
 
     def jsons_to_dictionary_list(self):
         self.list_of_json_dictionaries = []
@@ -75,25 +74,27 @@ class JsonManager:
         self.select_dictionary(filename)
         self.dictionary[key] = value
 
-    def json_to_dataframe(json_file):
+    def json_to_dataframe(self, json_file):
         # Need to make second dataframe of just json data (anything in a list)
         # add second dataframe to dictionary entry
-        dataframe_with_file_info = pd.read_json(json_file)
-        dataframe_with_changing_data = pd.DataFrame  # Create second dataframe of changing variables
-        dataframe_columns = dataframe_with_file_info.columns.to_list()
+        self.dataframe = pd.read_json(json_file)
+        self.dataframe = pd.DataFrame  # Create second dataframe of changing variables
+
+    def get_json_data(self):
+        # possibly make a second function which deepcopies the dataframe and removes unnecessary columns
+        dataframe_columns = self.dataframe.columns.to_list()
         for i in dataframe_columns:  # loop through all variales in dataframe
-            if dataframe_with_file_info[i] is type(
+            if self.dataframe[i] is type(
                     list):  # check if variable has a single value or is a list of values
-                column_with_changing_data = dataframe_with_file_info.iloc[i]  # if a list add to second dataframe
+                column_with_changing_data = self.dataframe.iloc[i]  # if a list add to second dataframe
                 # Use dataframe_with_file_info.iloc[#] to get entire row or .loc['column/variable_name']
                 # dataframe_with_changing_data append column
-        return dataframe_with_file_info, dataframe_with_changing_data
 
-    def jsons_to_dataframe_list(filename_list):
+    def jsons_to_dataframe_list(self):
         list_of_json_dataframes = []
-        for i in range(len(filename_list)):
-            dataframe_with_file_data = json_to_dataframe(filename_list[i])
-            list_of_json_dataframes.append(dataframe_with_file_data)
+        for i in range(len(self.list_of_file_names)):
+            dataframe_with_file_data = self.json_to_dataframe(self.list_of_file_names[i])
+            self.list_of_json_dataframes.append(dataframe_with_file_data)
             i = + 1
         return list_of_json_dataframes
 
