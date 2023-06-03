@@ -42,7 +42,7 @@ class JsonManager:
         # possibly remove the following two lines for non experiment use or make optional
         self.dictionary["experiment"] = None  # add
         self.dictionary["description"] = None  # to identify and distinguish files
-        self.dictionary, dataframe_with_changing_data = json_to_dataframe(self.dictionary["file_name"])
+        self.dictionary, dataframe_with_changing_data = self.json_to_dataframe(self.dictionary["file_name"])
         self.dictionary["dataframe_with_file_info"] = self.dictionary
         self.dictionary["changing_data"] = dataframe_with_changing_data
 
@@ -50,9 +50,8 @@ class JsonManager:
         self.list_of_json_dictionaries = []
         key_list_list = []
         for i in range(len(self.list_of_file_names)):
-            dictionary_with_file_data, key_list = self.json_to_dictionary(self.list_of_file_names[i])
-            self.list_of_json_dictionaries.append(dictionary_with_file_data)
-            key_list_list.append(key_list)
+            self.json_to_dictionary(self.list_of_file_names[i])
+            self.list_of_json_dictionaries.append(self.dictionary)
             i = + 1
 
     def select_dictionary(self, filename):
@@ -65,18 +64,18 @@ class JsonManager:
             dictionary_checking += 1
 
     def add_dictionary_description(self, filename, description):  # should not need if add works
-        self.dictionary = self.select_dictionary(self.list_of_json_dictionaries, filename)
+        self.select_dictionary(filename)
         self.dictionary["description"] = description
 
     def add_experiment_number(self, filename, experiment_number):  # should not need if add works
-        self.dictionary = self.select_dictionary(self.list_of_json_dictionaries, filename)
+        self.select_dictionary(filename)
         self.dictionary["experiment"] = experiment_number
 
     def add_to_dictionary(self, filename, key, value):
-        self.dictionary = self.select_dictionary(self.list_of_json_dictionaries, filename)
+        self.select_dictionary(filename)
         self.dictionary[key] = value
 
-    def test_load_data_to_dictionary():
+    def test_load_data_to_dictionary(self):
         print('starting test of loading json data into dictionary')
         test_filename_list = load_filenames_from_folder()
         test_dictionary_with_file_data = json_to_dictionary(test_filename_list[0])
