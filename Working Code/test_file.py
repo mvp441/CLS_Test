@@ -10,38 +10,40 @@ class JsonManager:
         self.list_of_file_names = []
         self.list_of_json_files = []
         self.list_of_json_dataframes = []
+        self.dictionary = {}
         self.dataframe = pd.DataFrame()
         self.dataframe_list = []
         self.dataframe_dictionary_list = []
         self.originial_master_datafame = pd.DataFrame()
         self.master_dataframe = pd.DataFrame()
 
-        def load_filenames_from_folder(folder_location='/home/parmarm/Documents/CLS_Test/Data/tune-data',
+        def load_filenames_from_folder(self, folder_location='/home/parmarm/Documents/CLS_Test/Data/tune-data',
                                        file_name='/getTbTBPMData_2023-05-07*.json'):
             self.list_of_file_names = glob(folder_location + file_name)
             return
 
-        def json_to_dictionary(file_name):
+        def json_to_dictionary(self, file_name):
             json_file = open(file_name)
-            dictionary_with_file_data = json.load(json_file)
-            for key_outer in dictionary_with_file_data:
-                data = dictionary_with_file_data[key_outer]
+            self.dictionary = json.load(json_file)
+            for key_outer in self.dictionary:
+                data = self.dictionary[key_outer]
                 for key_inner in data:
                     value = data[key_inner]
-            key = dictionary_with_file_data.keys()[0]
-            key_list = dictionary_with_file_data[key].keys()
-            dictionary_with_file_data["key_list"] = key_list
+            key = self.dictionary.keys()[0]
+            key_list = self.dictionary[key].keys()
+            self.dictionary["key_list"] = key_list
             # key_list.sort() shouldn't be necessary at this point
-            dictionary_with_file_data["file_name"] = file_name
-            self.dataframe_dictionary_list.append(dictionary_with_file_data)
+            self.dictionary["file_name"] = file_name
+            self.add_dictionary_information()
+            self.dataframe_dictionary_list.append(self.dictionary)
 
-        def add_dictionary_information(dictionary_with_file_data):
-            dictionary_with_file_data["experiment"] = None  # add
-            dictionary_with_file_data["description"] = None  # to identify and distinguish files
-            dataframe_with_file_info, dataframe_with_changing_data = json_to_dataframe(
-                dictionary_with_file_data["file_name"])
-            dictionary_with_file_data["dataframe_with_file_info"] = dataframe_with_file_info
-            dictionary_with_file_data["changing_data"] = dataframe_with_changing_data
+        def add_dictionary_information(self):
+            # possibly remove the following two lines for non experiment use or make optional 
+            self.dictionary["experiment"] = None  # add
+            self.dictionary["description"] = None  # to identify and distinguish files
+            self.dictionary, dataframe_with_changing_data = json_to_dataframe(self.dictionary["file_name"])
+            self.dictionary["dataframe_with_file_info"] = self.dictionary
+            self.dictionary["changing_data"] = dataframe_with_changing_data
 
         def jsons_to_dictionary_list(filename_list):
             list_of_json_dictionaries = []
