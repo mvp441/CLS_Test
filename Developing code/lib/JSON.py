@@ -63,20 +63,18 @@ class JsonManager:
                 dictionary_found = 1
                 self.dictionary = self.list_of_json_dictionaries[dictionary_checking]
             dictionary_checking += 1
-            
-    def add_dictionary_description(list_of_json_dictionaries, filename,
-                                   description):  # should not need if add works
-        dictionary = select_dictionary(list_of_json_dictionaries, filename)
-        dictionary["description"] = description
 
-    def add_experiment_number(list_of_json_dictionaries, filename,
-                              experiment_number):  # should not need if add works
-        dictionary = select_dictionary(list_of_json_dictionaries, filename)
-        dictionary["experiment"] = experiment_number
+    def add_dictionary_description(self, filename, description):  # should not need if add works
+        self.dictionary = self.select_dictionary(self.list_of_json_dictionaries, filename)
+        self.dictionary["description"] = description
 
-    def add_to_dictionary(list_of_json_dictionaries, filename, key, value):
-        dictionary = select_dictionary(list_of_json_dictionaries, filename)
-        dictionary[key] = value
+    def add_experiment_number(self, filename, experiment_number):  # should not need if add works
+        self.dictionary = self.select_dictionary(self.list_of_json_dictionaries, filename)
+        self.dictionary["experiment"] = experiment_number
+
+    def add_to_dictionary(self, filename, key, value):
+        self.dictionary = self.select_dictionary(self.list_of_json_dictionaries, filename)
+        self.dictionary[key] = value
 
     def test_load_data_to_dictionary():
         print('starting test of loading json data into dictionary')
