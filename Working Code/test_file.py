@@ -18,8 +18,8 @@ class JsonManager:
 
         def load_filenames_from_folder(folder_location='/home/parmarm/Documents/CLS_Test/Data/tune-data',
                                        file_name='/getTbTBPMData_2023-05-07*.json'):
-            filename_list = glob(folder_location + file_name)
-            return filename_list
+            self.list_of_file_names = glob(folder_location + file_name)
+            return
 
         def json_to_dictionary(file_name):
             json_file = open(file_name)
@@ -33,7 +33,7 @@ class JsonManager:
             dictionary_with_file_data["key_list"] = key_list
             # key_list.sort() shouldn't be necessary at this point
             dictionary_with_file_data["file_name"] = file_name
-            return dictionary_with_file_data, key_list
+            self.dataframe_dictionary_list.append(dictionary_with_file_data)
 
         def add_dictionary_information(dictionary_with_file_data):
             dictionary_with_file_data["experiment"] = None  # add
