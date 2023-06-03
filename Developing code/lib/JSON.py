@@ -46,15 +46,15 @@ class JsonManager:
         self.dictionary["dataframe_with_file_info"] = self.dictionary
         self.dictionary["changing_data"] = dataframe_with_changing_data
 
-    def jsons_to_dictionary_list(self, filename_list):
+    def jsons_to_dictionary_list(self):
         self.list_of_json_dictionaries = []
         key_list_list = []
-        for i in range(len(filename_list)):
-            dictionary_with_file_data, key_list = json_to_dictionary(filename_list[i])
-            list_of_json_dictionaries.append(dictionary_with_file_data)
+        for i in range(len(self.list_of_file_names)):
+            dictionary_with_file_data, key_list = self.json_to_dictionary(self.list_of_file_names[i])
+            self.list_of_json_dictionaries.append(dictionary_with_file_data)
             key_list_list.append(key_list)
             i = + 1
-        return list_of_json_dictionaries, key_list
+
 
     def select_dictionary(list_of_json_dictionaries, filename):
         dictionary_found = 0
