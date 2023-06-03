@@ -38,6 +38,17 @@ class CSVList:  # Rename to DataManager
         #self.add_csv()
 
 
+    def __add_csv_to_dataframe(self, csv):  # original function used before reformating
+        # change to convert csv to dataframe and store in dictionary
+        data_frame = pd.read_csv(csv)
+        #self.dataframe_list.append(data_frame)
+        #self.original_data[csv] = data_frame
+        data_frame["Timestamp"] = data_frame["Timestamp"].apply(pd.to_datetime)
+        if len(self.dataframe.columns.to_list()) == 0:
+            self.dataframe = data_frame
+        else:
+            self.dataframe = pd.merge(self.dataframe, data_frame, how="outer", on=['Timestamp'])  # USES MERGE INSTEAD OF CONCAT
+
     # Read Multiple CSV Files from a Folder
     # https://sparkbyexamples.com/pandas/pandas-read-multiple-csv-files/
 
@@ -63,13 +74,22 @@ class CSVList:  # Rename to DataManager
 
     # add check for if file has already been added
 
-    def csv_to_df(self, csv):
-        data_frame = pd.read_csv(csv)
-        data_frame["Timestamp"] = data_frame["Timestamp"].apply(pd.to_datetime)
-        self.list_of_csv_dataframes.append(data_frame)
-        self.dataframe_list.append(data_frame)
-        self.construct_master_dataframe(data_frame)
-        return data_frame
+    def read_csv_file(self):
+        for csv in self.csv_files:
+            self.add_csv_to_dictionary(csv)  # new
+            # self.__add_csv_to_dataframe(csv)  # old
+
+    # modify to add in multiple csv files at a time
+    # instead of modifying this function create which adds all in the list
+    def add_csv(self, csv):
+        # check if one or more csv files passed in
+        # if more than one file loop through all
+        # add each one as follows still
+        self.list_of_file_names.append(csv)  # should be in but add again because initalized since missing type check
+        self.csv_files.append(csv)
+        self.add_csv_to_dictionary(csv)
+        # self.csv_files.append(csv)
+        # self.__add_csv_to_dataframe(csv)
 
     def add_csv_to_dictionary(self, csv):
     # https://www.educative.io/answers/how-to-create-a-dictionary-of-data-frames-in-python
@@ -83,34 +103,13 @@ class CSVList:  # Rename to DataManager
         #self.__add_csv_to_dataframe(csv)  # old
         self.dataframe_dictionary_list.append(dataframe_info)
 
-    def read_csv_file(self):
-        for csv in self.csv_files:
-            self.add_csv_to_dictionary(csv)  # new
-            # self.__add_csv_to_dataframe(csv)  # old
-
-    def __add_csv_to_dataframe(self, csv):  # original function used before reformating
-        # change to convert csv to dataframe and store in dictionary
+    def csv_to_df(self, csv):
         data_frame = pd.read_csv(csv)
-        #self.dataframe_list.append(data_frame)
-        #self.original_data[csv] = data_frame
         data_frame["Timestamp"] = data_frame["Timestamp"].apply(pd.to_datetime)
-        if len(self.dataframe.columns.to_list()) == 0:
-            self.dataframe = data_frame
-        else:
-            self.dataframe = pd.merge(self.dataframe, data_frame, how="outer", on=['Timestamp'])  # USES MERGE INSTEAD OF CONCAT
-
-    # modify to add in multiple csv files at a time
-    # instead of modifying this function create which adds all in the list
-    def add_csv(self, csv):
-        # check if one or more csv files passed in
-        # if more than one file loop through all
-        # add each one as follows still
-        self.list_of_file_names.append(csv)  # should be in but add again because initalized since missing type check
-        self.csv_files.append(csv)
-        self.add_csv_to_dictionary(csv)
-        #self.csv_files.append(csv)
-        #self.__add_csv_to_dataframe(csv)
-
+        self.list_of_csv_dataframes.append(data_frame)
+        self.dataframe_list.append(data_frame)
+        self.construct_master_dataframe(data_frame)
+        return data_frame
 
 
     #def add_txt(self, txt):
