@@ -107,7 +107,7 @@ def currently_testing(csv_list, csv_file=None):
 
     test_select_dataframe(csv_list, '../PV Data/Trip 1 data/tdL5QoZo.csv')
 
-
+    test_convert_time_interval(csv_list, 'PCT1402-01:timeInterval:fbk')
 
     test_interpolate_data(csv_list, 'polynomial', 1)
     test_calculate_correlation_matrix(csv_list)

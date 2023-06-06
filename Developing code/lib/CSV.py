@@ -94,7 +94,7 @@ class CSVList:  # Rename to DataManager
         # self.__add_csv_to_dataframe(csv)
 
     def add_csv_to_dictionary(self, csv):
-    # https://www.educative.io/answers/how-to-create-a-dictionary-of-data-frames-in-python
+        # https://www.educative.io/answers/how-to-create-a-dictionary-of-data-frames-in-python
         dataframe_info = {
             "file_name": csv,
             "file_type": "csv",
@@ -115,13 +115,13 @@ class CSVList:  # Rename to DataManager
 
 
     #def add_txt(self, txt):
-        #copy from experiment.py file
+    #copy from experiment.py file
 
     #def add_json(self, json):
-        #copy from ecperiment sample_read_json_file
+    #copy from ecperiment sample_read_json_file
 
     # Read Multiple CSV Files from a Folder
-        # https://sparkbyexamples.com/pandas/pandas-read-multiple-csv-files/
+    # https://sparkbyexamples.com/pandas/pandas-read-multiple-csv-files/
     #def add_CSV_files_from_folder(self, path=None):
 
     #def add_txt_files_from_folder(self, path=None):
@@ -151,7 +151,7 @@ class CSVList:  # Rename to DataManager
             dataframe_checking += 1
 
     #def select_dataframe_column(self, dataframe='master_dataframe', column=None):
-        #return dataframe_column
+    #return dataframe_column
 
     def set_dataframe_as_master(self):
         self.dataframe = copy.deepcopy(self.master_dataframe)
@@ -198,11 +198,25 @@ class CSVList:  # Rename to DataManager
         return dataframe_description
 
     def convert_time_interval(self, column=None):
-        for i in self.dataframe.loc[:, column]:
-            if 'min' in self.dataframe.loc[i, column]:
-                self.dataframe.loc[i, column] = datetime.strptime(self.dataframe.loc[i, column], format='%M min %S sec')
+        for i in range(len(self.dataframe.loc[:, column])):
+            if str(self.dataframe.loc[i, column]) != 'nan':
+                offset_time = datetime.datetime(1900, 1, 1)
+                if 'min' in self.dataframe.loc[i, column]:
+                    if 'sec' in self.dataframe.loc[i, column]:
+                        input_time = pd.to_datetime(self.dataframe.loc[i, column].strip(), format='%M min %S sec')
+                        delta = input_time - offset_time
+                        self.dataframe.loc[i, column] = delta.total_seconds()
+                    else:
+                        input_time = pd.to_datetime(self.dataframe.loc[i, column].strip(), format='%M min')
+                        delta = input_time - offset_time
+                        self.dataframe.loc[i, column] = delta.total_seconds()
+                else:
+                    input_time = pd.to_datetime(self.dataframe.loc[i, column].strip(), format='%S sec')
+                    delta = input_time - offset_time
+                    self.dataframe.loc[i, column] = delta.total_seconds()
             else:
-                pd.to_datetime(self.dataframe.loc[i, column], format='%S sec', inplace=True)
+                float(self.dataframe.loc[i, column])
+
 
     def calculate_mean(self, columns=None):  # keep columns=none?
         df_mean = self.dataframe.mean(axis=0, skipna=True)
@@ -277,7 +291,10 @@ class CSVList:  # Rename to DataManager
         #for PV in check_list:
 
     def calculate_correlation_matrix(self):
+        # should interpolate data first so fewer na values
+        # should remove na values remaining after interpolation so as to not throw off correlation calculation
         self.correlation_matrix = self.dataframe.corr() #calculates the pair-wise correlation values between all the columns within a dataframe
+
 
     def output_correlation_matrix(self):
         for PV in self.correlation_matrix:
