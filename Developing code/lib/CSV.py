@@ -182,6 +182,7 @@ class CSVList:  # Rename to DataManager
 
 
     #def remove_columns(self, columns_to_remove):
+        # NEED TO DO NEXT BEFORE CORRELATION
 
 
     def get_list_description(self):
@@ -297,6 +298,10 @@ class CSVList:  # Rename to DataManager
         # should remove na values remaining after interpolation so as to not throw off correlation calculation
         self.drop_na_values()
         # drop all columns with a std of 0
+        column_stds = self.dataframe.std()
+        for i in range(len(column_stds)):
+            if column_stds[i] == 0:
+                self.dataframe = self.dataframe.drop(self.dataframe.columns[[i+1]], axis=1) # +! to account for no timestamp std
         self.correlation_matrix = self.dataframe.corr() #calculates the pair-wise correlation values between all the columns within a dataframe
 
 
