@@ -197,8 +197,12 @@ class CSVList:  # Rename to DataManager
             dataframe_description[column] = self.dataframe[column].describe()
         return dataframe_description
 
-    def convert_time_interval(self):
-        self.dataframe.loc['']
+    def convert_time_interval(self, column=None):
+        for i in self.dataframe.loc[:, column]:
+            if 'min' in self.dataframe.loc[i, column]:
+                self.dataframe.loc[i, column] = datetime.strptime(self.dataframe.loc[i, column], format='%M min %S sec')
+            else:
+                pd.to_datetime(self.dataframe.loc[i, column], format='%S sec', inplace=True)
 
     def calculate_mean(self, columns=None):  # keep columns=none?
         df_mean = self.dataframe.mean(axis=0, skipna=True)

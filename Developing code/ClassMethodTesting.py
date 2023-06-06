@@ -43,6 +43,9 @@ def test_get_dictionary_descriptions(csv_list):
     desc = csv_list.get_dictionary_description()
     print(desc)
 
+def test_convert_time_interval(csv_list, column):
+    csv_list.convert_time_interval(column)
+
 #def test_remove_columns(csv_list, columns):
 
 #def test_removing_files(csv_list, file_name):
@@ -103,6 +106,8 @@ def currently_testing(csv_list, csv_file=None):
     # test_add_csv(csv_list, csv_file)  # adding same file twice shouldn't add data
 
     test_select_dataframe(csv_list, '../PV Data/Trip 1 data/tdL5QoZo.csv')
+
+
 
     test_interpolate_data(csv_list, 'polynomial', 1)
     test_calculate_correlation_matrix(csv_list)
