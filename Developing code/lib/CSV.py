@@ -293,9 +293,10 @@ class CSVList:  # Rename to DataManager
 
     def calculate_correlation_matrix(self):
         # should interpolate data first so fewer na values
-        #self.interpolate_data()
+        self.interpolate_data()
         # should remove na values remaining after interpolation so as to not throw off correlation calculation
-        #self.drop_na_values()
+        self.drop_na_values()
+        # drop all columns with a std of 0
         self.correlation_matrix = self.dataframe.corr() #calculates the pair-wise correlation values between all the columns within a dataframe
 
 
