@@ -216,6 +216,7 @@ class CSVList:  # Rename to DataManager
                     self.dataframe.loc[i, column] = delta.total_seconds()
             else:
                 float(self.dataframe.loc[i, column])
+        self.dataframe[column] = self.dataframe[column].astype(float)
 
 
     def calculate_mean(self, columns=None):  # keep columns=none?
@@ -292,7 +293,9 @@ class CSVList:  # Rename to DataManager
 
     def calculate_correlation_matrix(self):
         # should interpolate data first so fewer na values
+        #self.interpolate_data()
         # should remove na values remaining after interpolation so as to not throw off correlation calculation
+        #self.drop_na_values()
         self.correlation_matrix = self.dataframe.corr() #calculates the pair-wise correlation values between all the columns within a dataframe
 
 
