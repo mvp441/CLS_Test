@@ -120,7 +120,7 @@ class JsonManager:
 
     """
     # test_load_data_to_dictionary()
-    test_load_data_to_dataframe()
+    #test_load_data_to_dataframe()
 
 
 

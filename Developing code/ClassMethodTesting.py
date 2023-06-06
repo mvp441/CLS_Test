@@ -104,11 +104,14 @@ def currently_testing(csv_list, csv_file=None):
 
     test_select_dataframe(csv_list, '../PV Data/Trip 1 data/tdL5QoZo.csv')
 
-    test_interpolate_data(csv_list, 'polynomial', 5)
+    test_interpolate_data(csv_list, 'polynomial', 1)
     test_calculate_correlation_matrix(csv_list)
     test_output_correlation_matrix(csv_list)
 
     # test adding other file types
+    # test_load_data_to_dictionary
+    # test_load_data_to_dataframe()
+
     # test_remove_columns(csv_list, columns)
     # test_removing_files(csv_list, file_name)
 
@@ -129,7 +132,7 @@ def tested_working(csv_list):
     test_get_dictionary_descriptions(csv_list)
     test_drop_na_values(csv_list)
     test_fill_na_values(csv_list, 'pad')  # test with  float, mean, median, mode, backfill, bfill, ffill, and pad - works with 5
-    test_interpolate_data(csv_list, 'linear')  # works with linear and polynomial 1 and 5, try orders 2-4 still
+    test_interpolate_data(csv_list, 'linear')  # works with linear and polynomial 1, but not 5, try orders 2-4 still
 
 
 

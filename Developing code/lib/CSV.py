@@ -197,6 +197,9 @@ class CSVList:  # Rename to DataManager
             dataframe_description[column] = self.dataframe[column].describe()
         return dataframe_description
 
+    def convert_time_interval(self):
+        self.dataframe.loc['']
+
     def calculate_mean(self, columns=None):  # keep columns=none?
         df_mean = self.dataframe.mean(axis=0, skipna=True)
         return df_mean
