@@ -21,7 +21,6 @@ class JsonManager:
     def load_filenames_from_folder(self, folder_location='/home/parmarm/Documents/CLS_Test/Data/tune-data',
                                     file_name='/getTbTBPMData_2023-05-07*.json'):
         self.list_of_file_names = glob(folder_location + file_name)
-        return
 
     def json_to_dictionary(self, file_name):
         json_file = open(file_name)
@@ -97,13 +96,6 @@ class JsonManager:
             self.list_of_json_dataframes.append(dataframe_with_file_data)
             i = + 1
         return list_of_json_dataframes
-
-    def test_load_data_to_dataframe():
-        print('Starting conversion of json to df')
-        test_filename_list = load_filenames_from_folder()
-        test_dataframe_with_file_data = json_to_dataframe(test_filename_list[0])
-        test_json_dataframe_list = jsons_to_dataframe_list(test_filename_list)
-        print('Finished conversion of json to df')
 
     """
 

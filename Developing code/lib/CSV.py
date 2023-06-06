@@ -33,6 +33,8 @@ class CSVList:  # Rename to DataManager
         self.original_master_dataframe = pd.DataFrame()  # Concatenated all original Dataframes
         self.master_dataframe = pd.DataFrame()  # Concatenated all Dataframes
         #self.original_data = {}  # create dictionary to store original data in before fill or editing
+        self.correlation_matrix = pd.DataFrame
+        self.correlation_pairs_list = []
 
         self.load_csv_file()
         #self.add_csv()
@@ -157,6 +159,7 @@ class CSVList:  # Rename to DataManager
     def output_csv_list(self):
         for csv in range(len(self.csv_files)):
             print(self.csv_files[csv])
+        #test print(self.csv_files)?
 
     def sort_by_column(self, columns):
         self.dataframe.sort_values(columns)
@@ -267,11 +270,10 @@ class CSVList:  # Rename to DataManager
         #for PV in check_list:
 
     def calculate_correlation_matrix(self):
-        return self.dataframe.corr() #calculates the pair-wise correlation values between all the columns within a dataframe
+        self.correlation_matrix = self.dataframe.corr() #calculates the pair-wise correlation values between all the columns within a dataframe
 
     def output_correlation_matrix(self):
-        correlation_matrix = self.calculate_correlation_matrix()
-        for PV in correlation_matrix:
+        for PV in self.correlation_matrix:
             print(PV)
 
     #add FFT function?

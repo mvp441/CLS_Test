@@ -60,8 +60,8 @@ def test_interpolate_data(csv_list, method, order=None):
     csv_list.output_dataframe_to_console()
 
 def test_calculate_correlation_matrix(csv_list):
-    correlation_matrix = csv_list.calculate_correlation_matrix()
-    print(correlation_matrix)
+    csv_list.calculate_correlation_matrix()
+    csv_list.output_correlation_matrix()
 
 def test_output_correlation_matrix(csv_list):
     csv_list.output_correlation_matrix()
@@ -76,6 +76,14 @@ def file_setup():
     csv_list = CSV.CSVList([csv_1])
     test_add_csv(csv_list, csv_2)
     return csv_list
+
+def test_load_data_to_dataframe():
+    print('Starting conversion of json to df')
+    json_manager = JSON.JsonManager()
+    test_filename_list = json_manager.load_filenames_from_folder()
+    test_dataframe_with_file_data = json_manager.json_to_dataframe(test_filename_list[0])
+    test_json_dataframe_list = json_manager.jsons_to_dataframe_list(test_filename_list)
+    print('Finished conversion of json to df')
 
 def test_load_data_to_dictionary():
     print('starting test of loading json data into dictionary')
@@ -98,7 +106,7 @@ def currently_testing(csv_list, csv_file=None):
 
     test_interpolate_data(csv_list, 'polynomial', 5)
     test_calculate_correlation_matrix(csv_list)
-    # test_output_correlation_matrix(csv_list)
+    test_output_correlation_matrix(csv_list)
 
     # test adding other file types
     # test_remove_columns(csv_list, columns)
