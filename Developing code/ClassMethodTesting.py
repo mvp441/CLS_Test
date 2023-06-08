@@ -20,6 +20,9 @@ def test_output_csv_list(csv_data):
 def test_select_dataframe(csv_data, dataframe_name):
     csv_data.select_dataframe(dataframe_name)
 
+def test_modify_dataframe(csv_data):
+    csv_data.modify_dataframe()
+
 #def test_set_dataframe_as_master(csv_lsit, dataframe='master_dataframe')
     #csv_list.set_dataframe_as_master(dataframe)
 
@@ -120,9 +123,9 @@ def currently_testing(csv_data, csv_file=None):
     # test adding other file types
     # test_load_data_to_dictionary
     # test_load_data_to_dataframe()
-
-    # test_remove_columns(csv_list, columns)
-    # test_removing_files(csv_list, file_name)
+    test_modify_dataframe(csv_data)
+    # test_remove_columns(csv_data, columns)
+    # test_removing_files(csv_data, file_name)
 
     print('done testing')
 

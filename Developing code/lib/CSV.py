@@ -38,7 +38,7 @@ class CsvManger:  # Rename to DataManager
             "list_of_column_names": [],
             "original_dataframe": self.master_dataframe,
             "modified_dataframe": None,
-            "modification_history": None
+            "modification_history": []
         }
         self.correlation_matrix = pd.DataFrame
         self.correlation_pairs_list = []
@@ -106,7 +106,7 @@ class CsvManger:  # Rename to DataManager
             "list_of_column_names": self.get_column_names(),
             "original_dataframe": self.dataframe,
             "modified_dataframe": None,
-            "modification_history": None
+            "modification_history": []
         }
         # self.__add_csv_to_dataframe(csv)  # old
         self.list_of_file_dictionaries.append(dataframe_info)
@@ -174,7 +174,8 @@ class CsvManger:  # Rename to DataManager
         self.dataframe_list_position = 0
         dataframe_found = False
         while dataframe_found is not True:
-            if dataframe_name == 'master_dataframe':
+            if dataframe_name == 'master_dataframe'
+                dataframe_found = True
                 if modified and self.master_dictionary['modified_dataframe'] is not None:
                     self.dataframe = copy.deepcopy(self.master_dictionary['modified_dataframe'])
                 else:
@@ -217,6 +218,7 @@ class CsvManger:  # Rename to DataManager
             self.interpolate_data(method, order)
         # save modified dataframe
         self.file_dictionary['modified_dataframe'] = self.dataframe  # might need to deep copy
+        self.file_dictionary['modification_history'].append(method)
 
 
         # eventually save all versions into a list of dictionaries containing the modified dataframe and modification history
