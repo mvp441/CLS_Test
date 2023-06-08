@@ -84,6 +84,9 @@ class CSVList:  # Rename to DataManager
 
     # file type detection
     # https://stackoverflow.com/questions/54698130/determine-if-a-file-is-more-likely-json-or-csv
+    # just check extension and split into lists of file names by each type
+
+
 
     # add check for if file has already been added
 
@@ -95,9 +98,6 @@ class CSVList:  # Rename to DataManager
     # modify to add in multiple csv files at a time
     # instead of modifying this function create which adds all in the list
     def add_csv(self, csv):
-        # check if one or more csv files passed in
-        # if more than one file loop through all
-        # add each one as follows still
         self.list_of_file_names.append(csv)  # should be in but add again because initalized since missing type check
         self.csv_files.append(csv)
         self.add_csv_to_dictionary(csv)
@@ -216,7 +216,7 @@ class CSVList:  # Rename to DataManager
 
 
     #def select_dataframe_column(self, dataframe='master_dataframe', column=None):
-    #return dataframe_column
+
 
     def set_dataframe_as_master(self):
         self.dataframe = copy.deepcopy(self.master_dataframe)
