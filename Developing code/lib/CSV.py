@@ -13,20 +13,14 @@ pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 from tabulate import tabulate
 
-
 # ADD CATCH STATEMENTS TO ALL IF ELSE STATEMENTS
 
-# create list of dictionaries of files
-# each dictionary has a file_name, raw_data, and data_frame
-# [{file_name: 'example.ext', dataframe: {}]
-
-
-class CSVList:  # Rename to DataManager
+class CsvManger:  # Rename to DataManager
     def __init__(self, csv_files):
         self.list_of_all_file_names = copy.deepcopy(csv_files)  # possibly switch deep copies once type check is set up
         self.list_of_csv_file_names = copy.deepcopy(csv_files)
         self.list_of_csv_dataframes = []
-        self.dataframe = pd.DataFrame()  # Currnetly selected dataframe
+        self.dataframe = pd.DataFrame()  # Currently selected dataframe
         self.dataframe_file_name = None  # Filename of currently selected dataframe
         self.list_of_file_dataframes = []  # List of current dataframes from each file
         self.dataframe_list_position = 0
@@ -52,7 +46,7 @@ class CSVList:  # Rename to DataManager
         self.load_csv_file()
         # self.add_csv()
 
-    def __add_csv_to_dataframe(self, csv):  # original function used before reformating
+    def __add_csv_to_dataframe(self, csv):  # original function used before reformatting
         # change to convert csv to dataframe and store in dictionary
         data_frame = pd.read_csv(csv)
         # self.dataframe_list.append(data_frame)
@@ -61,8 +55,7 @@ class CSVList:  # Rename to DataManager
         if len(self.dataframe.columns.to_list()) == 0:
             self.dataframe = data_frame
         else:
-            self.dataframe = pd.merge(self.dataframe, data_frame, how="outer",
-                                      on=['Timestamp'])  # USES MERGE INSTEAD OF CONCAT
+            self.dataframe = pd.merge(self.dataframe, data_frame, how="outer", on=['Timestamp'])  # USES MERGE INSTEAD OF CONCAT
 
     # Read Multiple CSV Files from a Folder
     # https://sparkbyexamples.com/pandas/pandas-read-multiple-csv-files/
@@ -93,11 +86,10 @@ class CSVList:  # Rename to DataManager
             self.add_csv_to_dictionary(csv)  # new - check if it should just be add_csv function
             # self.__add_csv_to_dataframe(csv)  # old
 
-    # modify to add in multiple csv files at a time
-    # instead of modifying this function create which adds all in the list
+    # modify to add in multiple csv files at a time instead of modifying this function create which adds all in the list
     def add_csv(self, csv):
         self.list_of_all_file_names.append(
-            csv)  # should be in but add again because initalized since missing type check
+            csv)  # should be in but add again because initialized since missing type check
         self.list_of_csv_file_names.append(csv)
         self.add_csv_to_dictionary(csv)
         # self.csv_files.append(csv)
@@ -130,10 +122,10 @@ class CSVList:  # Rename to DataManager
         self.dataframe["Timestamp"] = self.dataframe["Timestamp"].apply(pd.to_datetime)
 
     # def add_txt(self, txt):
-    # copy from experiment.py file
+    # copy from experiment.py file or make TxtManager class file?
 
     # def add_json(self, json):
-    # copy from experiment sample_read_json_file
+    # copy from JsonManager class file?
 
     # Read Multiple CSV Files from a Folder
     # https://sparkbyexamples.com/pandas/pandas-read-multiple-csv-files/
@@ -296,8 +288,7 @@ class CSVList:  # Rename to DataManager
     # NOT ALL HAVE CURRENTLY PASSED WORKING TEST
     def fill_na_values(self, method='pad'):
         if type(method) == int or type(method) == float:
-            self.dataframe.fillna(method, axis='rows',
-                                  inplace=True)  # Has been initially tested and is working at the moment
+            self.dataframe.fillna(method, axis='rows', inplace=True)  # Has been initially tested and is working at the moment
         elif method in ['mean', 'median', 'mode']:
             if method == 'mean':
                 column_fill_values = self.calculate_mean()
@@ -359,8 +350,7 @@ class CSVList:  # Rename to DataManager
         column_stds = self.dataframe.std()
         for i in range(len(column_stds)):
             if column_stds[i] == 0:
-                self.dataframe = self.dataframe.drop(self.dataframe.columns[[i + 1]],
-                                                     axis=1)  # +! to account for no timestamp std
+                self.dataframe = self.dataframe.drop(self.dataframe.columns[[i + 1]], axis=1)  # +! to account for no timestamp std
         self.correlation_matrix = self.dataframe.corr()  # calculates the pair-wise correlation values between all the columns within a dataframe
 
     def output_correlation_matrix(self):

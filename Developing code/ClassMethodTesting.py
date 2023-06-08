@@ -76,7 +76,7 @@ def test_output_correlation_matrix(csv_list):
 def file_setup():
     csv_1 = "../PV Data/Trip 1 data/gLYHVdm+.csv"
     csv_2 = '../PV Data/Trip 1 data/tdL5QoZo.csv'
-    csv_list = CSV.CSVList([csv_1])
+    csv_list = CSV.CsvManger([csv_1])
     test_add_csv(csv_list, csv_2)
     return csv_list
 
