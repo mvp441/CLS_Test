@@ -1,5 +1,7 @@
 from lib import CSV, JSON
 
+'''Possibly consider making entire file a class for testing with each FiletypeManager as it's own instance and turning functions into helper ones'''
+
 #def test_csv_to_df(csv_file):
 
 #def test_add_csv_to_dictionary(csv_file):
