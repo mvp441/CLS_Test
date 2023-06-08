@@ -156,7 +156,7 @@ class CsvManger:  # Rename to DataManager
             self.master_dictionary["modified_dataframe"] = self.master_dataframe
         self.master_dictionary["list_of_column_names"] = self.master_dataframe.columns.to_list()
 
-    def get_dataframe_file_name(self): 
+    def get_dataframe_file_name(self):
         if self.dataframe_list_position == len(self.list_of_file_dictionaries):
             self.dataframe_file_name = 'master'
         else:
@@ -166,9 +166,9 @@ class CsvManger:  # Rename to DataManager
         file_found = False
         self.file_list_position = 0
         while file_found is not True:
-            if file_name == 'master_dataframe':
+            if file_name == 'master':
                 file_found = True
-                self.file_dictionary = copy.deepcopy(self.master_dictionary)
+                self.file_dictionary = self.master_dictionary
             if self.list_of_file_dictionaries[self.file_list_position]['file_name'] == file_name:
                 file_found = True
                 self.file_dictionary = self.list_of_file_dictionaries[self.file_list_position]
@@ -183,7 +183,7 @@ class CsvManger:  # Rename to DataManager
             if dataframe_name == 'master':
                 dataframe_found = True
                 if modified and self.master_dictionary['modified_dataframe'] is not None:
-                    self.dataframe = copy.deepcopy(self.master_dictionary['modified_dataframe'])
+                    self.dataframe = self.master_dictionary['modified_dataframe']
                 else:
                     self.dataframe = copy.deepcopy(self.master_dictionary['original_dataframe'])
                 self.dataframe_file_name = 'master'
@@ -198,7 +198,10 @@ class CsvManger:  # Rename to DataManager
                 self.dataframe_list_position += 1
             else:
                 dataframe_found = True
-                self.dataframe = copy.deepcopy(self.master_dataframe)
+                if modified and self.master_dictionary['modified_dataframe'] is not None:
+                    self.dataframe = self.master_dictionary['modified_dataframe']
+                else:
+                    self.dataframe = copy.deepcopy(self.master_dictionary['original_dataframe'])
                 self.dataframe_file_name = 'master'
                 self.dataframe_list_position += 1
 
@@ -207,7 +210,7 @@ class CsvManger:  # Rename to DataManager
             # possibly save current file before so that can reload it after if different
             self.get_dataframe_file_name()
             self.select_file_dictionary(self.dataframe_file_name)
-            self.file_dictionary['modified_dataframe'] = copy.deepcopy(self.dataframe)
+            self.file_dictionary['modified_dataframe'] = self.dataframe
             self.dataframe = pd.DataFrame
 
     def modify_dataframe(self, dataframe=None, dataframe_name='master', modified=False, method=None, order=1):
