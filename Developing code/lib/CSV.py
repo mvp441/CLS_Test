@@ -161,7 +161,7 @@ class CsvManger:  # Rename to DataManager
 
     def select_file_dictionary(self, file_name):
         file_found = False
-        self.dataframe_list_position = 0
+        self.file_list_position = 0
         while file_found is not True:
             if self.list_of_file_dictionaries[self.file_list_position]['file_name'] == file_name:
                 file_found = True
@@ -191,16 +191,26 @@ class CsvManger:  # Rename to DataManager
             self.file_dictionary['modified_dataframe'] = copy.deepcopy(self.dataframe)
             self.dataframe = pd.DataFrame
 
-    def modify_dataframe(self, dataframe=None, dataframe_name='master_dataframe', modified=False, method=None):
+    def modify_dataframe(self, dataframe=None, dataframe_name='master_dataframe', modified=False, method=None, order=1):
         # check if dataframe to modify was specified
         # select dataframe to modify
         if dataframe is None:
             self.select_dataframe(dataframe_name, modified)
         else:
             self.dataframe = dataframe
+            self.get_dataframe_file_name()
+        # get file dataframe is associated with
+        self.select_file_dictionary()
         # check modification method
+        if method == 'drop':
             # modify
+            self.drop_na_values()
+        elif method in ['mean', 'median', 'mode', 'backfill', 'bfill', 'ffill', 'pad']:
+            self.fill_na_values(method)
+        else:
+            self.interpolate_data(method, order)
         # save modified dataframe
+        self.file_dictionary['modified_dataframe'] = self.dataframe  # might need to deep copy
 
 
         # eventually save all versions into a list of dictionaries containing the modified dataframe and modification history
