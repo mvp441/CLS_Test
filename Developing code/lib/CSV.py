@@ -233,6 +233,7 @@ class CsvManger:  # Rename to DataManager
             self.interpolate_data(method, order)
         # save modified dataframe
         self.file_dictionary['modified_dataframe'] = self.dataframe  # might need to deep copy
+        # test modifying the dataframe after and seeing if both change
         self.file_dictionary['modification_history'].append(method)
 
 
