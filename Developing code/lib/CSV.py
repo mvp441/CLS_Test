@@ -34,15 +34,15 @@ class CSVList:  # Rename to DataManager
         self.file_dictionary = {} # Currently selected file
         self.list_of_file_dictionaries = []  # List of dictionaries for each file
         self.file_list_position = 0
-        self.master_dataframe_dictionary = {
-            "file_name": "master_dataframe",
-            "original_dataframe" : None,
-            "modified_dataframe" : None,
-            "modification_history" : None
-        }
         self.list_of_original_dataframes = []
         self.original_master_dataframe = pd.DataFrame()  # Concatenated all original Dataframes
         self.master_dataframe = pd.DataFrame()  # Concatenated all Dataframes
+        self.master_dataframe_dictionary = {
+            "file_name": "master_dataframe",
+            "original_dataframe": self.original_master_dataframe,
+            "modified_dataframe": self.master_dataframe,
+            "modification_history": None
+        }
         #self.original_data = {}  # create dictionary to store original data in before fill or editing
         self.correlation_matrix = pd.DataFrame
         self.correlation_pairs_list = []
@@ -142,29 +142,29 @@ class CSVList:  # Rename to DataManager
     #def add_files_from_folder(self, path=None):
 
 
-    def construct_original_master_dataframe(self, data_frame=None):
+    def construct_original_master_dataframe(self):
         if len(self.original_master_dataframe.columns.to_list()) == 0:
-            self.original_master_dataframe = data_frame
+            self.original_master_dataframe = self.dataframe
         else:
-            # 4. Assigning Keys to the Concatenated DataFrame Indexes
+            # 4. Assigning Keys to the Concatenated DataFrame Indexes to distinguish each individual dataframe from list within master
             # https://www.digitalocean.com/community/tutorials/pandas-concat-examples
             self.original_master_dataframe = pd.concat(self.list_of_original_dataframes, ignore_index=True, sort=False)
 
-    def construct_modified_master_dataframe(self, data_frame=None):
+    def construct_modified_master_dataframe(self):
         if len(self.master_dataframe.columns.to_list()) == 0:
-            self.master_dataframe = data_frame
+            self.master_dataframe = self.dataframe
         else:
-            # 4. Assigning Keys to the Concatenated DataFrame Indexes
+            # 4. Assigning Keys to the Concatenated DataFrame Indexes to distinguish each individual dataframe from list within master
             # https://www.digitalocean.com/community/tutorials/pandas-concat-examples
             self.master_dataframe = pd.concat(self.list_of_file_dataframes, ignore_index=True, sort=False)
 
     # Construct master dataframe from list of modified (or original if no modified) dataframes
-    def construct_master_dataframe_dictionary(self, data_frame=None):
+    def construct_master_dataframe_dictionary(self):
         self.construct_original_master_dataframe()
         self.construct_modified_master_dataframe()
         self.master_dataframe_dictionary = {
-            "original_dataframe" : self.original_master_dataframe,
-            "modified_dataframe" : self.master_dataframe
+            "original_dataframe": self.original_master_dataframe,
+            "modified_dataframe": self.master_dataframe
             }
 
     def select_file_dictionary(self, file_name):
@@ -203,7 +203,7 @@ class CSVList:  # Rename to DataManager
         #select dataframe to modify if n
         if dataframe is None:
             self.select_dataframe(dataframe_name, original)
-        else:
+        #else:
 
         #eventually save all versions into a list of dictionaries containing the modified dataframe and modification history
 
@@ -373,7 +373,7 @@ class CSVList:  # Rename to DataManager
     #frequency map analysis experiment txt page 24
 
     #include plotting helper functions? Or filvcl in DataPlotter class?
-    
+
 
 
 
