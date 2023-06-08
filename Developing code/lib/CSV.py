@@ -164,7 +164,8 @@ class CsvManger:  # Rename to DataManager
         self.file_list_position = 0
         while file_found is not True:
             if file_name == 'master_dataframe':
-
+                file_found = True
+                self.file_dictionary = copy.deepcopy(self.master_dictionary)
             if self.list_of_file_dictionaries[self.file_list_position]['file_name'] == file_name:
                 file_found = True
                 self.file_dictionary = self.list_of_file_dictionaries[self.file_list_position]
@@ -182,6 +183,7 @@ class CsvManger:  # Rename to DataManager
                     self.dataframe = copy.deepcopy(self.master_dictionary['modified_dataframe'])
                 else:
                     self.dataframe = copy.deepcopy(self.master_dictionary['original_dataframe'])
+                self.dataframe_file_name = 'master'
             if self.list_of_file_dictionaries[self.dataframe_list_position]['file_name'] == dataframe_name:
                 dataframe_found = True
                 if modified and self.list_of_file_dictionaries[self.dataframe_list_position]['modified_dataframe'] is not None:
@@ -189,8 +191,11 @@ class CsvManger:  # Rename to DataManager
                 else:
                     self.dataframe = copy.deepcopy(self.list_of_file_dictionaries[self.dataframe_list_position]['original_dataframe'])
                 self.dataframe_file_name = dataframe_name
-            else:
+            if self.dataframe_list_position + 1 < len(self.list_of_file_dictionaries):
                 self.dataframe_list_position += 1
+            else:
+                self.dataframe = copy.deepcopy(self.master_dataframe)
+                self.dataframe_file_name = 'master'
 
     def unselect_dataframe(self):
         if self.dataframe is not None:
