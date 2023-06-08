@@ -34,7 +34,7 @@ class CsvManger:  # Rename to DataManager
         # dataframes (current, master, original, modified, file type)
         self.master_dataframe = pd.DataFrame()  # Concatenated all Dataframes
         self.master_dictionary = {
-            "file_name": "master_dataframe",
+            "file_name": "master",
             "list_of_column_names": [],
             "original_dataframe": self.master_dataframe,
             "modified_dataframe": None,
@@ -163,18 +163,20 @@ class CsvManger:  # Rename to DataManager
         file_found = False
         self.file_list_position = 0
         while file_found is not True:
+            if file_name == 'master_dataframe':
+
             if self.list_of_file_dictionaries[self.file_list_position]['file_name'] == file_name:
                 file_found = True
                 self.file_dictionary = self.list_of_file_dictionaries[self.file_list_position]
             else:
                 self.file_list_position += 1
 
-    def select_dataframe(self, dataframe_name='master_dataframe', modified=True):
+    def select_dataframe(self, dataframe_name='master', modified=True):
         self.unselect_dataframe()
         self.dataframe_list_position = 0
         dataframe_found = False
         while dataframe_found is not True:
-            if dataframe_name == 'master_dataframe'
+            if dataframe_name == 'master':
                 dataframe_found = True
                 if modified and self.master_dictionary['modified_dataframe'] is not None:
                     self.dataframe = copy.deepcopy(self.master_dictionary['modified_dataframe'])
@@ -198,7 +200,7 @@ class CsvManger:  # Rename to DataManager
             self.file_dictionary['modified_dataframe'] = copy.deepcopy(self.dataframe)
             self.dataframe = pd.DataFrame
 
-    def modify_dataframe(self, dataframe=None, dataframe_name='master_dataframe', modified=False, method=None, order=1):
+    def modify_dataframe(self, dataframe=None, dataframe_name='master', modified=False, method=None, order=1):
         # check if dataframe to modify was specified
         # select dataframe to modify
         if dataframe is None:
@@ -207,7 +209,7 @@ class CsvManger:  # Rename to DataManager
             self.dataframe = dataframe
             self.get_dataframe_file_name()
         # get file dataframe is associated with
-        self.select_file_dictionary()
+        self.select_file_dictionary(dataframe_name)
         # check modification method
         if method == 'drop':
             # modify
