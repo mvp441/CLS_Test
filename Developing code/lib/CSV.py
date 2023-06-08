@@ -157,7 +157,7 @@ class CsvManger:  # Rename to DataManager
         self.master_dictionary["list_of_column_names"] = self.master_dataframe.columns.to_list()
 
     def get_dataframe_file_name(self):
-        return self.list_of_file_dictionaries[self.dataframe_list_position]['file_name']
+        self.dataframe_file_name = self.list_of_file_dictionaries[self.dataframe_list_position]['file_name']
 
     def select_file_dictionary(self, file_name):
         file_found = False
@@ -174,6 +174,11 @@ class CsvManger:  # Rename to DataManager
         self.dataframe_list_position = 0
         dataframe_found = False
         while dataframe_found is not True:
+            if dataframe_name == 'master_dataframe':
+                if modified and self.master_dictionary['modified_dataframe'] is not None:
+                    self.dataframe = copy.deepcopy(self.master_dictionary['modified_dataframe'])
+                else:
+                    self.dataframe = copy.deepcopy(self.master_dictionary['original_dataframe'])
             if self.list_of_file_dictionaries[self.dataframe_list_position]['file_name'] == dataframe_name:
                 dataframe_found = True
                 if modified and self.list_of_file_dictionaries[self.dataframe_list_position]['modified_dataframe'] is not None:
@@ -187,6 +192,7 @@ class CsvManger:  # Rename to DataManager
     def unselect_dataframe(self):
         if self.dataframe is not None:
             # possibly save current file before so that can reload it after if different
+            self.get_dataframe_file_name()
             self.select_file_dictionary(self.dataframe_file_name)
             self.file_dictionary['modified_dataframe'] = copy.deepcopy(self.dataframe)
             self.dataframe = pd.DataFrame
