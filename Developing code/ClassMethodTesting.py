@@ -89,7 +89,6 @@ def file_setup():
 def correlation_setup(csv_data):
     csv_data.select_dataframe('../PV Data/Trip 1 data/tdL5QoZo.csv')  # might not need
     csv_data.convert_time_interval('PCT1402-01:timeInterval:fbk')
-    csv_data.interpolate_data('polynomial', 1)
     csv_data.calculate_correlation_matrix()
     csv_data.output_correlation_matrix()
 

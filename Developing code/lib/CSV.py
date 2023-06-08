@@ -286,6 +286,7 @@ class CsvManger:  # Rename to DataManager
         return dataframe_description
 
     def convert_time_interval(self, column=None):
+        # problem not convering any currently
         for i in range(len(self.dataframe.loc[:, column])):
             if str(self.dataframe.loc[i, column]) != 'nan':
                 offset_time = datetime.datetime(1900, 1, 1)
@@ -346,7 +347,7 @@ class CsvManger:  # Rename to DataManager
                 self.dataframe.fillna(method='pad', inplace=True)
         # Add catch statement/check default
 
-    def interpolate_data(self, method='polynomial', order=5):  # Check default works without options
+    def interpolate_data(self, method='polynomial', order=1):  # Check default works without options
         # Could try using match case instead of if-else statements
         # https://learnpython.com/blog/python-match-case-statement/
         # Check method is a valid option
