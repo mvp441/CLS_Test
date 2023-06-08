@@ -161,9 +161,10 @@ class CSVList:  # Rename to DataManager
     # Construct master dataframe from list of modified (or original if no modified) dataframes
     def construct_master_dataframe_dictionary(self, data_frame=None):
         self.construct_original_master_dataframe()
+        self.construct_modified_master_dataframe()
         self.master_dataframe_dictionary = {
-            "original_dataframe" : self.original_master_dataframe
-
+            "original_dataframe" : self.original_master_dataframe,
+            "modified_dataframe" : self.master_dataframe
             }
 
     def select_file_dictionary(self, file_name):
