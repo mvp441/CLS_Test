@@ -6,68 +6,69 @@ from lib import CSV, JSON
 
 #def test_load_csv_file(csv_file):
 
-def test_add_csv(csv_list, csv_2):
-    csv_list.add_csv(csv_2)
+def test_add_csv(csv_data, csv_file):
+    csv_data.add_csv(csv_file)
     #print(csv_list.print_columns())
 
-def test_output_csv_list(csv_list):
-    csv_list.output_csv_list()
+def test_output_csv_list(csv_data):
+    csv_data.output_csv_list()
 
-#def test_construct_master_dataframe(csv_list):
+#def test_construct_master_dataframe(csv_data):
 
-def test_select_dataframe(csv_list, dataframe_name):
-    csv_list.select_dataframe(dataframe_name)
+def test_select_dataframe(csv_data, dataframe_name):
+    csv_data.select_dataframe(dataframe_name)
 
 #def test_set_dataframe_as_master(csv_lsit, dataframe='master_dataframe')
     #csv_list.set_dataframe_as_master(dataframe)
 
-def test_get_column_names(csv_list):
-    column_names = csv_list.get_column_names()
+def test_get_column_names(csv_data):
+    column_names = csv_data.get_column_names()
     print(column_names)
 
-def test_get_column_values(csv_list):
-    column_names = csv_list.get_column_names()
-    print(csv_list.get_column_values(column_names[0]))
+def test_get_column_values(csv_data):
+    column_names = csv_data.get_column_names()
+    print(csv_data.get_column_values(column_names[0]))
 
-def test_output_dataframe_to_console(csv_list):
-    csv_list.output_dataframe_to_console()
+def test_output_dataframe_to_console(csv_data):
+    csv_data.output_dataframe_to_console()
 
-def test_print_columns(csv_list):
-    csv_list.print_columns()
+def test_print_columns(csv_data):
+    csv_data.print_columns()
 
-def test_get_list_descriptions(csv_list):
-    desc = csv_list.get_list_description()
+def test_get_list_descriptions(csv_data):
+    desc = csv_data.get_list_description()
     print(desc)
 
-def test_get_dictionary_descriptions(csv_list):
-    desc = csv_list.get_dictionary_description()
+def test_get_dictionary_descriptions(csv_data):
+    desc = csv_data.get_dictionary_description()
     print(desc)
 
-def test_convert_time_interval(csv_list, column):
-    csv_list.convert_time_interval(column)
+def test_convert_time_interval(csv_data, column):
+    csv_data.convert_time_interval(column)
+    #print time interval data type before and after conversion
 
-#def test_remove_columns(csv_list, columns):
+#def test_remove_columns(csv_data, columns):
 
-#def test_removing_files(csv_list, file_name):
+#def test_removing_files(csv_data, file_name):
 
-def test_drop_na_values(csv_list):
-    csv_list.drop_na_values()
-    csv_list.output_dataframe_to_console()
+def test_drop_na_values(csv_data):
+    csv_data.drop_na_values()
+    csv_data.output_dataframe_to_console()
 
-def test_fill_na_values(csv_list, fill):
-    csv_list.fill_na_values(fill)
-    csv_list.output_dataframe_to_console()
+def test_fill_na_values(csv_data, fill):
+    csv_data.fill_na_values(fill)
+    csv_data.output_dataframe_to_console()
 
-def test_interpolate_data(csv_list, method, order=None):
-    csv_list.interpolate_data(method, order)
-    csv_list.output_dataframe_to_console()
+def test_interpolate_data(csv_data, method, order=None):
+    csv_data.interpolate_data(method, order)
+    csv_data.output_dataframe_to_console()
 
-def test_calculate_correlation_matrix(csv_list):
-    csv_list.calculate_correlation_matrix()
-    csv_list.output_correlation_matrix()
+def test_calculate_correlation_matrix(csv_data):
+    csv_data.calculate_correlation_matrix()
+    csv_data.output_correlation_matrix()
 
-def test_output_correlation_matrix(csv_list):
-    csv_list.output_correlation_matrix()
+def test_output_correlation_matrix(csv_data):
+    csv_data.output_correlation_matrix()
 
 #Present
 #Pandas3: plotting
@@ -76,9 +77,21 @@ def test_output_correlation_matrix(csv_list):
 def file_setup():
     csv_1 = "../PV Data/Trip 1 data/gLYHVdm+.csv"
     csv_2 = '../PV Data/Trip 1 data/tdL5QoZo.csv'
-    csv_list = CSV.CsvManger([csv_1])
-    test_add_csv(csv_list, csv_2)
-    return csv_list
+    csv_data = CSV.CsvManger([csv_1])
+    test_add_csv(csv_data, csv_2)
+    return csv_data
+
+def correlation_setup(csv_data):
+    test_select_dataframe(csv_data, '../PV Data/Trip 1 data/tdL5QoZo.csv')  # might not need
+
+    csv_data.convert_time_interval('PCT1402-01:timeInterval:fbk')
+
+    test_interpolate_data(csv_data, 'polynomial', 1)
+
+    test_calculate_correlation_matrix(csv_data)
+
+    test_output_correlation_matrix(csv_data)
+
 
 def test_load_data_to_dataframe():
     print('Starting conversion of json to df')
@@ -101,17 +114,17 @@ def test_load_data_to_dictionary():
     test_add_to_dictionary2 = json_manager.add_to_dictionary(test_filename_list[0], "description", "Test decription 2")
     print('finished test of loading json data into dictionary')
 
-def currently_testing(csv_list, csv_file=None):
+def currently_testing(csv_data, csv_file=None):
     # test re-adding the same files
     # test_add_csv(csv_list, csv_file)  # adding same file twice shouldn't add data
 
-    test_select_dataframe(csv_list, '../PV Data/Trip 1 data/tdL5QoZo.csv')
+    test_select_dataframe(csv_data, '../PV Data/Trip 1 data/tdL5QoZo.csv')
 
-    test_convert_time_interval(csv_list, 'PCT1402-01:timeInterval:fbk')
+    test_convert_time_interval(csv_data, 'PCT1402-01:timeInterval:fbk')
 
-    test_interpolate_data(csv_list, 'polynomial', 1)
-    test_calculate_correlation_matrix(csv_list)
-    test_output_correlation_matrix(csv_list)
+    test_interpolate_data(csv_data, 'polynomial', 1)
+    test_calculate_correlation_matrix(csv_data)
+    test_output_correlation_matrix(csv_data)
 
     # test adding other file types
     # test_load_data_to_dictionary
@@ -122,26 +135,26 @@ def currently_testing(csv_list, csv_file=None):
 
     print('done testing')
 
-def tested_working(csv_list):
+def tested_working(csv_data):
     # test_csv_to_df(csv_file)
     # test_add_csv_to_dictionary(csv_file)
     # test_read_csv_file(csv_file)
     # test_add_csv(csv_file)
     # test_construct_master_dataframe(csv_list)
-    test_output_csv_list(csv_list)
-    test_get_column_names(csv_list)
-    test_get_column_values(csv_list)
-    test_output_dataframe_to_console(csv_list)
-    test_print_columns(csv_list)
-    test_get_list_descriptions(csv_list)
-    test_get_dictionary_descriptions(csv_list)
-    test_drop_na_values(csv_list)
-    test_fill_na_values(csv_list, 'pad')  # test with  float, mean, median, mode, backfill, bfill, ffill, and pad - works with 5
-    test_interpolate_data(csv_list, 'linear')  # works with linear and polynomial 1, but not 5, try orders 2-4 still
+    test_output_csv_list(csv_data)
+    test_get_column_names(csv_data)
+    test_get_column_values(csv_data)
+    test_output_dataframe_to_console(csv_data)
+    test_print_columns(csv_data)
+    test_get_list_descriptions(csv_data)
+    test_get_dictionary_descriptions(csv_data)
+    test_drop_na_values(csv_data)
+    test_fill_na_values(csv_data, 'pad')  # test with  float, mean, median, mode, backfill, bfill, ffill, and pad - works with 5
+    test_interpolate_data(csv_data, 'linear')  # works with linear and polynomial 1, but not 5, try orders 2-4 still
 
 
 
-csv_list = file_setup()
-currently_testing(csv_list)
-#tested_working(csv_list)
+csv_data = file_setup()
+currently_testing(csv_data)
+#tested_working(csv_data)
 

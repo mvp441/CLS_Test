@@ -224,7 +224,8 @@ class CsvManger:  # Rename to DataManager
         return self.dataframe.loc[:, column]
 
     def output_dataframe_to_console(self):
-        print(tabulate(self.dataframe[1:50], headers='keys', tablefmt='rst'))
+        # https://pypi.org/project/tabulate/ use -o to save in file
+        print(tabulate(self.dataframe, headers='keys', tablefmt='rst'))
 
     def print_columns(self, column_list=None):
         if column_list is None:
