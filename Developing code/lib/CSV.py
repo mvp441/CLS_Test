@@ -123,7 +123,7 @@ class CSVList:  # Rename to DataManager
         self.list_of_original_dataframes.append(data_frame)
         self.list_of_csv_dataframes.append(data_frame)
         self.list_of_file_dataframes.append(data_frame)
-        self.construct_master_dataframe_dictionary(data_frame)
+        self.construct_master_dataframe_dictionary()
         return data_frame
 
 
@@ -162,10 +162,8 @@ class CSVList:  # Rename to DataManager
     def construct_master_dataframe_dictionary(self):
         self.construct_original_master_dataframe()
         self.construct_modified_master_dataframe()
-        self.master_dataframe_dictionary = {
-            "original_dataframe": self.original_master_dataframe,
-            "modified_dataframe": self.master_dataframe
-            }
+        self.master_dataframe_dictionary["original_dataframe"] = self.original_master_dataframe
+        self.master_dataframe_dictionary["modified_dataframe"] = self.master_dataframe
 
     def select_file_dictionary(self, file_name):
         file_found = False
@@ -203,7 +201,7 @@ class CSVList:  # Rename to DataManager
         #select dataframe to modify if n
         if dataframe is None:
             self.select_dataframe(dataframe_name, original)
-        #else:
+        else:
 
         #eventually save all versions into a list of dictionaries containing the modified dataframe and modification history
 
