@@ -156,7 +156,7 @@ class CsvManger:  # Rename to DataManager
             self.master_dictionary["modified_dataframe"] = self.master_dataframe
         self.master_dictionary["list_of_column_names"] = self.master_dataframe.columns.to_list()
 
-    def get_dataframe_file_name(self):
+    def get_dataframe_file_name(self): # might not need anymore
         self.dataframe_file_name = self.list_of_file_dictionaries[self.dataframe_list_position]['file_name']
 
     def select_file_dictionary(self, file_name):
@@ -194,8 +194,10 @@ class CsvManger:  # Rename to DataManager
             if self.dataframe_list_position + 1 < len(self.list_of_file_dictionaries):
                 self.dataframe_list_position += 1
             else:
+                dataframe_found = True
                 self.dataframe = copy.deepcopy(self.master_dataframe)
                 self.dataframe_file_name = 'master'
+                self.dataframe_list_position += 1 # make master dataframe last in list?
 
     def unselect_dataframe(self):
         if self.dataframe is not None:
