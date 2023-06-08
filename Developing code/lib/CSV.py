@@ -24,26 +24,25 @@ from tabulate import tabulate
 
 class CSVList:  # Rename to DataManager
     def __init__(self, csv_files):
-        self.list_of_file_names = copy.deepcopy(csv_files)  # possibly switch deep copies once type check is set up
-        self.csv_files = copy.deepcopy(csv_files)
+        self.list_of_all_file_names = copy.deepcopy(csv_files)  # possibly switch deep copies once type check is set up
+        self.list_of_csv_file_names = copy.deepcopy(csv_files)
         self.list_of_csv_dataframes = []
-        self.dataframe = pd.DataFrame()  # Working dataframe
-        self.dataframe_file_name = None
+        self.dataframe = pd.DataFrame()  # Currnetly selected dataframe
+        self.dataframe_file_name = None  # Filename of currently selected dataframe
         self.list_of_file_dataframes = []  # List of current dataframes from each file
         self.dataframe_list_position = 0
-        self.file_dictionary = {} # Currently selected file
+        self.file_dictionary = {}  # Currently selected file
         self.list_of_file_dictionaries = []  # List of dictionaries for each file
         self.file_list_position = 0
         self.list_of_original_dataframes = []
-        self.original_master_dataframe = pd.DataFrame()  # Concatenated all original Dataframes
         self.master_dataframe = pd.DataFrame()  # Concatenated all Dataframes
-        self.master_dataframe_dictionary = {
+        self.master_dictionary = {
             "file_name": "master_dataframe",
-            "original_dataframe": self.original_master_dataframe,
-            "modified_dataframe": self.master_dataframe,
+            "list_of_column_names": [],
+            "original_dataframe": self.master_dataframe,
+            "modified_dataframe": None,
             "modification_history": None
         }
-        #self.original_data = {}  # create dictionary to store original data in before fill or editing
         self.correlation_matrix = pd.DataFrame
         self.correlation_pairs_list = []
 
@@ -91,26 +90,28 @@ class CSVList:  # Rename to DataManager
     # add check for if file has already been added
 
     def load_csv_file(self):
-        for csv in self.csv_files:
-            self.add_csv_to_dictionary(csv)  # new
+        for csv in self.list_of_csv_file_names:
+            self.add_csv_to_dictionary(csv)  # new - check if it should just be add_csv function
             # self.__add_csv_to_dataframe(csv)  # old
 
     # modify to add in multiple csv files at a time
     # instead of modifying this function create which adds all in the list
     def add_csv(self, csv):
-        self.list_of_file_names.append(csv)  # should be in but add again because initalized since missing type check
-        self.csv_files.append(csv)
+        self.list_of_all_file_names.append(csv)  # should be in but add again because initalized since missing type check
+        self.list_of_csv_file_names.append(csv)
         self.add_csv_to_dictionary(csv)
         # self.csv_files.append(csv)
         # self.__add_csv_to_dataframe(csv)
 
     def add_csv_to_dictionary(self, csv):
         # https://www.educative.io/answers/how-to-create-a-dictionary-of-data-frames-in-python
+        self.csv_to_df(csv)
+        self.convert_csv_timestamp()
         dataframe_info = {
             "file_name": csv,
             "file_type": "csv",
             "list_of_column_names": self.get_column_names(),
-            "original_dataframe": self.csv_to_df(csv),
+            "original_dataframe": self.dataframe,
             "modified_dataframe": None,
             "modification_history": None
         }
@@ -118,13 +119,14 @@ class CSVList:  # Rename to DataManager
         self.list_of_file_dictionaries.append(dataframe_info)
 
     def csv_to_df(self, csv):
-        data_frame = pd.read_csv(csv)
-        data_frame["Timestamp"] = data_frame["Timestamp"].apply(pd.to_datetime)
-        self.list_of_original_dataframes.append(data_frame)
-        self.list_of_csv_dataframes.append(data_frame)
-        self.list_of_file_dataframes.append(data_frame)
-        self.construct_master_dataframe_dictionary()
-        return data_frame
+        self.data_frame = pd.read_csv(csv)
+        self.list_of_original_dataframes.append(self.data_frame)
+        self.list_of_csv_dataframes.append(self.data_frame)
+        self.list_of_file_dataframes.append(self.data_frame)
+        self.construct_master_dataframe_dictionary(modified=False)
+
+    def convert_csv_timestamp(self):
+        self.data_frame["Timestamp"] = self.data_frame["Timestamp"].apply(pd.to_datetime)
 
 
     #def add_txt(self, txt):
@@ -141,29 +143,26 @@ class CSVList:  # Rename to DataManager
     #def add_json_files_from_folder(self, path=None):
     #def add_files_from_folder(self, path=None):
 
-
-    def construct_original_master_dataframe(self):
-        if len(self.original_master_dataframe.columns.to_list()) == 0:
-            self.original_master_dataframe = self.dataframe
-        else:
-            # 4. Assigning Keys to the Concatenated DataFrame Indexes to distinguish each individual dataframe from list within master
-            # https://www.digitalocean.com/community/tutorials/pandas-concat-examples
-            self.original_master_dataframe = pd.concat(self.list_of_original_dataframes, ignore_index=True, sort=False)
-
-    def construct_modified_master_dataframe(self):
+    def construct_master_dataframe(self, modified=True):
+        #check current status of master dataframe
         if len(self.master_dataframe.columns.to_list()) == 0:
             self.master_dataframe = self.dataframe
         else:
             # 4. Assigning Keys to the Concatenated DataFrame Indexes to distinguish each individual dataframe from list within master
             # https://www.digitalocean.com/community/tutorials/pandas-concat-examples
-            self.master_dataframe = pd.concat(self.list_of_file_dataframes, ignore_index=True, sort=False)
+            if modified == True:
+                self.master_dataframe = pd.concat(self.list_of_file_dataframes, ignore_index=True, sort=False)
+            else:
+                self.master_dataframe = pd.concat(self.list_of_original_dataframes, ignore_index=True, sort=False)
 
     # Construct master dataframe from list of modified (or original if no modified) dataframes
-    def construct_master_dataframe_dictionary(self):
-        self.construct_original_master_dataframe()
-        self.construct_modified_master_dataframe()
-        self.master_dataframe_dictionary["original_dataframe"] = self.original_master_dataframe
-        self.master_dataframe_dictionary["modified_dataframe"] = self.master_dataframe
+    def construct_master_dataframe_dictionary(self, modified=True):
+        self.construct_master_dataframe(modified)
+        if modified is not True:
+            self.master_dataframe_dictionary["original_dataframe"] = self.master_dataframe
+        else:
+            self.master_dataframe_dictionary["modified_dataframe"] = self.master_dataframe
+        self.master_dataframe_dictionary["list_of_column_names"] = self.master_dataframe.columns.to_list()
 
     def get_dataframe_file_name(self):
         return self.list_of_file_dictionaries[self.dataframe_list_position]['file_name']
@@ -222,8 +221,8 @@ class CSVList:  # Rename to DataManager
         self.dataframe = copy.deepcopy(self.master_dataframe)
 
     def output_csv_list(self):
-        for csv in range(len(self.csv_files)):
-            print(self.csv_files[csv])
+        for csv in range(len(self.list_of_csv_file_names)):
+            print(self.list_of_csv_file_names[csv])
         #test print(self.csv_files)?
 
     def sort_by_column(self, columns):
