@@ -213,7 +213,7 @@ class CsvManger:  # Rename to DataManager
             self.file_dictionary['modified_dataframe'] = self.dataframe
             self.dataframe = pd.DataFrame
 
-    def modify_dataframe(self, dataframe=None, dataframe_name='master', modified=False, method=None, order=1):
+    def modify_dataframe(self, dataframe=None, dataframe_name='master', modified=False, method='polynomial', order=1):
         # check if dataframe to modify was specified
         # select dataframe to modify
         if dataframe is None:
