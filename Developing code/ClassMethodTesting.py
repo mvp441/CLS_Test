@@ -104,7 +104,7 @@ def test_load_data_to_dictionary():
     print('starting test of loading json data into dictionary')
     json_manager = JSON.JsonManager()
     test_filename_list = json_manager.load_filenames_from_folder()
-    test_dictionary_with_file_data = json_manager.json_to_dictionary(test_filename_list[0])
+    test_dictionary_with_file_data = json_manager.json_to_dictionary(json_manager.list_of_file_names[0])
     test_json_dictionary_list = json_manager.jsons_to_dictionary_list()
     test_select_dictionary = json_manager.select_dictionary(test_filename_list[0])
     test_add_dictionary_description = json_manager.add_dictionary_description(test_filename_list[0], "Test description 1")
@@ -149,5 +149,6 @@ def tested_working(csv_data):
 
 csv_data = file_setup()
 currently_testing(csv_data)
+test_load_data_to_dictionary()
 #tested_working(csv_data)
 
