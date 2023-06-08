@@ -29,7 +29,7 @@ class CSVList:  # Rename to DataManager
         self.list_of_csv_dataframes = []
         self.dataframe = pd.DataFrame()  # Working dataframe
         self.dataframe_list = []  # List of dataframes
-        self.dataframe_dictionary_list = []  # List of dictionary of dataframes
+        self.list_of_dataframe_dictionaries = []  # List of dictionary of dataframes
         self.original_master_dataframe = pd.DataFrame()  # Concatenated all original Dataframes
         self.master_dataframe = pd.DataFrame()  # Concatenated all Dataframes
         #self.original_data = {}  # create dictionary to store original data in before fill or editing
@@ -100,10 +100,11 @@ class CSVList:  # Rename to DataManager
             "file_type": "csv",
             # add and check "list_of_column_names": self.get_column_names(),
             "original_dataframe": self.csv_to_df(csv),
-            "modified_dataframe": None
+            "modified_dataframe": None,
+            "modification_list": None
         }
         #self.__add_csv_to_dataframe(csv)  # old
-        self.dataframe_dictionary_list.append(dataframe_info)
+        self.list_of_dataframe_dictionaries.append(dataframe_info)
 
     def csv_to_df(self, csv):
         data_frame = pd.read_csv(csv)
@@ -138,17 +139,30 @@ class CSVList:  # Rename to DataManager
             # https://www.digitalocean.com/community/tutorials/pandas-concat-examples
             self.original_master_dataframe = pd.concat(self.dataframe_list, ignore_index=True, sort=False)
 
-    def select_dataframe(self, dataframe_name='master_dataframe', version='modified'):
+    def select_dataframe(self, dataframe_name='master_dataframe', original=False):
         dataframe_found = 0
         dataframe_checking = 0
         while dataframe_found != 1:
-            if self.dataframe_dictionary_list[dataframe_checking]['file_name'] == dataframe_name:
+            if self.list_of_dataframe_dictionaries[dataframe_checking]['file_name'] == dataframe_name:
                 dataframe_found = 1
-                if (version == 'modified' and self.dataframe_dictionary_list[dataframe_checking]['modified_dataframe'] != None):
-                    self.dataframe = copy.deepcopy(self.dataframe_dictionary_list[dataframe_checking]['modified_dataframe'])
+                if original != True and self.list_of_dataframe_dictionaries[dataframe_checking]['modified_dataframe'] is not None:
+                    self.dataframe = copy.deepcopy(self.list_of_dataframe_dictionaries[dataframe_checking]['modified_dataframe'])
                 else:
-                    self.dataframe = copy.deepcopy(self.dataframe_dictionary_list[dataframe_checking]['original_dataframe'])
+                    self.dataframe = copy.deepcopy(self.list_of_dataframe_dictionaries[dataframe_checking]['original_dataframe'])
             dataframe_checking += 1
+
+
+    def modify_dataframe(self, dataframe=None, dataframe_name='master_dataframe', version='modified', method=None):
+        #set dataframe modifying
+        if version == 'modified':
+            original = False
+        else:
+            original = True
+        if dataframe is None:
+            self.select_dataframe(dataframe_name, original)
+        else:
+
+
 
     #def select_dataframe_column(self, dataframe='master_dataframe', column=None):
     #return dataframe_column
@@ -265,7 +279,7 @@ class CSVList:  # Rename to DataManager
         # Could try using match case instead of if-else statements
         # https://learnpython.com/blog/python-match-case-statement/
         # Check method is a valid option
-        if order == None:
+        if order is None:
             if method == 'linear':
                 self.dataframe.interpolate(method='linear', inplace=True)
         elif method == 'polynomial':
