@@ -28,9 +28,14 @@ class CSVList:  # Rename to DataManager
         self.csv_files = copy.deepcopy(csv_files)
         self.list_of_csv_dataframes = []
         self.dataframe = pd.DataFrame()  # Working dataframe
-        self.dataframe_list = []  # List of dataframes
+        self.dataframe_file_name = None
+        self.list_of_file_dataframes = []  # List of dataframes
+        self.dataframe_list_position = 0
         self.file_dictionary = {} # Currently selected file
         self.list_of_file_dictionaries = []  # List of dictionary of dataframes
+        self.file_list_position = 0
+        self.master_dataframe_dictionary = {}
+        self.list_of_original_dataframes = []
         self.original_master_dataframe = pd.DataFrame()  # Concatenated all original Dataframes
         self.master_dataframe = pd.DataFrame()  # Concatenated all Dataframes
         #self.original_data = {}  # create dictionary to store original data in before fill or editing
@@ -110,9 +115,10 @@ class CSVList:  # Rename to DataManager
     def csv_to_df(self, csv):
         data_frame = pd.read_csv(csv)
         data_frame["Timestamp"] = data_frame["Timestamp"].apply(pd.to_datetime)
+        self.list_of_original_dataframes.append(data_frame)
         self.list_of_csv_dataframes.append(data_frame)
-        self.dataframe_list.append(data_frame)
-        self.construct_master_dataframe(data_frame)
+        self.list_of_file_dataframes.append(data_frame)
+        self.construct_master_dataframe_dictionary(data_frame)
         return data_frame
 
 
@@ -131,40 +137,49 @@ class CSVList:  # Rename to DataManager
     #def add_files_from_folder(self, path=None):
 
 
-    # Construct master dataframe from list of modified (or original if no modified) dataframes
-    def construct_master_dataframe(self, data_frame=None):
+    def construct_original_master_dataframe(self, data_frame=None):
         if len(self.original_master_dataframe.columns.to_list()) == 0:
             self.original_master_dataframe = data_frame
         else:
             # 4. Assigning Keys to the Concatenated DataFrame Indexes
             # https://www.digitalocean.com/community/tutorials/pandas-concat-examples
-            self.original_master_dataframe = pd.concat(self.dataframe_list, ignore_index=True, sort=False)
+            self.original_master_dataframe = pd.concat(self.list_of_original_dataframes, ignore_index=True, sort=False)
 
-    def select_dataframe(self, dataframe_name='master_dataframe', original=False):
-        dataframe_found = False
-        dataframe_checking = 0
-        while dataframe_found is not True:
-            if self.list_of_file_dictionaries[dataframe_checking]['file_name'] == dataframe_name:
-                dataframe_found = True
-                if original != True and self.list_of_file_dictionaries[dataframe_checking]['modified_dataframe'] is not None:
-                    self.dataframe = self.list_of_file_dictionaries[dataframe_checking]['modified_dataframe'] # maybe shallow copy
-                else:
-                    self.dataframe = copy.deepcopy(self.list_of_file_dictionaries[dataframe_checking]['original_dataframe'])
-            dataframe_checking += 1
+    # Construct master dataframe from list of modified (or original if no modified) dataframes
+    def construct_master_dataframe_dictionary(self, data_frame=None):
+        self.construct_original_master_dataframe()
+        self.master_dataframe_dictionary = {
+            "file_name": "master_dataframe",
+            "original_dataframe" : self.original_master_dataframe
 
-
-    def unselect_dataframe(self):
-
+            }
 
     def select_file_dictionary(self, file_name):
         file_found = False
-        file_checking = 0
         while file_found is not True:
-            if self.list_of_file_dictionaries[file_checking]['file_name'] == file_name:
+            if self.list_of_file_dictionaries[self.file_list_position]['file_name'] == file_name:
                 file_found = True
-                self.file_dictionary =
+                self.file_dictionary = self.list_of_file_dictionaries[self.file_list_position]
+            else:
+                self.file_list_position += 1
 
+    def select_dataframe(self, dataframe_name='master_dataframe', original=False):
+        dataframe_found = False
+        while dataframe_found is not True:
+            if self.list_of_file_dictionaries[self.dataframe_list_position]['file_name'] == dataframe_name:
+                dataframe_found = True
+                if original != True and self.list_of_file_dictionaries[self.dataframe_list_position]['modified_dataframe'] is not None:
+                    self.dataframe = self.list_of_file_dictionaries[self.dataframe_list_position]['modified_dataframe'] # maybe deep copy to save versions later
+                else:
+                    self.dataframe = copy.deepcopy(self.list_of_file_dictionaries[self.dataframe_list_position]['original_dataframe'])
+                self.dataframe_file_name = dataframe_name
+            else:
+                self.dataframe_list_position += 1
 
+    def unselect_dataframe(self):
+        if self.dataframe is not None:
+            #possibly save current file before so that can reload it after if different
+            self.select_file_dictionary()
 
     def modify_dataframe(self, dataframe=None, dataframe_name='master_dataframe', version='modified', method=None):
         #set dataframe version
