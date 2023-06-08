@@ -191,16 +191,17 @@ class CsvManger:  # Rename to DataManager
             self.file_dictionary['modified_dataframe'] = copy.deepcopy(self.dataframe)
             self.dataframe = pd.DataFrame
 
-    def modify_dataframe(self, dataframe=None, dataframe_name='master_dataframe', version='modified', method=None):
-        # set dataframe version
-        if version == 'modified':
-            original = False
-        else:
-            original = True
-        # select dataframe to modify if n
+    def modify_dataframe(self, dataframe=None, dataframe_name='master_dataframe', modified=False, method=None):
+        # check if dataframe to modify was specified
+        # select dataframe to modify
         if dataframe is None:
-            self.select_dataframe(dataframe_name, original)
-        # else:
+            self.select_dataframe(dataframe_name, modified)
+        else:
+            self.dataframe = dataframe
+        # check modification method
+            # modify
+        # save modified dataframe
+
 
         # eventually save all versions into a list of dictionaries containing the modified dataframe and modification history
 
@@ -355,8 +356,7 @@ class CsvManger:  # Rename to DataManager
         self.correlation_matrix = self.dataframe.corr()  # calculates the pair-wise correlation values between all the columns within a dataframe
 
     def output_correlation_matrix(self):
-        for PV in self.correlation_matrix:
-            print(PV)
+        print(tabulate(self.correlation_matrix, headers='keys', tablefmt='rst'))
 
     # add FFT function?
 

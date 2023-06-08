@@ -84,16 +84,11 @@ def file_setup():
     return csv_data
 
 def correlation_setup(csv_data):
-    test_select_dataframe(csv_data, '../PV Data/Trip 1 data/tdL5QoZo.csv')  # might not need
-
+    csv_data.select_dataframe('../PV Data/Trip 1 data/tdL5QoZo.csv')  # might not need
     csv_data.convert_time_interval('PCT1402-01:timeInterval:fbk')
-
-    test_interpolate_data(csv_data, 'polynomial', 1)
-
-    test_calculate_correlation_matrix(csv_data)
-
-    test_output_correlation_matrix(csv_data)
-
+    csv_data.interpolate_data('polynomial', 1)
+    csv_data.calculate_correlation_matrix()
+    csv_data.output_correlation_matrix()
 
 def test_load_data_to_dataframe():
     print('Starting conversion of json to df')
@@ -120,13 +115,7 @@ def currently_testing(csv_data, csv_file=None):
     # test re-adding the same files
     # test_add_csv(csv_list, csv_file)  # adding same file twice shouldn't add data
 
-    test_select_dataframe(csv_data, '../PV Data/Trip 1 data/tdL5QoZo.csv')
-
-    test_convert_time_interval(csv_data, 'PCT1402-01:timeInterval:fbk')
-
-    test_interpolate_data(csv_data, 'polynomial', 1)
-    test_calculate_correlation_matrix(csv_data)
-    test_output_correlation_matrix(csv_data)
+    correlation_setup(csv_data)
 
     # test adding other file types
     # test_load_data_to_dictionary
