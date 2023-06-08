@@ -34,7 +34,10 @@ class CSVList:  # Rename to DataManager
         self.list_of_file_dictionaries = []  # List of dictionaries for each file
         self.file_list_position = 0
         self.list_of_original_dataframes = []
-        #consider making a dictionary of lists 
+        #consider making a dictionary of lists for each thing:
+        # file types: csvs, json, txt (filenames, dataframes, and dictionaries),
+        # filenames (each file type and all),
+        # dataframes (current, master, original, modified, file type)
         self.master_dataframe = pd.DataFrame()  # Concatenated all Dataframes
         self.master_dictionary = {
             "file_name": "master_dataframe",
