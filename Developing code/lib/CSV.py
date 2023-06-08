@@ -197,7 +197,7 @@ class CsvManger:  # Rename to DataManager
                 dataframe_found = True
                 self.dataframe = copy.deepcopy(self.master_dataframe)
                 self.dataframe_file_name = 'master'
-                self.dataframe_list_position += 1 # make master dataframe last in list?
+                self.dataframe_list_position += 1 
 
     def unselect_dataframe(self):
         if self.dataframe is not None:
