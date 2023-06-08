@@ -109,7 +109,7 @@ class CSVList:  # Rename to DataManager
         dataframe_info = {
             "file_name": csv,
             "file_type": "csv",
-            # add and check "list_of_column_names": self.get_column_names(),
+            "list_of_column_names": self.get_column_names(),
             "original_dataframe": self.csv_to_df(csv),
             "modified_dataframe": None,
             "modification_history": None
@@ -131,7 +131,7 @@ class CSVList:  # Rename to DataManager
     #copy from experiment.py file
 
     #def add_json(self, json):
-    #copy from ecperiment sample_read_json_file
+    #copy from experiment sample_read_json_file
 
     # Read Multiple CSV Files from a Folder
     # https://sparkbyexamples.com/pandas/pandas-read-multiple-csv-files/
@@ -165,6 +165,9 @@ class CSVList:  # Rename to DataManager
         self.master_dataframe_dictionary["original_dataframe"] = self.original_master_dataframe
         self.master_dataframe_dictionary["modified_dataframe"] = self.master_dataframe
 
+    def get_dataframe_file_name(self):
+        return self.list_of_file_dictionaries[self.dataframe_list_position]['file_name']
+
     def select_file_dictionary(self, file_name):
         file_found = False
         while file_found is not True:
@@ -190,7 +193,9 @@ class CSVList:  # Rename to DataManager
     def unselect_dataframe(self):
         if self.dataframe is not None:
             #possibly save current file before so that can reload it after if different
-            self.select_file_dictionary()
+            self.select_file_dictionary(self.dataframe_file_name)
+            self.file_dictionary['modified_dataframe'] = copy.deepcopy(self.dataframe)
+            self.dataframe = pd.DataFrame
 
     def modify_dataframe(self, dataframe=None, dataframe_name='master_dataframe', version='modified', method=None):
         #set dataframe version
@@ -201,7 +206,7 @@ class CSVList:  # Rename to DataManager
         #select dataframe to modify if n
         if dataframe is None:
             self.select_dataframe(dataframe_name, original)
-        else:
+        #else:
 
         #eventually save all versions into a list of dictionaries containing the modified dataframe and modification history
 
