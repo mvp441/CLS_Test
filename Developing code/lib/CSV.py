@@ -170,6 +170,7 @@ class CSVList:  # Rename to DataManager
 
     def select_file_dictionary(self, file_name):
         file_found = False
+        self.dataframe_list_position = 0
         while file_found is not True:
             if self.list_of_file_dictionaries[self.file_list_position]['file_name'] == file_name:
                 file_found = True
@@ -178,6 +179,8 @@ class CSVList:  # Rename to DataManager
                 self.file_list_position += 1
 
     def select_dataframe(self, dataframe_name='master_dataframe', original=False):
+        self.unselect_dataframe()
+        self.dataframe_list_position = 0
         dataframe_found = False
         while dataframe_found is not True:
             if self.list_of_file_dictionaries[self.dataframe_list_position]['file_name'] == dataframe_name:
