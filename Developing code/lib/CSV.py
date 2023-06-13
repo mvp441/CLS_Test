@@ -116,6 +116,7 @@ class CsvManger:  # Rename to DataManager
             if len(self.list_of_file_dictionaries) > 1:
                 self.list_of_file_dictionaries.remove(self.list_of_file_dictionaries[len(self.list_of_file_dictionaries)-1])
         self.list_of_file_dictionaries.append(dataframe_info)
+        self.construct_master_dictionary(modified=False)
 
     def csv_to_df(self, csv):
         self.dataframe = pd.read_csv(csv)
@@ -126,7 +127,7 @@ class CsvManger:  # Rename to DataManager
             if len(self.list_of_file_dataframes) > 1:
                 self.list_of_file_dataframes.remove(self.list_of_file_dataframes[len(self.list_of_file_dataframes)-1])
         self.list_of_file_dataframes.append(self.dataframe)
-        self.construct_master_dictionary(modified=False)
+        #self.construct_master_dictionary(modified=False)
 
     def convert_csv_timestamp(self):
         self.dataframe["Timestamp"] = self.dataframe["Timestamp"].apply(pd.to_datetime)
