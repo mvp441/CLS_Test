@@ -410,10 +410,11 @@ class CsvManger:  # Rename to DataManager
     def calculate_correlation_matrix(self):
         # need to convert time values before interpolating (possibly when dataframe is created?)
         self.convert_csv_timestamp()
+        #self.convert_time_interval()
         # should interpolate data first so fewer na values
         self.interpolate_data()
         # should remove na values remaining after interpolation so as to not throw off correlation calculation
-        self.drop_na_values(1)
+        self.drop_na_values()
         # drop all columns with a std of 0
         column_stds = self.dataframe.std()
         for i in range(len(column_stds)):
