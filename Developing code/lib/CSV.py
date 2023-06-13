@@ -102,11 +102,15 @@ class CsvManger:  # Rename to DataManager
         # https://www.educative.io/answers/how-to-create-a-dictionary-of-data-frames-in-python
         self.dataframe_file_name = csv
         self.csv_to_df(csv)
+        if len(self.list_of_file_dictionaries) > 1:
+            self.dataframe_list_position = len(self.list_of_file_dictionaries)-1
+        else:
+            self.dataframe_list_position = len(self.list_of_file_dictionaries)
         self.convert_csv_timestamp()
         dataframe_info = {
             "file_name": csv,
             "file_type": "csv",
-            "list_position": len(self.list_of_file_dictionaries),
+            "list_position": self.dataframe_list_position,
             "list_of_column_names": self.get_column_names(),
             "original_dataframe": self.dataframe,
             "modified_dataframe": None,
@@ -156,7 +160,9 @@ class CsvManger:  # Rename to DataManager
             # 4. Assigning Keys to the Concatenated DataFrame Indexes to distinguish each individual dataframe from list within master
             # https://www.digitalocean.com/community/tutorials/pandas-concat-examples
             if modified:
+                self.list_of_file_dataframes.remove(self.list_of_file_dataframes[len(self.list_of_file_dataframes) - 1])
                 self.master_dataframe = pd.concat(self.list_of_file_dataframes, ignore_index=True, sort=False)
+                self.list_of_file_dataframes.append(self.master_dataframe)
             else:
                 self.master_dataframe = pd.concat(self.list_of_original_dataframes, ignore_index=True, sort=False)
         self.list_of_file_dataframes.append(self.master_dataframe)
@@ -232,9 +238,9 @@ class CsvManger:  # Rename to DataManager
             self.select_dataframe(dataframe_name, modified)
         else:
             self.dataframe = dataframe
-            self.get_dataframe_file_name()
+            self.get_dataframe_file_name()  # doesn't work if list position isn't set from selecting incorrectly
         # get file dataframe is associated with
-        self.select_file_dictionary(dataframe_name)
+        self.select_file_dictionary(self.dataframe_file_name)
         # check modification method
         if method == 'drop':
             # modify

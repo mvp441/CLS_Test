@@ -21,7 +21,7 @@ def test_select_dataframe(csv_data, dataframe_name):
     csv_data.select_dataframe(dataframe_name)
 
 def test_modify_dataframe(csv_data, method='polynomial', order=1):
-    csv_data.modify_dataframe(dataframe=csv_data.list_of_csv_dataframes[0], method=method, order=order)
+    csv_data.modify_dataframe(dataframe=csv_data.list_of_csv_dataframes[1], method=method, order=order)
 
 #def test_set_dataframe_as_master(csv_lsit, dataframe='master_dataframe')
     #csv_list.set_dataframe_as_master(dataframe)
