@@ -122,7 +122,7 @@ class CsvManger:  # Rename to DataManager
         self.list_of_original_dataframes.append(self.dataframe)
         self.list_of_csv_dataframes.append(self.dataframe)
         # if master is at the end of list remove it before adding new one
-        if self.list_of_file_dictionaries is not None:
+        if self.list_of_file_dataframes is not None:
             if len(self.list_of_file_dataframes) > 1:
                 self.list_of_file_dataframes.remove(self.list_of_file_dataframes[len(self.list_of_file_dataframes)-1])
         self.list_of_file_dataframes.append(self.dataframe)
@@ -192,22 +192,18 @@ class CsvManger:  # Rename to DataManager
         self.dataframe_list_position = 0
         dataframe_found = False
         while dataframe_found is not True:
-            if dataframe_name == 'master':
-                dataframe_found = True
-                if modified and self.master_dictionary['modified_dataframe'] is not None:
-                    self.dataframe = self.master_dictionary['modified_dataframe']
+            if dataframe_name is not 'master':
+                if self.list_of_file_dictionaries[self.dataframe_list_position]['file_name'] == dataframe_name:
+                    dataframe_found = True
+                    if modified and self.list_of_file_dictionaries[self.dataframe_list_position]['modified_dataframe'] is not None:
+                        self.dataframe = self.list_of_file_dictionaries[self.dataframe_list_position]['modified_dataframe']  # maybe deep copy to save versions later
+                    else:
+                        self.dataframe = copy.deepcopy(self.list_of_file_dictionaries[self.dataframe_list_position]['original_dataframe'])
+                    self.dataframe_file_name = dataframe_name
+                if self.dataframe_list_position + 1 < len(self.list_of_file_dictionaries):
+                    self.dataframe_list_position += 1
                 else:
-                    self.dataframe = copy.deepcopy(self.master_dictionary['original_dataframe'])
-                self.dataframe_file_name = 'master'
-            if self.list_of_file_dictionaries[self.dataframe_list_position]['file_name'] == dataframe_name:
-                dataframe_found = True
-                if modified and self.list_of_file_dictionaries[self.dataframe_list_position]['modified_dataframe'] is not None:
-                    self.dataframe = self.list_of_file_dictionaries[self.dataframe_list_position]['modified_dataframe']  # maybe deep copy to save versions later
-                else:
-                    self.dataframe = copy.deepcopy(self.list_of_file_dictionaries[self.dataframe_list_position]['original_dataframe'])
-                self.dataframe_file_name = dataframe_name
-            if self.dataframe_list_position + 1 < len(self.list_of_file_dictionaries):
-                self.dataframe_list_position += 1
+                    dataframe_name = 'master'
             else:
                 dataframe_found = True
                 if modified and self.master_dictionary['modified_dataframe'] is not None:
@@ -215,7 +211,7 @@ class CsvManger:  # Rename to DataManager
                 else:
                     self.dataframe = copy.deepcopy(self.master_dictionary['original_dataframe'])
                 self.dataframe_file_name = 'master'
-                self.dataframe_list_position += 1
+
 
     def unselect_dataframe(self):
         if self.dataframe is not None:
@@ -332,6 +328,9 @@ class CsvManger:  # Rename to DataManager
     def calculate_mode(self, columns=None):
         df_mode = self.dataframe.mode(axis=0, skipna=True)
         return df_mode
+
+    #def calculate_percent_change(self):
+    # https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pct_change.html
 
     def drop_na_values(self, axis=0):
         self.dataframe.dropna(axis=axis, inplace=True)
