@@ -37,6 +37,7 @@ class CsvManger:  # Rename to DataManager
         self.master_dataframe = pd.DataFrame()  # Concatenated all Dataframes
         self.master_dictionary = {
             "file_name": "master",
+            "list_position": 0,  # Maybe initialize to None
             "list_of_column_names": [],
             "original_dataframe": self.master_dataframe,
             "modified_dataframe": None,
@@ -105,6 +106,7 @@ class CsvManger:  # Rename to DataManager
         dataframe_info = {
             "file_name": csv,
             "file_type": "csv",
+            "list_position": len(self.list_of_file_dictionaries),
             "list_of_column_names": self.get_column_names(),
             "original_dataframe": self.dataframe,
             "modified_dataframe": None,
@@ -166,6 +168,7 @@ class CsvManger:  # Rename to DataManager
             self.master_dictionary["original_dataframe"] = self.master_dataframe
         else:
             self.master_dictionary["modified_dataframe"] = self.master_dataframe
+        self.master_dictionary["list_position"] = len(self.list_of_file_dictionaries)
         self.master_dictionary["list_of_column_names"] = self.master_dataframe.columns.to_list()
         self.list_of_file_dictionaries.append(self.master_dictionary)
 
@@ -238,8 +241,8 @@ class CsvManger:  # Rename to DataManager
             self.drop_na_values()
         elif method in ['mean', 'median', 'mode', 'backfill', 'bfill', 'ffill', 'pad']:
             self.fill_na_values(method)
-        #elif method == 'convert':
-            #self.convert_time_interval()
+        elif method == 'convert':
+            self.convert_time_interval()
         else:
             self.interpolate_data(method, order)
         # save modified dataframe

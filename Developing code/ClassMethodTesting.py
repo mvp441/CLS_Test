@@ -20,8 +20,8 @@ def test_output_csv_list(csv_data):
 def test_select_dataframe(csv_data, dataframe_name):
     csv_data.select_dataframe(dataframe_name)
 
-def test_modify_dataframe(csv_data):
-    csv_data.modify_dataframe()
+def test_modify_dataframe(csv_data, method='polynomial', order=1):
+    csv_data.modify_dataframe(dataframe=csv_data.list_of_csv_dataframes[0], method=method, order=order)
 
 #def test_set_dataframe_as_master(csv_lsit, dataframe='master_dataframe')
     #csv_list.set_dataframe_as_master(dataframe)
@@ -120,6 +120,8 @@ def test_load_data_to_dictionary():
 def currently_testing(csv_data, csv_file=None):
     # test re-adding the same files
     # test_add_csv(csv_list, csv_file)  # adding same file twice shouldn't add data
+
+    test_modify_dataframe(csv_data)
 
     correlation_setup(csv_data)
     test_plot_correlation_matrix(csv_data)
