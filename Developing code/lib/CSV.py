@@ -112,6 +112,9 @@ class CsvManger:  # Rename to DataManager
         }
         # self.__add_csv_to_dataframe(csv)  # old
         # if master is at the end of list remove it before adding new one
+        if self.list_of_file_dictionaries is not None:
+            if len(self.list_of_file_dictionaries) > 1:
+                self.list_of_file_dictionaries.remove(self.list_of_file_dictionaries[len(self.list_of_file_dictionaries)-1])
         self.list_of_file_dictionaries.append(dataframe_info)
 
     def csv_to_df(self, csv):
@@ -119,8 +122,9 @@ class CsvManger:  # Rename to DataManager
         self.list_of_original_dataframes.append(self.dataframe)
         self.list_of_csv_dataframes.append(self.dataframe)
         # if master is at the end of list remove it before adding new one
-        if len(self.list_of_file_dataframes > 1):
-            self.list_of_file_dataframes.remove(self.list_of_file_dataframes[len(self.list_of_file_dataframes)])
+        if self.list_of_file_dictionaries is not None:
+            if len(self.list_of_file_dataframes) > 1:
+                self.list_of_file_dataframes.remove(self.list_of_file_dataframes[len(self.list_of_file_dataframes)-1])
         self.list_of_file_dataframes.append(self.dataframe)
         self.construct_master_dictionary(modified=False)
 
@@ -383,6 +387,7 @@ class CsvManger:  # Rename to DataManager
     def prepare_dataframe_for_correlating(self):
         # need to convert time values before interpolating (possibly when dataframe is created?)
         self.convert_csv_timestamp()
+        self.convert_time_interval()  # ?
         # should interpolate data first so fewer na values
         self.interpolate_data()
         # should remove na values remaining after interpolation to not throw off correlation calculation
