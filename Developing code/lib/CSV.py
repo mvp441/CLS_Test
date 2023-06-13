@@ -7,6 +7,7 @@ import time
 from epics import caget, PV
 import datetime
 import numpy as np
+import seaborn as sns
 
 pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
@@ -20,6 +21,7 @@ class CsvManger:  # Rename to DataManager
         self.list_of_all_file_names = copy.deepcopy(csv_files)  # possibly switch deep copies once type check is set up
         self.list_of_csv_file_names = copy.deepcopy(csv_files)
         self.list_of_csv_dataframes = []
+        # create dictionary for current dataframe with name and list positions
         self.dataframe = pd.DataFrame()  # Currently selected dataframe
         self.dataframe_file_name = None  # Filename of currently selected dataframe
         self.list_of_file_dataframes = []  # List of current dataframes from each file
@@ -109,12 +111,16 @@ class CsvManger:  # Rename to DataManager
             "modification_history": []
         }
         # self.__add_csv_to_dataframe(csv)  # old
+        # if master is at the end of list remove it before adding new one
         self.list_of_file_dictionaries.append(dataframe_info)
 
     def csv_to_df(self, csv):
         self.dataframe = pd.read_csv(csv)
         self.list_of_original_dataframes.append(self.dataframe)
         self.list_of_csv_dataframes.append(self.dataframe)
+        # if master is at the end of list remove it before adding new one
+        if len(self.list_of_file_dataframes > 1):
+            self.list_of_file_dataframes.remove(self.list_of_file_dataframes[len(self.list_of_file_dataframes)])
         self.list_of_file_dataframes.append(self.dataframe)
         self.construct_master_dictionary(modified=False)
 
@@ -146,6 +152,7 @@ class CsvManger:  # Rename to DataManager
                 self.master_dataframe = pd.concat(self.list_of_file_dataframes, ignore_index=True, sort=False)
             else:
                 self.master_dataframe = pd.concat(self.list_of_original_dataframes, ignore_index=True, sort=False)
+        self.list_of_file_dataframes.append(self.master_dataframe)
 
     # Construct master dataframe from list of modified (or original if no modified) dataframes
     def construct_master_dictionary(self, modified=True):
@@ -155,6 +162,7 @@ class CsvManger:  # Rename to DataManager
         else:
             self.master_dictionary["modified_dataframe"] = self.master_dataframe
         self.master_dictionary["list_of_column_names"] = self.master_dataframe.columns.to_list()
+        self.list_of_file_dictionaries.append(self.master_dictionary)
 
     def get_dataframe_file_name(self):
         if self.dataframe_list_position == len(self.list_of_file_dictionaries):
@@ -229,6 +237,8 @@ class CsvManger:  # Rename to DataManager
             self.drop_na_values()
         elif method in ['mean', 'median', 'mode', 'backfill', 'bfill', 'ffill', 'pad']:
             self.fill_na_values(method)
+        #elif method == 'convert':
+            #self.convert_time_interval()
         else:
             self.interpolate_data(method, order)
         # save modified dataframe
@@ -285,8 +295,8 @@ class CsvManger:  # Rename to DataManager
             dataframe_description[column] = self.dataframe[column].describe()
         return dataframe_description
 
-    def convert_time_interval(self, column=None):
-        # problem not convering any currently
+    def convert_time_interval(self, column='PCT1402-01:timeInterval:fbk'):  # set default to all time intervals?
+        # problem not converting any currently for master (probably because when/if called for master no column is given)
         for i in range(len(self.dataframe.loc[:, column])):
             if str(self.dataframe.loc[i, column]) != 'nan':
                 offset_time = datetime.datetime(1900, 1, 1)
@@ -319,8 +329,8 @@ class CsvManger:  # Rename to DataManager
         df_mode = self.dataframe.mode(axis=0, skipna=True)
         return df_mode
 
-    def drop_na_values(self):
-        self.dataframe.dropna(axis='rows', inplace=True)
+    def drop_na_values(self, axis=0):
+        self.dataframe.dropna(axis=axis, inplace=True)
 
     # NOT ALL HAVE CURRENTLY PASSED WORKING TEST
     def fill_na_values(self, method='pad'):
@@ -353,11 +363,12 @@ class CsvManger:  # Rename to DataManager
         # Check method is a valid option
         if order is None:
             if method == 'linear':
+                # check if method == method and calling like poly 1 works
                 self.dataframe.interpolate(method='linear', inplace=True)
         elif method == 'polynomial':
             # typecheck order is int
-            if str(order) == '1':
-                self.dataframe.interpolate(method='polynomial', order=1, inplace=True)
+            if str(order) == '1': # can remove int check
+                self.dataframe.interpolate(method=method, order=order, inplace=True)
             elif str(order) == '2':
                 self.dataframe.interpolate(method='polynomial', order=2, inplace=True)
             elif str(order) == '3':
@@ -369,6 +380,19 @@ class CsvManger:  # Rename to DataManager
             # add catch for negative/fractional/higher orders entered
 
     # JUST STARTING TO WRITE
+    def prepare_dataframe_for_correlating(self):
+        # need to convert time values before interpolating (possibly when dataframe is created?)
+        self.convert_csv_timestamp()
+        # should interpolate data first so fewer na values
+        self.interpolate_data()
+        # should remove na values remaining after interpolation to not throw off correlation calculation
+        self.drop_na_values()  # or fill_na
+        # drop all columns with a std of 0
+        column_stds = self.dataframe.std()
+        for i in range(len(column_stds)):
+            if column_stds[i] == 0:
+                self.dataframe = self.dataframe.drop(self.dataframe.columns[[i + 1]], axis=1)
+
     # HAS NOT BEEN CHECKED YET
     def calculate_correlation(self, check_list=None):
         position = 0
@@ -378,20 +402,33 @@ class CsvManger:  # Rename to DataManager
         print('done checklist')
         # for PV in check_list:
 
+    #check time conversion and na fills and columns
     def calculate_correlation_matrix(self):
+        # need to convert time values before interpolating (possibly when dataframe is created?)
+        self.convert_csv_timestamp()
         # should interpolate data first so fewer na values
         self.interpolate_data()
         # should remove na values remaining after interpolation so as to not throw off correlation calculation
-        self.drop_na_values()
+        self.drop_na_values(1)
         # drop all columns with a std of 0
         column_stds = self.dataframe.std()
         for i in range(len(column_stds)):
             if column_stds[i] == 0:
                 self.dataframe = self.dataframe.drop(self.dataframe.columns[[i + 1]], axis=1)  # +! to account for no timestamp std
+        #self.prepare_dataframe_for_correlating()
         self.correlation_matrix = self.dataframe.corr()  # calculates the pair-wise correlation values between all the columns within a dataframe
+
+    def clean_up_correlation_matrix(self):
+        print('clean up corr_mat')
 
     def output_correlation_matrix(self):
         print(tabulate(self.correlation_matrix, headers='keys', tablefmt='rst'))
+
+    def plot_correlation_matrix(self):
+        plt.figure()
+        heat_map = sns.heatmap(self.correlation_matrix, annot=True, cmap='Spectral')  # heat_map = that?
+        plt.show()
+        print('done plotting')
 
     # add FFT function?
 

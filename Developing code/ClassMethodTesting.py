@@ -75,6 +75,9 @@ def test_calculate_correlation_matrix(csv_data):
 def test_output_correlation_matrix(csv_data):
     csv_data.output_correlation_matrix()
 
+def test_plot_correlation_matrix(csv_data):
+    csv_data.plot_correlation_matrix()
+
 #Present
 #Pandas3: plotting
 #
@@ -118,6 +121,7 @@ def currently_testing(csv_data, csv_file=None):
     # test_add_csv(csv_list, csv_file)  # adding same file twice shouldn't add data
 
     correlation_setup(csv_data)
+    test_plot_correlation_matrix(csv_data)
 
     # test adding other file types
     # test_load_data_to_dictionary
