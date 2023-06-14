@@ -185,22 +185,22 @@ class CsvManger:  # Rename to DataManager
         else:
             self.dataframe_file_name = self.list_of_file_dictionaries[self.dataframe_list_position]['file_name']
 
-    def select_file_dictionary(self, file_name):
+    def select_file_dictionary(self, file_name='master', list_position=0):
         file_found = False
-        self.file_list_position = 0
+        self.file_list_position = list_position
         while file_found is not True:
             if file_name == 'master':
                 file_found = True
                 self.file_dictionary = self.master_dictionary
-            if self.list_of_file_dictionaries[self.file_list_position]['file_name'] == file_name:
+            elif self.list_of_file_dictionaries[self.file_list_position]['file_name'] == file_name:
                 file_found = True
                 self.file_dictionary = self.list_of_file_dictionaries[self.file_list_position]
             else:
                 self.file_list_position += 1
 
-    def select_dataframe(self, dataframe_name='master', modified=True):
+    def select_dataframe(self, dataframe_name='master', modified=True, list_position=0):
         self.unselect_dataframe()
-        self.dataframe_list_position = 0
+        self.dataframe_list_position = list_position
         dataframe_found = False
         while dataframe_found is not True:
             if dataframe_name is not 'master':
@@ -222,6 +222,7 @@ class CsvManger:  # Rename to DataManager
                 else:
                     self.dataframe = copy.deepcopy(self.master_dictionary['original_dataframe'])
                 self.dataframe_file_name = 'master'
+        self.select_file_dictionary(list_position=self.dataframe_list_position)
 
 
     def unselect_dataframe(self):
