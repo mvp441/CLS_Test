@@ -2,6 +2,13 @@ from lib import CSV, JSON
 
 '''Possibly consider making entire file a class for testing with each FiletypeManager as it's own instance and turning functions into helper ones'''
 
+
+# test modified functions: select dataframe and file, modify dataframe, prep csv df, concstruct master dataframe and dictionar, prep for corr, corr calc
+# test to make sure dataframes are being selected properly
+# test to make sure dataframe and file selected always match
+# test to make sure master dataframe is being constructed and saved correctly
+# test to make sure modified dataframes are being saved correctly
+
 #def test_csv_to_df(csv_file):
 
 #def test_add_csv_to_dictionary(csv_file):

@@ -122,6 +122,7 @@ class CsvManger:  # Rename to DataManager
             if len(self.list_of_file_dictionaries) > 1:
                 self.list_of_file_dictionaries.remove(self.list_of_file_dictionaries[len(self.list_of_file_dictionaries)-1])
         self.list_of_file_dictionaries.append(dataframe_info)
+        self.prepare_csv_df()  # not sure if this will work as intended need to test still
         self.construct_master_dictionary(modified=False)
 
     def csv_to_df(self, csv):
@@ -133,10 +134,14 @@ class CsvManger:  # Rename to DataManager
             if len(self.list_of_file_dataframes) > 1:
                 self.list_of_file_dataframes.remove(self.list_of_file_dataframes[len(self.list_of_file_dataframes)-1])
         self.list_of_file_dataframes.append(self.dataframe)
-        #self.construct_master_dictionary(modified=False)
+        #self.construct_master_dictionary(modified=False)  moved to csv to dict function
 
     def convert_csv_timestamp(self):
         self.dataframe["Timestamp"] = self.dataframe["Timestamp"].apply(pd.to_datetime)
+
+    def prepare_csv_df(self):
+        self.modify_dataframe(method='convert_ts', modified=False)
+        self.modify_dataframe(method='convert_ti', modified=True)
 
     # def add_txt(self, txt):
     # copy from experiment.py file or make TxtManager class file?
@@ -175,7 +180,7 @@ class CsvManger:  # Rename to DataManager
             self.master_dictionary["original_dataframe"] = self.master_dataframe
         else:
             self.master_dictionary["modified_dataframe"] = self.master_dataframe
-        self.master_dictionary["list_position"] = len(self.list_of_file_dictionaries)
+        self.master_dictionary["list_position"] = len(self.list_of_file_dictionaries)-1
         self.master_dictionary["list_of_column_names"] = self.master_dataframe.columns.to_list()
         self.list_of_file_dictionaries.append(self.master_dictionary)
 
@@ -191,14 +196,16 @@ class CsvManger:  # Rename to DataManager
         while file_found is not True:
             if file_name == 'master':
                 file_found = True
-                self.file_dictionary = self.master_dictionary
+                self.file_dictionary = copy.copy(self.master_dictionary)
             elif self.list_of_file_dictionaries[self.file_list_position]['file_name'] == file_name:
                 file_found = True
-                self.file_dictionary = self.list_of_file_dictionaries[self.file_list_position]
+                self.file_dictionary = copy.copy(self.list_of_file_dictionaries[self.file_list_position])
             else:
                 self.file_list_position += 1
 
-    def select_dataframe(self, dataframe_name='master', modified=True, list_position=0):
+    def select_dataframe(self, dataframe_name=None, modified=True, list_position=0):
+        if dataframe_name is None:
+            dataframe_name = self.dataframe_file_name
         self.unselect_dataframe()
         self.dataframe_list_position = list_position
         dataframe_found = False
@@ -224,16 +231,16 @@ class CsvManger:  # Rename to DataManager
                 self.dataframe_file_name = 'master'
         self.select_file_dictionary(list_position=self.dataframe_list_position)
 
-
     def unselect_dataframe(self):
         if self.dataframe is not None:
             # possibly save current file before so that can reload it after if different
             self.get_dataframe_file_name()
             self.select_file_dictionary(self.dataframe_file_name)
-            self.file_dictionary['modified_dataframe'] = self.dataframe
+            self.file_dictionary['modified_dataframe'] = copy.deepcopy(self.dataframe)
             self.dataframe = pd.DataFrame
 
-    def modify_dataframe(self, dataframe=None, dataframe_name='master', modified=False, method='polynomial', order=1):
+    def modify_dataframe(self, dataframe=None, dataframe_name=None, modified=False, method='polynomial', order=1):
+        dataframe_name = self.dataframe_file_name  # check if correct
         # check if dataframe to modify was specified
         # select dataframe to modify
         if dataframe is None:
@@ -242,19 +249,23 @@ class CsvManger:  # Rename to DataManager
             self.dataframe = dataframe
             self.get_dataframe_file_name()  # doesn't work if list position isn't set from selecting incorrectly
         # get file dataframe is associated with
-        self.select_file_dictionary(self.dataframe_file_name)
+        self.select_file_dictionary(dataframe_name)
         # check modification method
         if method == 'drop':
             # modify
             self.drop_na_values()
         elif method in ['mean', 'median', 'mode', 'backfill', 'bfill', 'ffill', 'pad']:
             self.fill_na_values(method)
-        elif method == 'convert':
+        elif method == 'convert_ts':
+            self.convert_csv_timestamp()
+        elif method == 'convert_ti':
             self.convert_time_interval()
         else:
             self.interpolate_data(method, order)
         # save modified dataframe
-        self.file_dictionary['modified_dataframe'] = self.dataframe  # might need to deep copy
+        self.file_dictionary['modified_dataframe'] = copy.deepcopy(self.dataframe)  # might need to deep copy
+        # replace dataframe in list
+        self.list_of_file_dataframes[self.dataframe_list_position] = self.dataframe
         # test modifying the dataframe after and seeing if both change
         self.file_dictionary['modification_history'].append(method)
 
