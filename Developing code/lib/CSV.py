@@ -165,6 +165,7 @@ class CsvManger:  # Rename to DataManager
                 self.list_of_file_dataframes.append(self.master_dataframe)
             else:
                 self.master_dataframe = pd.concat(self.list_of_original_dataframes, ignore_index=True, sort=False)
+        self.master_dataframe.sort_values('Timestamp', inplace=True)
         self.list_of_file_dataframes.append(self.master_dataframe)
 
     # Construct master dataframe from list of modified (or original if no modified) dataframes
