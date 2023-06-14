@@ -1,6 +1,7 @@
 from lib import CSV, JSON
 
-'''Possibly consider making entire file a class for testing with each FiletypeManager as it's own instance and turning functions into helper ones'''
+'''Possibly consider making entire file a class for testing with each FiletypeManager as it's own instance and turning functions into helper ones
+Switch entire file into unit testing format - https://docs.python.org/3/library/unittest.html'''
 
 
 # test modified functions: select dataframe and file, modify dataframe, prep csv df, concstruct master dataframe and dictionar, prep for corr, corr calc
@@ -24,10 +25,19 @@ def test_output_csv_list(csv_data):
 
 #def test_construct_master_dataframe(csv_data):
 
+#def test_construct_master_dictionary(csv_data):
+
+#def test_select_file(csv_data, dataframes_name):
+
+#def test_prepare_csv_to_df
+
+#
+
 def test_select_dataframe(csv_data, dataframe_name):
     csv_data.select_dataframe(dataframe_name)
 
 def test_modify_dataframe(csv_data, method='polynomial', order=1):
+    # still need to test other methods and inputs
     csv_data.modify_dataframe(dataframe=csv_data.list_of_csv_dataframes[1], method=method, order=order)
 
 #def test_set_dataframe_as_master(csv_lsit, dataframe='master_dataframe')
