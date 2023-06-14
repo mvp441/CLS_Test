@@ -414,6 +414,9 @@ class CsvManger:  # Rename to DataManager
         self.interpolate_data()
         # should remove na values remaining after interpolation to not throw off correlation calculation
         self.drop_na_values()  # or fill_na
+        # switch all function calls to modify ones - should be able to comment out everything above and uncomment the two lines below
+        #self.modify_dataframe(method='interpolate', order=2)
+        #self.modify_dataframe(method='drop')
         # drop all columns with a std of 0
         column_stds = self.dataframe.std()
         for i in range(len(column_stds)):
