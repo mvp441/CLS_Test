@@ -2,6 +2,7 @@ import CsvManager, JsonManager
 import copy
 import pandas as pd
 
+# object containing all the data information which is accessed and operated on by the manager classes
 class DataStorage:
     def __init__(self, filelist):
         self.list_of_all_file_names = copy.deepcopy(filelist)  # possibly switch deep copies once type check is set up
