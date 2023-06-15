@@ -1,6 +1,6 @@
 import pandas as pd
 from matplotlib import pyplot as plt
-from lib import CSV
+from lib import CsvManager
 
 # import csv data file
 csv_list = CSV.CsvManger(["../PV Data/Trip 1 data/gLYHVdm+.csv"])

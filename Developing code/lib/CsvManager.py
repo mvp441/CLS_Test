@@ -8,6 +8,7 @@ from epics import caget, PV
 import datetime
 import numpy as np
 import seaborn as sns
+import FileManager
 
 pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
@@ -18,6 +19,7 @@ from tabulate import tabulate
 
 class CsvManger:  # Rename to DataManager
     def __init__(self, csv_files):
+        super(FileManager, self).__init__()
         self.list_of_all_file_names = copy.deepcopy(csv_files)  # possibly switch deep copies once type check is set up
         self.list_of_csv_file_names = copy.deepcopy(csv_files)
         self.list_of_csv_dataframes = []
@@ -122,7 +124,7 @@ class CsvManger:  # Rename to DataManager
             if len(self.list_of_file_dictionaries) > 1:
                 self.list_of_file_dictionaries.remove(self.list_of_file_dictionaries[len(self.list_of_file_dictionaries)-1])
         self.list_of_file_dictionaries.append(dataframe_info)
-        self.prepare_csv_df()  # not sure if this will work as intended need to test still
+        #self.prepare_csv_df()  # not sure if this will work as intended need to test still
         self.construct_master_dictionary(modified=False)
 
     def csv_to_df(self, csv):

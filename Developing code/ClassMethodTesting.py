@@ -1,4 +1,4 @@
-from lib import CSV, JSON
+from lib import CsvManager, JsonManager
 
 '''Possibly consider making entire file a class for testing with each FiletypeManager as it's own instance and turning functions into helper ones
 Switch entire file into unit testing format - https://docs.python.org/3/library/unittest.html'''
@@ -102,7 +102,7 @@ def test_plot_correlation_matrix(csv_data):
 def file_setup():
     csv_1 = "../PV Data/Trip 1 data/gLYHVdm+.csv"
     csv_2 = '../PV Data/Trip 1 data/tdL5QoZo.csv'
-    csv_data = CSV.CsvManger([csv_1])
+    csv_data = CsvManager.CsvManger([csv_1])
     test_add_csv(csv_data, csv_2)
     return csv_data
 
@@ -115,7 +115,7 @@ def correlation_setup(csv_data):
 
 def test_load_data_to_dataframe():
     print('Starting conversion of json to df')
-    json_manager = JSON.JsonManager()
+    json_manager = JsonManager.JsonManager()
     test_filename_list = json_manager.load_filenames_from_folder()
     test_dataframe_with_file_data = json_manager.json_to_dataframe(test_filename_list[0])
     test_json_dataframe_list = json_manager.jsons_to_dataframe_list(test_filename_list)
@@ -123,7 +123,7 @@ def test_load_data_to_dataframe():
 
 def test_load_data_to_dictionary():
     print('starting test of loading json data into dictionary')
-    json_manager = JSON.JsonManager()
+    json_manager = JsonManager.JsonManager()
     test_filename_list = json_manager.load_filenames_from_folder()
     test_dictionary_with_file_data = json_manager.json_to_dictionary(json_manager.list_of_file_names[0])
     test_json_dictionary_list = json_manager.jsons_to_dictionary_list()

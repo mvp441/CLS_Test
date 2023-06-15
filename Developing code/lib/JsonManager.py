@@ -1,3 +1,4 @@
+import FileManager
 import json
 from glob import glob
 import matplotlib.pyplot as plt
@@ -5,8 +6,9 @@ import numpy as np
 import pandas as pd
 import copy
 
-class JsonManager:
+class JsonManager(FileManager):
     def __init__(self):
+        super(JsonManager, self).__init__()
         self.list_of_file_names = []
         self.list_of_json_files = []
         self.list_of_json_dictionaries = []
