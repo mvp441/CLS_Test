@@ -38,12 +38,12 @@ class CsvManger:  # Rename to DataManager
         # dataframes (current, master, original, modified, file type)
         self.master_dataframe = pd.DataFrame()  # Concatenated all Dataframes
         self.master_dictionary = {
-            "file_name": "master",
-            "list_position": 0,  # Maybe initialize to None
-            "list_of_column_names": [],
-            "original_dataframe": self.master_dataframe,
-            "modified_dataframe": None,
-            "modification_history": []
+            'file_name': 'master',
+            'list_position': 0,  # Maybe initialize to None
+            'list_of_column_names': [],
+            'original_dataframe': self.master_dataframe,
+            'modified_dataframe': None,
+            'modification_history': []
         }
         self.correlation_matrix = pd.DataFrame
         self.correlation_pairs_list = []
@@ -56,11 +56,11 @@ class CsvManger:  # Rename to DataManager
         data_frame = pd.read_csv(csv)
         # self.dataframe_list.append(data_frame)
         # self.original_data[csv] = data_frame
-        data_frame["Timestamp"] = data_frame["Timestamp"].apply(pd.to_datetime)
+        data_frame['Timestamp'] = data_frame['Timestamp'].apply(pd.to_datetime)
         if len(self.dataframe.columns.to_list()) == 0:
             self.dataframe = data_frame
         else:
-            self.dataframe = pd.merge(self.dataframe, data_frame, how="outer", on=['Timestamp'])  # USES MERGE INSTEAD OF CONCAT
+            self.dataframe = pd.merge(self.dataframe, data_frame, how='outer', on=['Timestamp'])  # USES MERGE INSTEAD OF CONCAT
 
     # Read Multiple CSV Files from a Folder
     # https://sparkbyexamples.com/pandas/pandas-read-multiple-csv-files/
@@ -78,7 +78,7 @@ class CsvManger:  # Rename to DataManager
     #       convert file to dataframe
     #       save original dataframe in dictionary
     #   store dictionary entry in list
-    # create master dataframe from list
+    # create master dataframe from list00
 
     # file type detection
     # https://stackoverflow.com/questions/54698130/determine-if-a-file-is-more-likely-json-or-csv
@@ -110,13 +110,13 @@ class CsvManger:  # Rename to DataManager
             self.dataframe_list_position = len(self.list_of_file_dictionaries)
         self.convert_csv_timestamp()
         dataframe_info = {
-            "file_name": csv,
-            "file_type": "csv",
-            "list_position": self.dataframe_list_position,
-            "list_of_column_names": self.get_column_names(),
-            "original_dataframe": self.dataframe,
-            "modified_dataframe": None,
-            "modification_history": []
+            'file_name': csv,
+            'file_type': 'csv',
+            'list_position': self.dataframe_list_position,
+            'list_of_column_names': self.get_column_names(),
+            'original_dataframe': self.dataframe,
+            'modified_dataframe': None,
+            'modification_history': []
         }
         # self.__add_csv_to_dataframe(csv)  # old
         # if master is at the end of list remove it before adding new one
@@ -139,7 +139,7 @@ class CsvManger:  # Rename to DataManager
         #self.construct_master_dictionary(modified=False)  moved to csv to dict function
 
     def convert_csv_timestamp(self):
-        self.dataframe["Timestamp"] = self.dataframe["Timestamp"].apply(pd.to_datetime)
+        self.dataframe['Timestamp'] = self.dataframe['Timestamp'].apply(pd.to_datetime)
 
     def prepare_csv_df(self):
         self.modify_dataframe(method='convert_ts', modified=False)
@@ -179,11 +179,11 @@ class CsvManger:  # Rename to DataManager
     def construct_master_dictionary(self, modified=True):
         self.construct_master_dataframe(modified)
         if not modified:
-            self.master_dictionary["original_dataframe"] = self.master_dataframe
+            self.master_dictionary['original_dataframe'] = self.master_dataframe
         else:
-            self.master_dictionary["modified_dataframe"] = self.master_dataframe
-        self.master_dictionary["list_position"] = len(self.list_of_file_dictionaries)-1
-        self.master_dictionary["list_of_column_names"] = self.master_dataframe.columns.to_list()
+            self.master_dictionary['modified_dataframe'] = self.master_dataframe
+        self.master_dictionary['list_position'] = len(self.list_of_file_dictionaries)-1
+        self.master_dictionary['list_of_column_names'] = self.master_dataframe.columns.to_list()
         self.list_of_file_dictionaries.append(self.master_dictionary)
 
     def get_dataframe_file_name(self):

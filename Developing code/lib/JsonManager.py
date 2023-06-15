@@ -33,18 +33,18 @@ class JsonManager(FileManager):
                 value = data[key_inner]
         key = self.dictionary.keys()[0]
         key_list = self.dictionary[key].keys()
-        self.dictionary["key_list"] = key_list
+        self.dictionary['key_list'] = key_list
         # key_list.sort() shouldn't be necessary at this point
-        self.dictionary["file_name"] = file_name
+        self.dictionary['file_name'] = file_name
         self.add_dictionary_information()
         self.dataframe_dictionary_list.append(self.dictionary)
 
     def add_dictionary_information(self):
         # possibly remove the following two lines for non experiment use or make optional
-        self.dictionary["experiment"] = None  # add
-        self.dictionary["description"] = None  # to identify and distinguish files
-        self.dictionary["dataframe_with_file_info"] = self.json_to_dataframe()
-        self.dictionary["original_data"] = copy.deepcopy(self.get_json_data())
+        self.dictionary['experiment'] = None  # add
+        self.dictionary['description'] = None  # to identify and distinguish files
+        self.dictionary['dataframe_with_file_info'] = self.json_to_dataframe()
+        self.dictionary['original_data'] = copy.deepcopy(self.get_json_data())
 
     def jsons_to_dictionary_list(self):
         self.list_of_json_dictionaries = []
@@ -65,11 +65,11 @@ class JsonManager(FileManager):
 
     def add_dictionary_description(self, filename, description):  # should not need if add works
         self.select_dictionary(filename)
-        self.dictionary["description"] = description
+        self.dictionary['description'] = description
 
     def add_experiment_number(self, filename, experiment_number):  # should not need if add works
         self.select_dictionary(filename)
-        self.dictionary["experiment"] = experiment_number
+        self.dictionary['experiment'] = experiment_number
 
     def add_to_dictionary(self, filename, key, value):
         self.select_dictionary(filename)

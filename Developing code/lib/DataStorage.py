@@ -5,6 +5,28 @@ import pandas as pd
 # object containing all the data information which is accessed and operated on by the manager classes
 class DataStorage:
     def __init__(self, filelist):
+        # create dictionaries of lists as mentioned considering below
+        self.dictionary_of_file_names = {
+            'current': None,
+            'list_of_csv': [],
+            'list_of_json': [],
+            'list_of_txt': [],
+            'list_of_all': []
+        }
+        self.dictionary_of_dataframes = {
+            'current': None,
+            'list_of_csv': [],
+            'list_of_json': [],
+            'list_of_txt': [],
+            'list_of_all': []
+        }
+        self.dictionary_of_dictionaries = {
+            'current': None,
+            'list_of_csv': [],
+            'list_of_json': [],
+            'list_of_txt': [],
+            'list_of_all': []
+        }
         self.list_of_all_file_names = copy.deepcopy(filelist)  # possibly switch deep copies once type check is set up
         self.list_of_csv_file_names = copy.deepcopy(filelist)
         self.list_of_csv_dataframes = []
@@ -23,12 +45,16 @@ class DataStorage:
         # dataframes (current, master, original, modified, file type)
         self.master_dataframe = pd.DataFrame()  # Concatenated all Dataframes
         self.master_dictionary = {
-            "file_name": "master",
-            "list_position": 0,  # Maybe initialize to None
-            "list_of_column_names": [],
-            "original_dataframe": self.master_dataframe,
-            "modified_dataframe": None,
-            "modification_history": []
+            'file_name': 'master',
+            'list_position': 0,  # Maybe initialize to None
+            'list_of_column_names': [],
+            'original_dataframe': self.master_dataframe,
+            'modified_dataframe': None,
+            'modification_history': []
         }
         self.correlation_matrix = pd.DataFrame
         self.correlation_pairs_list = []
+
+# file manager class adds data to object from files using file type manager classes
+# dataframe manager class access object to modify dataframes
+
