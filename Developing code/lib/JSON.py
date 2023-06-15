@@ -15,7 +15,7 @@ class JsonManager:
         self.dataframe = pd.DataFrame()
         self.dataframe_list = []
         self.dataframe_dictionary_list = []
-        self.originial_master_datafame = pd.DataFrame()
+        self.original_master_dataframe = pd.DataFrame()
         self.master_dataframe = pd.DataFrame()
 
     def load_filenames_from_folder(self, folder_location='/home/parmarm/Documents/CLS_Test/Data/tune-data',
