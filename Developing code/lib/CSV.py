@@ -22,7 +22,7 @@ class CsvManger:  # Rename to DataManager
         self.list_of_csv_file_names = copy.deepcopy(csv_files)
         self.list_of_csv_dataframes = []
         # create dictionary for current dataframe with name and list positions
-        self.dataframe = pd.DataFrame()  # Currently selected dataframe
+        self.dataframe = pd.DataFrame()  # Currently selected dataframe - maybe have this seperate or different for selecting and looking at a subset of all files
         self.dataframe_file_name = None  # Filename of currently selected dataframe
         self.list_of_file_dataframes = []  # List of current dataframes from each file
         self.dataframe_list_position = 0
@@ -202,6 +202,8 @@ class CsvManger:  # Rename to DataManager
                 self.file_dictionary = copy.copy(self.list_of_file_dictionaries[self.file_list_position])
             else:
                 self.file_list_position += 1
+
+    #def select_multiple_files(self, list_of_filenames):
 
     def select_dataframe(self, dataframe_name=None, modified=True, list_position=0):
         if dataframe_name is None:
