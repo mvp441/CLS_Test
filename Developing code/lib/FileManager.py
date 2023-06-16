@@ -2,6 +2,8 @@ import CsvManager, JsonManager, DataStorage
 import copy
 import pandas as pd
 
+# https://www.geeksforgeeks.org/singleton-pattern-in-python-a-complete-guide/
+# https://pypi.org/project/singleton-decorator/?fbclid=IwAR0vUAXsSFI6G1el2EgjEQip7tdG3V29rnkCc0QhW6W8zNcBjoasu-zbZ6U
 
 # file type managers are subclasses with shared parent variables
 class FileManager:
