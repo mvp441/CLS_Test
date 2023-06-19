@@ -1,17 +1,17 @@
-# dataframe methods
-import DataDictionary
-import pandas as pd
+import CsvManager, JsonManager
 import copy
+import pandas as pd
 
-class DataframeManager:
+# https://satoricyber.com/glossary/data-inventory
+# https://satoricyber.com/data-management/what-is-a-data-inventory-and-why-is-it-important/?l=l-middle&f=gu-understanding-the-fundamentals-of-a-data-dictionary
+
+# object containing all the data information which is accessed and operated on by the manager classes
+class DataStorage:
+    # make a module instead of a class or else make it a singleton?
     def __init__(self, filelist):
-        # old object variables
-        self.list_of_all_file_names = copy.deepcopy(
-            filelist)  # possibly switch deep copies once type check is set up
-        self.list_of_csv_file_names = copy.deepcopy(filelist)
-        # create dictionaries of lists as mentioned considering below
+
         self.data_dictionary = {
-            'csv_data': {
+            'data_type': {
                 'file_names': [],
                 'dataframes': [],
                 'dictionaries': []
@@ -77,7 +77,7 @@ class DataframeManager:
         self.list_of_file_dictionaries = []  # List of dictionaries for each file
         self.file_list_position = 0
         self.list_of_original_dataframes = []
-        # consider making a dictionary of lists for each thing:
+        #consider making a dictionary of lists for each thing:
         # file types: csvs, json, txt (filenames, dataframes, and dictionaries),
         # filenames (each file type and all),
         # dataframes (current, master, original, modified, file type)
@@ -92,4 +92,11 @@ class DataframeManager:
         }
         self.correlation_matrix = pd.DataFrame
         self.correlation_pairs_list = []
-    #def df_method(self):
+
+        #json.dumps(dictionary) saves dic to file
+
+# file manager class adds data to object from files using file type manager classes
+# dataframe manager class access object to modify dataframes
+
+    # use pickle to store object https://www.askpython.com/python/examples/save-data-in-python
+

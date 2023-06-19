@@ -2,35 +2,63 @@ import CsvManager, JsonManager
 import copy
 import pandas as pd
 
-# object containing all the data information which is accessed and operated on by the manager classes
+# https://satoricyber.com/glossary/data-dictionary
+# https://satoricyber.com/data-management/understanding-the-fundamentals-of-a-data-dictionary/
+
+# object containing all the data information for a single file(type?) stored in the data inventory?
 class DataStorage:
     # make a module instead of a class or else make it a singleton?
     def __init__(self, filelist):
-        # old object variables
-        self.list_of_all_file_names = copy.deepcopy(filelist)  # possibly switch deep copies once type check is set up
-        self.list_of_csv_file_names = copy.deepcopy(filelist)
-        # create dictionaries of lists as mentioned considering below
-        self.dictionary_of_file_names = {
-            'current': None,
-            'list_of_csv': [],
-            'list_of_json': [],
-            'list_of_txt': [],
-            'list_of_all': []
+
+        self.data_dictionary = {
+            'data_type': {
+                'file_names': [],
+                'dataframes': [],
+                'dictionaries': []
+            },
+            'json_data': {
+                'file_names': [],
+                'dataframes': [],
+                'dictionaries': []
+            },
+            'txt_data': {
+                'file_names': [],
+                'dataframes': [],
+                'dictionaries': []
+            },
+            'all_data': {
+                'file_names': [],
+                'dataframes': [],
+                'dictionaries': []
+            },
+            'current_data': {
+                'file_names': [],
+                'dataframes': [],
+                'dictionaries': []
+            },
+            'dictionary_of_file_names': {
+                'current': None,
+                'list_of_csv': [],
+                'list_of_json': [],
+                'list_of_txt': [],
+                'list_of_all': []
+            },
+            'dictionary_of_dataframes': {
+                'current': None,
+                'list_of_csv': [],
+                'list_of_json': [],
+                'list_of_txt': [],
+                'list_of_all': []
+            },
+            'dictionary_of_dictionaries': {
+                'current': None,
+                'list_of_csv': [],
+                'list_of_json': [],
+                'list_of_txt': [],
+                'list_of_all': []
+            }
         }
-        self.dictionary_of_dataframes = {
-            'current': None,
-            'list_of_csv': [],
-            'list_of_json': [],
-            'list_of_txt': [],
-            'list_of_all': []
-        }
-        self.dictionary_of_dictionaries = {
-            'current': None,
-            'list_of_csv': [],
-            'list_of_json': [],
-            'list_of_txt': [],
-            'list_of_all': []
-        }
+
         self.data = {
             'files': {
                 'data': {
