@@ -3,9 +3,9 @@ import pandas as pd
 
 class DataStore:
     def __init__(self):
-        #self.data = {}
+        self.data = {}
         self.dataFrames = {}
-        self.data= {
+        self.data_inventory = {
             'dictionary_of_file_names': {
                 'list_of_csv': [],
                 'list_of_json': [],

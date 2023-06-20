@@ -61,30 +61,6 @@ class CsvManager:  # Rename to DataManager
             self.dataframe = pd.merge(self.dataframe, data_frame, how='outer',
                                       on=['Timestamp'])  # USES MERGE INSTEAD OF CONCAT
 
-    # Read Multiple CSV Files from a Folder
-    # https://sparkbyexamples.com/pandas/pandas-read-multiple-csv-files/
-
-    # Add files
-    # def add_file(self):
-
-    # input file name(s) to add
-    # add file names to list
-    # go through list
-    #   check file type
-    #   save in according places for type
-    #   create dictionary entry for each file
-    #       store file name
-    #       convert file to dataframe
-    #       save original dataframe in dictionary
-    #   store dictionary entry in list
-    # create master dataframe from list00
-
-    # file type detection
-    # https://stackoverflow.com/questions/54698130/determine-if-a-file-is-more-likely-json-or-csv
-    # just check extension and split into lists of file names by each type
-
-    # add check for if file has already been added
-
     def load_csv_file(self):
         for csv in self.list_of_csv_file_names:
             self.add_csv_to_dictionary(csv)  # new - check if it should just be add_csv function

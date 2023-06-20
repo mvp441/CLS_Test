@@ -9,7 +9,7 @@ from JsonManager import JsonManager
 from config import config
 from DataStore import data
 from glob import glob
-
+from TypeDataCatalog import TypeDataCatalog
 from DataDictionary import DataDictionary
 
 # https://www.geeksforgeeks.org/singleton-pattern-in-python-a-complete-guide/
@@ -19,6 +19,60 @@ from DataDictionary import DataDictionary
 class FileManager:
     def __init__(self):
         self.data = data
+        self.data_catalog = {
+            'csv_data': TypeDataCatalog(),
+            'json_data': TypeDataCatalog(),
+            'txt_data': TypeDataCatalog(),
+            'all_data': TypeDataCatalog(),
+            'current_file': {
+                'file_name': None,
+                'dataframe': pd.DataFrame,
+                'dictionary': DataDictionary,
+                'list_position': {
+                    'file_name': None,
+                    'dataframe': None,
+                    'dictionary': None
+                }
+            },
+            'current_data': {
+                'data': TypeDataCatalog(),
+                'positions': TypeDataCatalog()
+            },
+            'master_data': {
+                'file_names': [],
+                'dataframes': [],
+                'dictionary': DataDictionary
+            },
+            'correlation_data': {
+                'file_names': [],
+                'dataframes': [],
+                'dictionary': DataDictionary
+            }
+        }
+
+    # Read Multiple CSV Files from a Folder
+    # https://sparkbyexamples.com/pandas/pandas-read-multiple-csv-files/
+
+    # Add files
+    # def add_file(self):
+
+    # input file name(s) to add
+    # add file names to list
+    # go through list
+    #   check file type
+    #   save in according places for type
+    #   create dictionary entry for each file
+    #       store file name
+    #       convert file to dataframe
+    #       save original dataframe in dictionary
+    #   store dictionary entry in list
+    # create master dataframe from list00
+
+    # file type detection
+    # https://stackoverflow.com/questions/54698130/determine-if-a-file-is-more-likely-json-or-csv
+    # just check extension and split into lists of file names by each type
+
+    # add check for if file has already been added
 
     def parse_path(self, path):
         file_name, file_extension = os.path.splitext(path)
