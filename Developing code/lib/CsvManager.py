@@ -472,6 +472,9 @@ class CsvManger:  # Rename to DataManager
         plt.show()
         print('done plotting')
 
+
+    #def sort_correlation_matrix(self):
+
     # add FFT function?
 
     # frequency map analysis experiment txt page 24

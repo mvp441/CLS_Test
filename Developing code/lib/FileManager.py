@@ -1,4 +1,4 @@
-import CsvManager, JsonManager, TxtManager, DataInventory, DataCatalog
+import CsvManager, JsonManager, TxtManager, DataDictionary, DataInventory, DataCatalog
 import copy
 import pandas as pd
 

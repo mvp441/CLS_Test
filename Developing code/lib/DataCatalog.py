@@ -12,7 +12,7 @@ import DataInventory
 
 # make a singleton object called within each datamanager class that includes(imports) the data inventory?
 # or make it a module with an instance of the inventory singleton class?
-# or make it a singleton class same as the data inventory and call it in the file manager module?
+# or make it a singleton class same as the data inventory and call it in the file manager module? - PROBABLY THIS
 
 class DataCatalog:
     # make a module instead of a class or else make it a singleton?
