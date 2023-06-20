@@ -20,10 +20,26 @@ class FileManager:
     def __init__(self):
         self.data = data
         self.data_catalog = {
-            'csv_data': TypeDataCatalog(),
-            'json_data': TypeDataCatalog(),
-            'txt_data': TypeDataCatalog(),
-            'all_data': TypeDataCatalog(),
+            'csv_data': {
+                'file_names': [],
+                'dataframes': [],
+                'dictionaries': []
+            },
+            'json_data': {
+                'file_names': [],
+                'dataframes': [],
+                'dictionaries': []
+            },
+            'txt_data': {
+                'file_names': [],
+                'dataframes': [],
+                'dictionaries': []
+            },
+            'all_data': {
+                'file_names': [],
+                'dataframes': [],
+                'dictionaries': []
+            },
             'current_file': {
                 'file_name': None,
                 'dataframe': pd.DataFrame,
@@ -35,8 +51,16 @@ class FileManager:
                 }
             },
             'current_data': {
-                'data': TypeDataCatalog(),
-                'positions': TypeDataCatalog()
+                'data': {
+                    'file_names': [],
+                    'dataframes': [],
+                    'dictionaries': []
+                },
+                'positions': {
+                    'file_names': [],
+                    'dataframes': [],
+                    'dictionaries': []
+                }
             },
             'master_data': {
                 'file_names': [],
