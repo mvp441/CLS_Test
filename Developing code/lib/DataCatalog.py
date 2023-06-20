@@ -12,10 +12,12 @@ import DataInventory
 
 # make a singleton object called within each datamanager class that includes(imports) the data inventory?
 # or make it a module with an instance of the inventory singleton class?
+# or make it a singleton class same as the data inventory and call it in the file manager module?
 
 class DataCatalog:
     # make a module instead of a class or else make it a singleton?
     def __init__(self, filelist):
+        # map dictionary entries to corresponding data inventory object location
         self.data_catalog = {
             'csv_data': {
                 'file_names': [],
@@ -37,25 +39,35 @@ class DataCatalog:
                 'dataframes': [],
                 'dictionaries': []
             },
-            'current_data': {
-                'file_names': [],
-                'dataframes': [],
-                'dictionaries': [],
+            'current_file': {
+                'file_name': None,
+                'dataframe': pd.DataFrame,
+                'dictionary': DataDictionary,
                 'list_position': {
                     'file_name': None,
                     'dataframe': None,
                     'dictionary': None
                 }
             },
-            'master_data': DataDictionary
-        }
-
-        self.data = {
-            'files': {
-                'data': {
-                    'example': 102.44
-                },
-                'filetype': 'Json'
+            'current_data': {
+                'list_of_file_names': [],
+                'list_of_dataframes': [],
+                'list_of_dictionaries': [],
+                'list_positions': {
+                    'file_names': [],
+                    'dataframes': [],
+                    'dictionaries': []
+                }
+            },
+            'master_data': {
+                'file_names': [],
+                'dataframes': [],
+                'dictionary': DataDictionary
+            },
+            'correlation_data': {
+                'file_names': [],
+                'dataframes': [],
+                'dictionary': DataDictionary
             }
         }
         self.list_of_csv_dataframes = []
@@ -68,7 +80,7 @@ class DataCatalog:
         self.list_of_file_dictionaries = []  # List of dictionaries for each file
         self.file_list_position = 0
         self.list_of_original_dataframes = []
-        #consider making a dictionary of lists for each thing:
+        # consider making a dictionary of lists for each thing:
         # file types: csvs, json, txt (filenames, dataframes, and dictionaries),
         # filenames (each file type and all),
         # dataframes (current, master, original, modified, file type)

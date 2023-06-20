@@ -10,7 +10,7 @@ class DataframeManager:
             filelist)  # possibly switch deep copies once type check is set up
         self.list_of_csv_file_names = copy.deepcopy(filelist)
         # create dictionaries of lists as mentioned considering below
-        self.data_dictionary = {
+        self.data_inventory = {
             'csv_data': {
                 'file_names': [],
                 'dataframes': [],
@@ -31,31 +31,61 @@ class DataframeManager:
                 'dataframes': [],
                 'dictionaries': []
             },
+            'current_file': {
+                'file_name': None,
+                'dataframe': pd.DataFrame,
+                'dictionary': DataDictionary,
+                'list_position': {
+                    'file_name': None,
+                    'dataframe': None,
+                    'dictionary': None
+                }
+            },
             'current_data': {
+                'list_of_file_names': [],
+                'list_of_dataframes': [],
+                'list_of_dictionaries': [],
+                'list_positions': {
+                    'file_names': [],
+                    'dataframes': [],
+                    'dictionaries': []
+                }
+            },
+            'master_data': {
                 'file_names': [],
                 'dataframes': [],
-                'dictionaries': []
+                'dictionary': DataDictionary
+            },
+            'correlation_data': {
+                'file_names': [],
+                'dataframes': [],
+                'dictionary': DataDictionary
             },
             'dictionary_of_file_names': {
-                'current': None,
                 'list_of_csv': [],
                 'list_of_json': [],
                 'list_of_txt': [],
                 'list_of_all': []
             },
             'dictionary_of_dataframes': {
-                'current': None,
+                'list_of_csv': [],  # self.list_of_csv_dataframes = []
+                'list_of_json': [],
+                'list_of_txt': [],
+                'list_of_original': [],
+                'list_of_current': []
+            },
+            'dictionary_of_dictionaries': {
                 'list_of_csv': [],
                 'list_of_json': [],
                 'list_of_txt': [],
                 'list_of_all': []
             },
-            'dictionary_of_dictionaries': {
-                'current': None,
-                'list_of_csv': [],
-                'list_of_json': [],
-                'list_of_txt': [],
-                'list_of_all': []
+            'correlation_data': {
+                'list_of_files': None,
+                'list_of_dataframes': None,
+                'input_dataframe': pd.DataFrame,
+                'correlation_matrix': pd.DataFrame,  # self.correlation_matrix = pd.DataFrame
+                'correlation_pairs': []
             }
         }
 

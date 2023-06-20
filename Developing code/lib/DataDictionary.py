@@ -10,6 +10,14 @@ import pandas as pd
 class DataFile:
     # make a module instead of a class or else make it a singleton?
     def __init__(self):
+        self.data = {
+            'files': {
+                'data': {
+                    'example': 102.44
+                },
+                'filetype': 'Json'
+            }
+        }
         self.data_dictionary = {
             'file_name': None,
             'alias': None,
@@ -22,3 +30,4 @@ class DataFile:
             'modification_history': []
             # size?
         }
+
