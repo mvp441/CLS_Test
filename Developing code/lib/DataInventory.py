@@ -9,7 +9,7 @@ import pandas as pd
 
 
 # object containing all the data information which is accessed and operated on by the manager classes
-#@Singleton ?
+@Singleton
 class DataInventory:
     # make a module instead of a class (or else make it a singleton?) consisting of lists of data dictionaries
     # or make a singleton class object comprised of lists and instantiated in catalog module
