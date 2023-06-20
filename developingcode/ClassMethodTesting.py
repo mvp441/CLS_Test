@@ -172,8 +172,8 @@ def tested_working(csv_data):
 
 
 
-# csv_data = file_setup()
-# currently_testing(csv_data)
+csv_data = file_setup()
+currently_testing(csv_data)
 test_load_data_to_dictionary()
 # tested_working(csv_data)
 

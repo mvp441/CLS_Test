@@ -11,13 +11,25 @@ import pandas as pd
 class DataFile:
     # make a module instead of a class or else make it a singleton?
     def __init__(self):
-        self.alias = ""
+        '''self.alias = ""
         self.fileName = ""
         self.description = ""
         self.dataFrames = {}
         self.fileType = ""
         self.history = []
-        self.id = uuid.uuid4()
+        self.id = uuid.uuid4()'''
+        self.data_dictionary = {
+            'file_name': None,
+            'alias': None,
+            'description': None,
+            'file_type': None,
+            'list_position': None,
+            'list_of_column_names': None,
+            'original_dataframe': None,
+            'modified_dataframe': None,
+            'modification_history': []
+            # size?
+        }
 
     def setAlias(self, alias):
         self.alias = alias
@@ -41,22 +53,18 @@ class DataFile:
             'reason': reason
         })
 
-
     def getDataFrameCopy(self, modified=False, deep=False):
         selectedDataFrame = self.getDataFrame(modified)
-
         if deep:
             selectedDataFrame = deepcopy(selectedDataFrame)
         else:
             selectedDataFrame = copy(selectedDataFrame)
-
         return selectedDataFrame
 
     def getDataFrames(self):
         dataFrames = []
         for dataFrame in self.dataFrames:
             dataFrames.append(dataFrame)
-
         return dataFrames
 
     def isModified(self, dataFrame):

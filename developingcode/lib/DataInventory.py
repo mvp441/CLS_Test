@@ -1,5 +1,6 @@
 import Singleton
 from dataclasses import dataclass
+from DataStore import data
 import dataclasses_json
 
 import CsvManager, JsonManager
@@ -12,7 +13,7 @@ import pandas as pd
 
 
 # object containing all the data information which is accessed and operated on by the manager classes
-@dataclass
+#@dataclass
 class DataInventory:
     # make a module instead of a class (or else make it a singleton?) consisting of lists of data dictionaries
     # or make a singleton class object comprised of lists and instantiated in catalog module

@@ -10,7 +10,7 @@ from config import config
 from DataStore import data
 from glob import glob
 
-from DataframeManager import DataframeManager
+from DataDictionary import DataDictionary
 
 # https://www.geeksforgeeks.org/singleton-pattern-in-python-a-complete-guide/
 # https://pypi.org/project/singleton-decorator/?fbclid=IwAR0vUAXsSFI6G1el2EgjEQip7tdG3V29rnkCc0QhW6W8zNcBjoasu-zbZ6U
@@ -19,7 +19,6 @@ from DataframeManager import DataframeManager
 class FileManager:
     def __init__(self):
         self.data = data
-
 
     def parse_path(self, path):
         file_name, file_extension = os.path.splitext(path)

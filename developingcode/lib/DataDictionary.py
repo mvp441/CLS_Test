@@ -3,7 +3,7 @@ import DataFile
 import pandas as pd
 import copy
 
-class DataframeManager:
+class DataDictionary:
     def __init__(self, filelist):
         # old object variables
         self.list_of_all_file_names = copy.deepcopy(

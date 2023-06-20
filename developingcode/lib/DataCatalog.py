@@ -3,6 +3,7 @@ import copy
 import pandas as pd
 import DataFile
 import DataInventory
+import DataDictionary
 
 # https://satoricyber.com/data-management/data-catalog/
 # https://satoricyber.com/glossary/data-catalog/?l=l-middle&f=what-is-a-data-inventory-and-why-is-it-important
