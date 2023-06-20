@@ -1,14 +1,13 @@
-import FileManager
 import json
 from glob import glob
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import copy
+from DataStore import data
 
-class JsonManager(FileManager):
+class JsonManager():
     def __init__(self):
-        super(FileManager, self).__init__()
         self.list_of_file_names = []
         self.list_of_json_files = []
         self.list_of_json_dictionaries = []
@@ -21,7 +20,7 @@ class JsonManager(FileManager):
         self.master_dataframe = pd.DataFrame()
 
     def load_filenames_from_folder(self, folder_location='/home/parmarm/Documents/CLS_Test/Data/tune-data',
-                                    file_name='/getTbTBPMData_2023-05-07*.json'):
+                                    file_name='/*.json'):
         self.list_of_file_names = glob(folder_location + file_name)
 
     def json_to_dictionary(self, file_name):
@@ -43,8 +42,8 @@ class JsonManager(FileManager):
         # possibly remove the following two lines for non experiment use or make optional
         self.dictionary['experiment'] = None  # add
         self.dictionary['description'] = None  # to identify and distinguish files
-        self.dictionary['dataframe_with_file_info'] = self.json_to_dataframe()
-        self.dictionary['original_data'] = copy.deepcopy(self.get_json_data())
+        self.json_to_dataframe(self.dictionary['file_name'])
+        # self.dictionary['original_data'] = copy.deepcopy(self.get_json_data())
 
     def jsons_to_dictionary_list(self):
         self.list_of_json_dictionaries = []
@@ -79,7 +78,8 @@ class JsonManager(FileManager):
         # Need to make second dataframe of just json data (anything in a list)
         # add second dataframe to dictionary entry
         self.dataframe = pd.read_json(json_file)
-        self.dataframe = pd.DataFrame  # Create second dataframe of changing variables
+
+        # self.dataframe = pd.DataFrame  # Create second dataframe of changing variables
 
     def get_json_data(self):
         # possibly make a second function which deepcopies the dataframe and removes unnecessary columns

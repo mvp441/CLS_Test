@@ -102,7 +102,7 @@ def test_plot_correlation_matrix(csv_data):
 def file_setup():
     csv_1 = "../PV Data/Trip 1 data/gLYHVdm+.csv"
     csv_2 = '../PV Data/Trip 1 data/tdL5QoZo.csv'
-    csv_data = CsvManager.CsvManger([csv_1])
+    csv_data = CsvManager.CsvManager([csv_1])
     test_add_csv(csv_data, csv_2)
     return csv_data
 
@@ -124,7 +124,8 @@ def test_load_data_to_dataframe():
 def test_load_data_to_dictionary():
     print('starting test of loading json data into dictionary')
     json_manager = JsonManager.JsonManager()
-    test_filename_list = json_manager.load_filenames_from_folder()
+    json_manager.load_filenames_from_folder()
+    test_filename_list = json_manager.list_of_file_names
     test_dictionary_with_file_data = json_manager.json_to_dictionary(json_manager.list_of_file_names[0])
     test_json_dictionary_list = json_manager.jsons_to_dictionary_list()
     test_select_dictionary = json_manager.select_dictionary(test_filename_list[0])
@@ -171,8 +172,8 @@ def tested_working(csv_data):
 
 
 
-csv_data = file_setup()
-currently_testing(csv_data)
+# csv_data = file_setup()
+# currently_testing(csv_data)
 test_load_data_to_dictionary()
-#tested_working(csv_data)
+# tested_working(csv_data)
 

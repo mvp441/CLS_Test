@@ -59,7 +59,7 @@ def dfpc_plot(df_int, dfi2):
 # plt.show()
 #
 
-csv_list = CSV.CsvManger(["../PV Data/Trip 1 data/gLYHVdm+.csv"])
+csv_list = CSV.CsvManager(["../PV Data/Trip 1 data/gLYHVdm+.csv"])
 
 print(csv_list.get_column_names())
 

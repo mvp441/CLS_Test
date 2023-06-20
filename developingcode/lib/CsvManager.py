@@ -9,18 +9,15 @@ import datetime
 import numpy as np
 import seaborn as sns
 import FileManager
-import tabulate
-
+from tabulate import tabulate
 pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 
 
 # ADD CATCH STATEMENTS TO ALL IF ELSE STATEMENTS
-
-class CsvManger:  # Rename to DataManager
+class CsvManager:  # Rename to DataManager
     def __init__(self, csv_files):
-        super(FileManager, self).__init__()
         self.list_of_all_file_names = copy.deepcopy(csv_files)  # possibly switch deep copies once type check is set up
         self.list_of_csv_file_names = copy.deepcopy(csv_files)
         self.list_of_csv_dataframes = []

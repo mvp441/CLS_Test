@@ -1,6 +1,6 @@
 from lib import CsvManager
 
-csv_list = CSV.CsvManger(["../PV Data/Trip 1 data/gLYHVdm+.csv"])
+csv_list = CSV.CsvManager(["../PV Data/Trip 1 data/gLYHVdm+.csv"])
 csv_list.add_csv('../PV Data/Trip 1 data/tdL5QoZo.csv')
 #csv_list.output_dataframe_to_console()
 
