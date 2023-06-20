@@ -9,11 +9,12 @@ import datetime
 import numpy as np
 import seaborn as sns
 import FileManager
+import tabulate
 
 pd.set_option('display.max_rows', 500)
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
-from tabulate import tabulate
+
 
 # ADD CATCH STATEMENTS TO ALL IF ELSE STATEMENTS
 
@@ -32,7 +33,7 @@ class CsvManger:  # Rename to DataManager
         self.list_of_file_dictionaries = []  # List of dictionaries for each file
         self.file_list_position = 0
         self.list_of_original_dataframes = []
-        #consider making a dictionary of lists for each thing:
+        # consider making a dictionary of lists for each thing:
         # file types: csvs, json, txt (filenames, dataframes, and dictionaries),
         # filenames (each file type and all),
         # dataframes (current, master, original, modified, file type)
@@ -60,7 +61,8 @@ class CsvManger:  # Rename to DataManager
         if len(self.dataframe.columns.to_list()) == 0:
             self.dataframe = data_frame
         else:
-            self.dataframe = pd.merge(self.dataframe, data_frame, how='outer', on=['Timestamp'])  # USES MERGE INSTEAD OF CONCAT
+            self.dataframe = pd.merge(self.dataframe, data_frame, how='outer',
+                                      on=['Timestamp'])  # USES MERGE INSTEAD OF CONCAT
 
     # Read Multiple CSV Files from a Folder
     # https://sparkbyexamples.com/pandas/pandas-read-multiple-csv-files/
@@ -105,7 +107,7 @@ class CsvManger:  # Rename to DataManager
         self.dataframe_file_name = csv
         self.csv_to_df(csv)
         if len(self.list_of_file_dictionaries) > 1:
-            self.dataframe_list_position = len(self.list_of_file_dictionaries)-1
+            self.dataframe_list_position = len(self.list_of_file_dictionaries) - 1
         else:
             self.dataframe_list_position = len(self.list_of_file_dictionaries)
         self.convert_csv_timestamp()
@@ -122,9 +124,10 @@ class CsvManger:  # Rename to DataManager
         # if master is at the end of list remove it before adding new one
         if self.list_of_file_dictionaries is not None:
             if len(self.list_of_file_dictionaries) > 1:
-                self.list_of_file_dictionaries.remove(self.list_of_file_dictionaries[len(self.list_of_file_dictionaries)-1])
+                self.list_of_file_dictionaries.remove(
+                    self.list_of_file_dictionaries[len(self.list_of_file_dictionaries) - 1])
         self.list_of_file_dictionaries.append(dataframe_info)
-        #self.prepare_csv_df()  # not sure if this will work as intended need to test still
+        # self.prepare_csv_df()  # not sure if this will work as intended need to test still
         self.construct_master_dictionary(modified=False)
 
     def csv_to_df(self, csv):
@@ -134,9 +137,9 @@ class CsvManger:  # Rename to DataManager
         # if master is at the end of list remove it before adding new one
         if self.list_of_file_dataframes is not None:
             if len(self.list_of_file_dataframes) > 1:
-                self.list_of_file_dataframes.remove(self.list_of_file_dataframes[len(self.list_of_file_dataframes)-1])
+                self.list_of_file_dataframes.remove(self.list_of_file_dataframes[len(self.list_of_file_dataframes) - 1])
         self.list_of_file_dataframes.append(self.dataframe)
-        #self.construct_master_dictionary(modified=False)  moved to csv to dict function
+        # self.construct_master_dictionary(modified=False)  moved to csv to dict function
 
     def convert_csv_timestamp(self):
         self.dataframe['Timestamp'] = self.dataframe['Timestamp'].apply(pd.to_datetime)
@@ -182,7 +185,7 @@ class CsvManger:  # Rename to DataManager
             self.master_dictionary['original_dataframe'] = self.master_dataframe
         else:
             self.master_dictionary['modified_dataframe'] = self.master_dataframe
-        self.master_dictionary['list_position'] = len(self.list_of_file_dictionaries)-1
+        self.master_dictionary['list_position'] = len(self.list_of_file_dictionaries) - 1
         self.master_dictionary['list_of_column_names'] = self.master_dataframe.columns.to_list()
         self.list_of_file_dictionaries.append(self.master_dictionary)
 
@@ -205,7 +208,7 @@ class CsvManger:  # Rename to DataManager
             else:
                 self.file_list_position += 1
 
-    #def select_multiple_files(self, list_of_filenames):
+    # def select_multiple_files(self, list_of_filenames):
 
     def select_dataframe(self, dataframe_name=None, modified=True, list_position=0):
         if dataframe_name is None:
@@ -217,10 +220,13 @@ class CsvManger:  # Rename to DataManager
             if dataframe_name is not 'master':
                 if self.list_of_file_dictionaries[self.dataframe_list_position]['file_name'] == dataframe_name:
                     dataframe_found = True
-                    if modified and self.list_of_file_dictionaries[self.dataframe_list_position]['modified_dataframe'] is not None:
-                        self.dataframe = copy.copy(self.list_of_file_dictionaries[self.dataframe_list_position]['modified_dataframe'])  # maybe deep copy to save versions later
+                    if modified and self.list_of_file_dictionaries[self.dataframe_list_position][
+                        'modified_dataframe'] is not None:
+                        self.dataframe = copy.copy(self.list_of_file_dictionaries[self.dataframe_list_position][
+                                                       'modified_dataframe'])  # maybe deep copy to save versions later
                     else:
-                        self.dataframe = copy.deepcopy(self.list_of_file_dictionaries[self.dataframe_list_position]['original_dataframe'])
+                        self.dataframe = copy.deepcopy(
+                            self.list_of_file_dictionaries[self.dataframe_list_position]['original_dataframe'])
                     self.dataframe_file_name = dataframe_name
                 if self.dataframe_list_position + 1 < len(self.list_of_file_dictionaries):
                     self.dataframe_list_position += 1
@@ -272,7 +278,6 @@ class CsvManger:  # Rename to DataManager
         self.list_of_file_dataframes[self.dataframe_list_position] = self.dataframe
         # test modifying the dataframe after and seeing if both change
         self.file_dictionary['modification_history'].append(method)
-
 
         # eventually save all versions into a list of dictionaries containing the modified dataframe and modification history
 
@@ -356,7 +361,7 @@ class CsvManger:  # Rename to DataManager
         df_mode = self.dataframe.mode(axis=0, skipna=True)
         return df_mode
 
-    #def calculate_percent_change(self):
+    # def calculate_percent_change(self):
     # https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pct_change.html
 
     def drop_na_values(self, axis=0):
@@ -365,7 +370,8 @@ class CsvManger:  # Rename to DataManager
     # NOT ALL HAVE CURRENTLY PASSED WORKING TEST
     def fill_na_values(self, method='pad'):
         if type(method) == int or type(method) == float:
-            self.dataframe.fillna(method, axis='rows', inplace=True)  # Has been initially tested and is working at the moment
+            self.dataframe.fillna(method, axis='rows',
+                                  inplace=True)  # Has been initially tested and is working at the moment
         elif method in ['mean', 'median', 'mode']:
             if method == 'mean':
                 column_fill_values = self.calculate_mean()
@@ -397,7 +403,7 @@ class CsvManger:  # Rename to DataManager
                 self.dataframe.interpolate(method='linear', inplace=True)
         elif method == 'polynomial':
             # typecheck order is int
-            if str(order) == '1': # can remove int check
+            if str(order) == '1':  # can remove int check
                 self.dataframe.interpolate(method=method, order=order, inplace=True)
             elif str(order) == '2':
                 self.dataframe.interpolate(method='polynomial', order=2, inplace=True)
@@ -419,8 +425,8 @@ class CsvManger:  # Rename to DataManager
         # should remove na values remaining after interpolation to not throw off correlation calculation
         self.drop_na_values()  # or fill_na
         # switch all function calls to modify ones - should be able to comment out everything above and uncomment the two lines below
-        #self.modify_dataframe(method='interpolate', order=2)
-        #self.modify_dataframe(method='drop')
+        # self.modify_dataframe(method='interpolate', order=2)
+        # self.modify_dataframe(method='drop')
         # drop all columns with a std of 0
         column_stds = self.dataframe.std()
         for i in range(len(column_stds)):
@@ -436,11 +442,11 @@ class CsvManger:  # Rename to DataManager
         print('done checklist')
         # for PV in check_list:
 
-    #check time conversion and na fills and columns
+    # check time conversion and na fills and columns
     def calculate_correlation_matrix(self):
         # need to convert time values before interpolating (possibly when dataframe is created?)
         self.convert_csv_timestamp()
-        #self.convert_time_interval()
+        # self.convert_time_interval()
         # should interpolate data first so fewer na values
         self.interpolate_data()
         # should remove na values remaining after interpolation so as to not throw off correlation calculation
@@ -449,8 +455,9 @@ class CsvManger:  # Rename to DataManager
         column_stds = self.dataframe.std()
         for i in range(len(column_stds)):
             if column_stds[i] == 0:
-                self.dataframe = self.dataframe.drop(self.dataframe.columns[[i + 1]], axis=1)  # +! to account for no timestamp std
-        #self.prepare_dataframe_for_correlating()
+                self.dataframe = self.dataframe.drop(self.dataframe.columns[[i + 1]],
+                                                     axis=1)  # +! to account for no timestamp std
+        # self.prepare_dataframe_for_correlating()
         self.correlation_matrix = self.dataframe.corr()  # calculates the pair-wise correlation values between all the columns within a dataframe
 
     def clean_up_correlation_matrix(self):

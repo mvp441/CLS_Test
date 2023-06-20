@@ -8,7 +8,7 @@ import copy
 
 class JsonManager(FileManager):
     def __init__(self):
-        super(JsonManager, self).__init__()
+        super(FileManager, self).__init__()
         self.list_of_file_names = []
         self.list_of_json_files = []
         self.list_of_json_dictionaries = []

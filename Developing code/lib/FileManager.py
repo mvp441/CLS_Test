@@ -1,4 +1,4 @@
-import CsvManager, JsonManager, DataDictionary
+import CsvManager, JsonManager, TxtManager, DataInventory, DataCatalog
 import copy
 import pandas as pd
 
@@ -8,9 +8,11 @@ import pandas as pd
 # file type managers are subclasses with shared parent variables
 class FileManager:
     def __init__(self):
-        data_store = DataStorage
+        data_catalog = DataCatalog
+        data_inventory = DataInventory
         csv_data = CsvManager
         json_data = JsonManager
+        txt_data = TxtManager
 
     # has functions for importing data into dataframes
 

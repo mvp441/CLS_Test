@@ -1,16 +1,22 @@
-# dataframe methods
-import DataDictionary
-import pandas as pd
+import CsvManager, JsonManager
 import copy
+import pandas as pd
+import DataDictionary
+import DataInventory
 
-class DataframeManager:
+# https://satoricyber.com/data-management/data-catalog/
+# https://satoricyber.com/glossary/data-catalog/?l=l-middle&f=what-is-a-data-inventory-and-why-is-it-important
+'''Data Mapping is an essential function of a Data Catalog. It heavily relies on Data Inventory, but it is a function for searching and integrating different aspects of the Data Catalog. It is not the data itself or a particular element of the Data Catalog.'''
+
+# object containing all the data information for a single file(type?) stored in the data catalog and inventory?
+
+# make a singleton object called within each datamanager class that includes(imports) the data inventory?
+# or make it a module with an instance of the inventory singleton class?
+
+class DataCatalog:
+    # make a module instead of a class or else make it a singleton?
     def __init__(self, filelist):
-        # old object variables
-        self.list_of_all_file_names = copy.deepcopy(
-            filelist)  # possibly switch deep copies once type check is set up
-        self.list_of_csv_file_names = copy.deepcopy(filelist)
-        # create dictionaries of lists as mentioned considering below
-        self.data_dictionary = {
+        self.data_catalog = {
             'csv_data': {
                 'file_names': [],
                 'dataframes': [],
@@ -34,29 +40,14 @@ class DataframeManager:
             'current_data': {
                 'file_names': [],
                 'dataframes': [],
-                'dictionaries': []
+                'dictionaries': [],
+                'list_position': {
+                    'file_name': None,
+                    'dataframe': None,
+                    'dictionary': None
+                }
             },
-            'dictionary_of_file_names': {
-                'current': None,
-                'list_of_csv': [],
-                'list_of_json': [],
-                'list_of_txt': [],
-                'list_of_all': []
-            },
-            'dictionary_of_dataframes': {
-                'current': None,
-                'list_of_csv': [],
-                'list_of_json': [],
-                'list_of_txt': [],
-                'list_of_all': []
-            },
-            'dictionary_of_dictionaries': {
-                'current': None,
-                'list_of_csv': [],
-                'list_of_json': [],
-                'list_of_txt': [],
-                'list_of_all': []
-            }
+            'master_data': DataDictionary
         }
 
         self.data = {
@@ -77,7 +68,7 @@ class DataframeManager:
         self.list_of_file_dictionaries = []  # List of dictionaries for each file
         self.file_list_position = 0
         self.list_of_original_dataframes = []
-        # consider making a dictionary of lists for each thing:
+        #consider making a dictionary of lists for each thing:
         # file types: csvs, json, txt (filenames, dataframes, and dictionaries),
         # filenames (each file type and all),
         # dataframes (current, master, original, modified, file type)
@@ -92,12 +83,13 @@ class DataframeManager:
         }
         self.correlation_matrix = pd.DataFrame
         self.correlation_pairs_list = []
-    #def df_method(self):
 
-    # json.dumps(dictionary) saves dic to file
+        #json.dumps(dictionary) saves dic to file
 
-    # file manager class adds data to object from files using file type manager classes
-    # dataframe manager class access object to modify dataframes
+# file manager class adds data to object from files using file type manager classes
+# dataframe manager class access object to modify dataframes
 
     # use pickle to store object https://www.askpython.com/python/examples/save-data-in-python
+
+
 

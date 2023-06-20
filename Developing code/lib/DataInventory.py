@@ -4,54 +4,27 @@ import pandas as pd
 
 # https://satoricyber.com/glossary/data-inventory
 # https://satoricyber.com/data-management/what-is-a-data-inventory-and-why-is-it-important/?l=l-middle&f=gu-understanding-the-fundamentals-of-a-data-dictionary
+'''While a Data Catalog is the whole system, which incorporates different informational tools, including the data, Data Inventory is the actual collection of data. It is an important function of the Data Catalog, but it is not the same as the data catalog.'''
 
 # object containing all the data information which is accessed and operated on by the manager classes
-class DataStorage:
-    # make a module instead of a class or else make it a singleton?
-    def __init__(self, filelist):
-
-        self.data_dictionary = {
-            'data_type': {
-                'file_names': [],
-                'dataframes': [],
-                'dictionaries': []
-            },
-            'json_data': {
-                'file_names': [],
-                'dataframes': [],
-                'dictionaries': []
-            },
-            'txt_data': {
-                'file_names': [],
-                'dataframes': [],
-                'dictionaries': []
-            },
-            'all_data': {
-                'file_names': [],
-                'dataframes': [],
-                'dictionaries': []
-            },
-            'current_data': {
-                'file_names': [],
-                'dataframes': [],
-                'dictionaries': []
-            },
+class DataInventory:
+    # make a module instead of a class (or else make it a singleton?) consisting of lists of data dictionaries
+    # or make a singleton class object comprised of lists and instantiated in catalog module
+    def __init__(self):
+        self.data_inventory = {
             'dictionary_of_file_names': {
-                'current': None,
                 'list_of_csv': [],
                 'list_of_json': [],
                 'list_of_txt': [],
                 'list_of_all': []
             },
             'dictionary_of_dataframes': {
-                'current': None,
                 'list_of_csv': [],
                 'list_of_json': [],
                 'list_of_txt': [],
                 'list_of_all': []
             },
             'dictionary_of_dictionaries': {
-                'current': None,
                 'list_of_csv': [],
                 'list_of_json': [],
                 'list_of_txt': [],
@@ -59,14 +32,7 @@ class DataStorage:
             }
         }
 
-        self.data = {
-            'files': {
-                'data': {
-                    'example': 102.44
-                },
-                'filetype': 'Json'
-            }
-        }
+
         self.list_of_csv_dataframes = []
         # create dictionary for current dataframe with name and list positions
         self.dataframe = pd.DataFrame()  # Currently selected dataframe - maybe have this seperate or different for selecting and looking at a subset of all files
