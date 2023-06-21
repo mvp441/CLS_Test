@@ -9,7 +9,6 @@ from JsonManager import JsonManager
 from config import config
 from DataStore import data
 from glob import glob
-from TypeDataCatalog import TypeDataCatalog
 from DataDictionary import DataDictionary
 
 # https://www.geeksforgeeks.org/singleton-pattern-in-python-a-complete-guide/

@@ -57,6 +57,15 @@ class DataStore:
             dataFrames.append(file.getDataFrames())
         return dataFrames
 
+    def add_file_name_to_inventory(self, file_name, file_extension):
+        if file_extension.lower() == '.csv':
+            self.data_inventory['dictionary_of_file_names']['list_of_csv'].append(file_name)
+        elif file_extension.lower() == '.json':
+            self.data_inventory['dictionary_of_file_names']['list_of_json'].append(file_name)
+        elif file_extension.lower() == '.txt':
+            self.data_inventory['dictionary_of_file_names']['list_of_txt'].append(file_name)
+        self.data_inventory['dictionary_of_file_names']['list_of_all'].append(file_name)
 
+    def add_dataframe_to_inventory(self,):
 
 data = DataStore()

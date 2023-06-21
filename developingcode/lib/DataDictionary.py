@@ -18,4 +18,7 @@ class DataDictionary:
                     # size?
                 }
 
+        #dictionary helper functions
+
+
 

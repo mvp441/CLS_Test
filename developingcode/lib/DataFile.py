@@ -19,7 +19,7 @@ class DataFile:
         self.fileType = ""
         self.history = []
         self.id = uuid.uuid4()
-        self.data_dictionary = DataDictionary.DataDictionary()
+        #self.data_dictionary = DataDictionary.DataDictionary()
 
     def setAlias(self, alias):
         self.alias = alias
@@ -27,10 +27,10 @@ class DataFile:
     def setDescription(self, description):
         self.description = description
 
-    def generateUniqueId(self):
+    def generateUniqueId(self):  # ? shouldn't it be get??
         return uuid.uuid4()
 
-    def addDataFrame(self, dataFrame):
+    def addDataFrame(self, dataFrame):  # ? how do I fix this so it's how I had it instead
         dataFrameId = self.generateUniqueId()
         self.dataFrames[dataFrameId] = dataFrame
         return dataFrameId
@@ -61,7 +61,7 @@ class DataFile:
         return dataFrame.modified
 
     def getDataFrame(self, modified=False):
-        return filter(self.isModified, self.dataFrames)
+        return filter(self.isModified, self.dataFrames)  # ? is modified requires a dataframe input??
 
 
 
