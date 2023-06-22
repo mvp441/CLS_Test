@@ -47,7 +47,7 @@ class CsvManager:  # Rename to DataManager
         self.correlation_matrix = pd.DataFrame
         self.correlation_pairs_list = []
 
-        self.load_csv_file()
+        self.load_csv_files()
         # self.add_csv()
 
     def __add_csv_to_dataframe(self, csv):  # original function used before reformatting
@@ -62,7 +62,7 @@ class CsvManager:  # Rename to DataManager
             self.dataframe = pd.merge(self.dataframe, data_frame, how='outer',
                                       on=['Timestamp'])  # USES MERGE INSTEAD OF CONCAT
 
-    def load_csv_file(self):
+    def load_csv_files(self):
         for csv in self.list_of_csv_file_names:
             self.add_csv_to_dictionary(csv)  # new - check if it should just be add_csv function
             # self.__add_csv_to_dataframe(csv)  # old
@@ -103,6 +103,7 @@ class CsvManager:  # Rename to DataManager
         self.list_of_file_dictionaries.append(dataframe_info)
         # self.prepare_csv_df()  # not sure if this will work as intended need to test still
         self.construct_master_dictionary(modified=False)
+        return dataframe_info
 
     def csv_to_df(self, csv):
         self.dataframe = pd.read_csv(csv)
@@ -114,13 +115,16 @@ class CsvManager:  # Rename to DataManager
                 self.list_of_file_dataframes.remove(self.list_of_file_dataframes[len(self.list_of_file_dataframes) - 1])
         self.list_of_file_dataframes.append(self.dataframe)
         # self.construct_master_dictionary(modified=False)  moved to csv to dict function
+        return self.dataframe
 
     def convert_csv_timestamp(self):
         self.dataframe['Timestamp'] = self.dataframe['Timestamp'].apply(pd.to_datetime)
+        return self.dataframe
 
     def prepare_csv_df(self):
         self.modify_dataframe(method='convert_ts', modified=False)
         self.modify_dataframe(method='convert_ti', modified=True)
+        return self.dataframe
 
     # def add_txt(self, txt):
     # copy from experiment.py file or make TxtManager class file?
@@ -151,6 +155,7 @@ class CsvManager:  # Rename to DataManager
                 self.master_dataframe = pd.concat(self.list_of_original_dataframes, ignore_index=True, sort=False)
         self.master_dataframe.sort_values('Timestamp', inplace=True)
         self.list_of_file_dataframes.append(self.master_dataframe)
+        return self.master_dataframe
 
     # Construct master dataframe from list of modified (or original if no modified) dataframes
     def construct_master_dictionary(self, modified=True):
@@ -162,12 +167,14 @@ class CsvManager:  # Rename to DataManager
         self.master_dictionary['list_position'] = len(self.list_of_file_dictionaries) - 1
         self.master_dictionary['list_of_column_names'] = self.master_dataframe.columns.to_list()
         self.list_of_file_dictionaries.append(self.master_dictionary)
+        return self.master_dictionary
 
     def get_dataframe_file_name(self):
         if self.dataframe_list_position == len(self.list_of_file_dictionaries):
             self.dataframe_file_name = 'master'
         else:
             self.dataframe_file_name = self.list_of_file_dictionaries[self.dataframe_list_position]['file_name']
+        return self.dataframe_file_name
 
     def select_file_dictionary(self, file_name='master', list_position=0):
         file_found = False
@@ -181,6 +188,7 @@ class CsvManager:  # Rename to DataManager
                 self.file_dictionary = copy.copy(self.list_of_file_dictionaries[self.file_list_position])
             else:
                 self.file_list_position += 1
+        return self.file_dictionary, self.file_list_position
 
     # def select_multiple_files(self, list_of_filenames):
 
@@ -214,6 +222,7 @@ class CsvManager:  # Rename to DataManager
                     self.dataframe = copy.deepcopy(self.master_dictionary['original_dataframe'])
                 self.dataframe_file_name = 'master'
         self.select_file_dictionary(list_position=self.dataframe_list_position)
+        return self.dataframe, self.dataframe_list_position, self.dataframe_file_name
 
     def unselect_dataframe(self):
         if self.dataframe is not None:
@@ -222,6 +231,7 @@ class CsvManager:  # Rename to DataManager
             self.select_file_dictionary(self.dataframe_file_name)
             self.file_dictionary['modified_dataframe'] = copy.deepcopy(self.dataframe)
             self.dataframe = pd.DataFrame
+        return self.dataframe
 
     def modify_dataframe(self, dataframe=None, dataframe_name=None, modified=False, method='polynomial', order=1):
         dataframe_name = self.dataframe_file_name  # check if correct
@@ -252,6 +262,7 @@ class CsvManager:  # Rename to DataManager
         self.list_of_file_dataframes[self.dataframe_list_position] = self.dataframe
         # test modifying the dataframe after and seeing if both change
         self.file_dictionary['modification_history'].append(method)
+        return self.dataframe
 
         # eventually save all versions into a list of dictionaries containing the modified dataframe and modification history
 
@@ -259,6 +270,7 @@ class CsvManager:  # Rename to DataManager
 
     def set_dataframe_as_master(self):
         self.dataframe = copy.deepcopy(self.master_dataframe)
+        return self.dataframe
 
     def output_csv_list(self):
         for csv in range(len(self.list_of_csv_file_names)):
@@ -276,7 +288,9 @@ class CsvManager:  # Rename to DataManager
 
     def output_dataframe_to_console(self):
         # https://pypi.org/project/tabulate/ use -o to save in file
-        print(tabulate(self.dataframe, headers='keys', tablefmt='rst'))
+        dataframe_output = (tabulate(self.dataframe, headers='keys', tablefmt='rst'))
+        print(dataframe_output)
+        return dataframe_output
 
     def print_columns(self, column_list=None):
         if column_list is None:
@@ -322,6 +336,7 @@ class CsvManager:  # Rename to DataManager
             else:
                 float(self.dataframe.loc[i, column])
         self.dataframe[column] = self.dataframe[column].astype(float)
+        return self.dataframe
 
     def calculate_mean(self, columns=None):  # keep columns=none?
         df_mean = self.dataframe.mean(axis=0, skipna=True)
@@ -340,6 +355,7 @@ class CsvManager:  # Rename to DataManager
 
     def drop_na_values(self, axis=0):
         self.dataframe.dropna(axis=axis, inplace=True)
+        return self.dataframe
 
     # NOT ALL HAVE CURRENTLY PASSED WORKING TEST
     def fill_na_values(self, method='pad'):
@@ -366,6 +382,7 @@ class CsvManager:  # Rename to DataManager
             if method == 'pad':  # Has been initially tested and is working at the moment
                 self.dataframe.fillna(method='pad', inplace=True)
         # Add catch statement/check default
+        return self.dataframe
 
     def interpolate_data(self, method='polynomial', order=1):  # Check default works without options
         # Could try using match case instead of if-else statements
@@ -388,6 +405,7 @@ class CsvManager:  # Rename to DataManager
             elif str(order) == '5':
                 self.dataframe.interpolate(method='polynomial', order=5, inplace=True)
             # add catch for negative/fractional/higher orders entered
+            return self.dataframe
 
     # JUST STARTING TO WRITE
     def prepare_dataframe_for_correlating(self):
@@ -406,6 +424,7 @@ class CsvManager:  # Rename to DataManager
         for i in range(len(column_stds)):
             if column_stds[i] == 0:
                 self.dataframe = self.dataframe.drop(self.dataframe.columns[[i + 1]], axis=1)
+        return self.dataframe
 
     # HAS NOT BEEN CHECKED YET
     def calculate_correlation(self, check_list=None):
@@ -433,18 +452,22 @@ class CsvManager:  # Rename to DataManager
                                                      axis=1)  # +! to account for no timestamp std
         # self.prepare_dataframe_for_correlating()
         self.correlation_matrix = self.dataframe.corr()  # calculates the pair-wise correlation values between all the columns within a dataframe
+        return self.correlation_matrix
 
     def clean_up_correlation_matrix(self):
         print('clean up corr_mat')
 
     def output_correlation_matrix(self):
-        print(tabulate(self.correlation_matrix, headers='keys', tablefmt='rst'))
+        correlation_output = tabulate(self.correlation_matrix, headers='keys', tablefmt='rst')
+        print(correlation_output)
+        return correlation_output
 
     def plot_correlation_matrix(self):
-        plt.figure()
+        fig1 = plt.figure()
         heat_map = sns.heatmap(self.correlation_matrix, annot=True, cmap='Spectral')  # heat_map = that?
-        plt.show()
+        fig1.show()
         print('done plotting')
+        return fig1, heat_map
 
 
     #def sort_correlation_matrix(self):

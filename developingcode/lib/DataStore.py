@@ -54,7 +54,7 @@ class DataStore:
         return returnData
 
     def getAllDataFrames(self):
-        dataFiles = self.data.values()
+        dataFiles = self.data.values()  # might need to get data.keys() instead
         dataFrames = []
         for file in dataFiles:
             dataFrames.append(file.getDataFrames())

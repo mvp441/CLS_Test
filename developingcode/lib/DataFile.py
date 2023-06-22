@@ -15,10 +15,11 @@ class DataFile:
         self.alias = ""
         self.fileName = ""
         self.description = ""
-        self.dataFrames = {}
+        self.dataFrames = {}  # doesn't work as a dictionary must be a list
         self.fileType = ""
         self.history = []
         self.id = uuid.uuid4()
+        self.dictionary = {}
         #self.data_dictionary = DataDictionary.DataDictionary()
 
     def setAlias(self, alias):
@@ -32,7 +33,7 @@ class DataFile:
 
     def addDataFrame(self, dataFrame):  # ? how do I fix this so it's how I had it instead
         dataFrameId = self.generateUniqueId()
-        self.dataFrames[dataFrameId] = dataFrame
+        self.dataFrames[dataFrameId] = dataFrame  # dataFrameId needs to be a string
         return dataFrameId
 
     def updateDataFrame(self, id, dataFrame, reason):

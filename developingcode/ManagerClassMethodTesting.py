@@ -14,9 +14,8 @@ files = File.load_folder(path, 'json')
 
 dataFrames = File.data.getAllDataFrames()
 
-# for frame in dataFrames:
-#     dataFrameManager.selectDataFrame(frame)
-#
-# dataFrameManager.fillNa("median")
+for frame in dataFrames:
+    dataFrameManager.selectDataFrame(frame)
+dataFrameManager.fillNa("median")
 
 print('test')

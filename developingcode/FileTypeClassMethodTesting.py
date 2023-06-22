@@ -93,7 +93,8 @@ def test_output_correlation_matrix(csv_data):
     csv_data.output_correlation_matrix()
 
 def test_plot_correlation_matrix(csv_data):
-    csv_data.plot_correlation_matrix()
+    fig, map = csv_data.plot_correlation_matrix()
+    print('done test')
 
 #Present
 #Pandas3: plotting

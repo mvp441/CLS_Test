@@ -111,15 +111,14 @@ class FileManager:
             JSON = JsonManager()
             dict = JSON.json_to_dictionary(path)
             JSON.json_to_dataframe(path)
-
             dataFrame = JSON.dataframe
-
             dataFile = self.data.addFile(file_name)
             dataFile.fileType = config['FILE_TYPES']['json']
             dataFile.fileName = os.path.basename(file_name)
             dataFile.description = 'My File Description'
             dataFile.addDataFrame(dataFrame)
             dataFile.setAlias("Example File Alias")
+            dataFile.dictionary = JSON.dictionary
             return dataFile
 
         # elif file_extension.lower() == 'csv':
@@ -130,14 +129,12 @@ class FileManager:
         # elif file_extension.lower() == 'txt':
         #     print('')
 
-    ''' def load_filenames_from_folder(self, folder_location='/home/parmarm/Documents/CLS_Test/Data/tune-data',
-                                    file_name='/*.json'):
-        self.list_of_file_names = glob(folder_location + file_name)'''
-
+    def load_filenames_from_folder(self, folder_location='/home/parmarm/Documents/CLS_Test/Data/tune-data', file_name='/*.json'):
+        self.list_of_file_names = glob(folder_location + file_name)
+ 
     def load_folder(self, folderPath, extension):
         files = []
         fileNames = glob(folderPath + "*." + extension)
-
         for path in fileNames:
             files.append(self.read_file(os.path.abspath(path)))
         return files
