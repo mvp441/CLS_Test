@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import copy
 from DataStore import data
+import DataStore as ds
 
 class JsonManager():
     def __init__(self):
@@ -15,7 +16,7 @@ class JsonManager():
         self.dictionary = {}
         self.dataframe = pd.DataFrame()
         self.dataframe_list = []
-        self.dataframe_dictionary_list = []
+        self.dataframe_dictionary_list = data.data_inventory['dictionary_of_dictionaries']['list_of_all']
         self.original_master_dataframe = pd.DataFrame()
         self.master_dataframe = pd.DataFrame()
 
@@ -37,6 +38,7 @@ class JsonManager():
         self.dictionary['file_name'] = file_name
         self.add_dictionary_information()
         self.dataframe_dictionary_list.append(self.dictionary)
+        ds.data.data_inventory['dictionary_of_dictionaries']['list_of_json'].append(self.dictionary)
 
     def add_dictionary_information(self):
         # possibly remove the following two lines for non experiment use or make optional

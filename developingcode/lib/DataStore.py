@@ -29,8 +29,8 @@ class DataStore:
                 'list_of_all': []
             },
             'correlation_data': {
-                'list_of_files': None,
-                'list_of_dataframes': None,
+                'list_of_files': [],
+                'list_of_dataframes': [],
                 'input_dataframe': pd.DataFrame,
                 'correlation_matrix': pd.DataFrame,  # self.correlation_matrix = pd.DataFrame
                 'correlation_pairs': []

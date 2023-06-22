@@ -1,0 +1,13 @@
+Copied type class functions into handlers
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch Dev
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	modified:   developingcode/lib/CsvManager.py
+#	modified:   developingcode/lib/DataDictionary.py
+#	modified:   developingcode/lib/DataFrameManager.py
+#	modified:   developingcode/lib/DataStore.py
+#	modified:   developingcode/lib/FileManager.py
+#

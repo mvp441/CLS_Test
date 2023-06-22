@@ -21,24 +21,25 @@ class FileManager:
         self.data = data
         self.data_catalog = {
             'csv_data': {
-                'file_names': [],
-                'dataframes': [],
-                'dictionaries': []
+                'file_names': DataStore.data.data_inventory['dictionary_of_file_names']['list_of_csv'],
+                'dataframes': DataStore.data.data_inventory['dictionary_of_dataframes']['list_of_csv'],
+                'dictionaries': DataStore.data.data_inventory['dictionary_of_dictionaries']['list_of_csv']
             },
             'json_data': {
                 'file_names': DataStore.data.data_inventory['dictionary_of_file_names']['list_of_json'],
-                'dataframes': [],
-                'dictionaries': []
+                'dataframes': DataStore.data.data_inventory['dictionary_of_dataframes']['list_of_json'],
+                'dictionaries': DataStore.data.data_inventory['dictionary_of_dictionaries']['list_of_json']
             },
             'txt_data': {
-                'file_names': [],
-                'dataframes': [],
-                'dictionaries': []
+                'file_names': DataStore.data.data_inventory['dictionary_of_file_names']['list_of_txt'],
+                'dataframes': DataStore.data.data_inventory['dictionary_of_dataframes']['list_of_txt'],
+                'dictionaries': DataStore.data.data_inventory['dictionary_of_dictionaries']['list_of_txt']
             },
             'all_data': {
-                'file_names': [],
-                'dataframes': [],
-                'dictionaries': []
+                'file_names': DataStore.data.data_inventory['dictionary_of_file_names']['list_of_all'],
+                'original_dataframes': DataStore.data.data_inventory['dictionary_of_dataframes']['list_of_original'],
+                'current_dataframes': DataStore.data.data_inventory['dictionary_of_dataframes']['list_of_current'],
+                'dictionaries': DataStore.data.data_inventory['dictionary_of_dictionaries']['list_of_all']
             },
             'current_file': {
                 'file_name': None,
@@ -68,8 +69,8 @@ class FileManager:
                 'dictionary': DataDictionary
             },
             'correlation_data': {
-                'file_names': [],
-                'dataframes': [],
+                'file_names': DataStore.data.data_inventory['correlation_data']['list_of_files'],
+                'dataframes': DataStore.data.data_inventory['correlation_data']['list_of_dataframes'],
                 'dictionary': DataDictionary
             }
         }
