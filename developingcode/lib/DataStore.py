@@ -1,10 +1,13 @@
 from DataFile import DataFile
 import pandas as pd
+import singleton
 
+
+#@singleton
 class DataStore:
     def __init__(self):
         self.data = {}
-        self.dataFrames = {}
+        self.selected_dataframes = {}
         self.data_inventory = {
             'dictionary_of_file_names': {
                 'list_of_csv': [],
@@ -66,6 +69,7 @@ class DataStore:
             self.data_inventory['dictionary_of_file_names']['list_of_txt'].append(file_name)
         self.data_inventory['dictionary_of_file_names']['list_of_all'].append(file_name)
 
-    def add_dataframe_to_inventory(self,):
+    # def add_dataframe_to_inventory(self,):
+
 
 data = DataStore()
