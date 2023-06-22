@@ -58,7 +58,6 @@ class JsonManager():
         for i in range(len(self.list_of_json_files)):
             self.json_to_dictionary(self.list_of_json_files[i])
             self.list_of_json_dictionaries.append(self.dictionary)
-            i = + 1
         return self.list_of_json_dictionaries
 
     def select_dictionary(self, filename):

@@ -1,5 +1,4 @@
 import os.path
-
 import copy
 import pandas as pd
 import DataFile
@@ -10,7 +9,6 @@ from DataStore import data
 import DataStore
 from glob import glob
 from DataDictionary import DataDictionary
-
 
 # https://www.geeksforgeeks.org/singleton-pattern-in-python-a-complete-guide/
 # https://pypi.org/project/singleton-decorator/?fbclid=IwAR0vUAXsSFI6G1el2EgjEQip7tdG3V29rnkCc0QhW6W8zNcBjoasu-zbZ6U
@@ -138,7 +136,22 @@ class FileManager:
             files.append(self.read_file(os.path.abspath(path)))
         return files
 
-    '''def load_csv_file(self):
+    '''
+    # def add_txt(self, txt):
+    # copy from experiment.py file or make TxtManager class file?
+
+    # def add_json(self, json):
+    # copy from JsonManager class file?
+
+    # Read Multiple CSV Files from a Folder
+    # https://sparkbyexamples.com/pandas/pandas-read-multiple-csv-files/
+    # def add_CSV_files_from_folder(self, path=None):
+
+    # def add_txt_files_from_folder(self, path=None):
+    # def add_json_files_from_folder(self, path=None):
+    # def add_files_from_folder(self, path=None):
+    
+    def load_csv_file(self):
         for csv in self.list_of_csv_file_names:
             self.add_csv_to_dictionary(csv)  # new - check if it should just be add_csv function
             # self.__add_csv_to_dataframe(csv)  # old

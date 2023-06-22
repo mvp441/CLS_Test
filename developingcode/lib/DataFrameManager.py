@@ -1,4 +1,5 @@
 from copy import copy, deepcopy
+
 class DataFrameManager:
     def __init__(self):
         self.selectedDataFrames = {}
@@ -25,20 +26,6 @@ class DataFrameManager:
     def prepare_csv_df(self):
         self.modify_dataframe(method='convert_ts', modified=False)
         self.modify_dataframe(method='convert_ti', modified=True)
-
-    # def add_txt(self, txt):
-    # copy from experiment.py file or make TxtManager class file?
-
-    # def add_json(self, json):
-    # copy from JsonManager class file?
-
-    # Read Multiple CSV Files from a Folder
-    # https://sparkbyexamples.com/pandas/pandas-read-multiple-csv-files/
-    # def add_CSV_files_from_folder(self, path=None):
-
-    # def add_txt_files_from_folder(self, path=None):
-    # def add_json_files_from_folder(self, path=None):
-    # def add_files_from_folder(self, path=None):
 
     def construct_master_dataframe(self, modified=True):
         # check current status of master dataframe

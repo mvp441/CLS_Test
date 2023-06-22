@@ -2,7 +2,6 @@ from DataFile import DataFile
 import pandas as pd
 import singleton
 
-
 #@singleton
 class DataStore:
     def __init__(self):

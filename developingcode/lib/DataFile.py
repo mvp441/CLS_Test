@@ -1,9 +1,7 @@
 import uuid
-
 from copy import copy, deepcopy
 import DataDictionary
 import pandas as pd
-
 
 # https://satoricyber.com/glossary/data-dictionary
 # https://satoricyber.com/data-management/understanding-the-fundamentals-of-a-data-dictionary/

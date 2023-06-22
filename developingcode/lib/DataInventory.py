@@ -1,9 +1,8 @@
-import Singleton
+import singleton
 from dataclasses import dataclass
 from DataStore import data
-import dataclasses_json
+import dataclasses
 import DataDictionary
-
 import CsvManager, JsonManager
 import copy
 import pandas as pd

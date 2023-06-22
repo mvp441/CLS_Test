@@ -9,8 +9,6 @@ from scipy.optimize import curve_fit
 from matplotlib import pyplot
 from lmfit.models import LorentzianModel
 
-
-
 def f(t):
     return np.exp(-t) * np.cos(2*np.pi*t)
 

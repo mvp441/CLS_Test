@@ -7,11 +7,10 @@ from lib.DataStore import data
 
 File = FileManager()
 
-
 path1 = '/home/parmarm/Documents/CLS_Test/Data/tune-data/'
 path2 = '/home/parmarm/Documents/CLS_Test/PV_Data/Trip_1_data/'
 
-files = File.load_folder(path2, 'csv')
+files = File.load_folder(path1, 'json')
 
 dataFrames = File.data.getAllDataFrames()
 
