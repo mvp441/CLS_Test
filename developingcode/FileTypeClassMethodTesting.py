@@ -101,14 +101,14 @@ def test_plot_correlation_matrix(csv_data):
 #
 
 def file_setup():
-    csv_1 = "../PV Data/Trip 1 data/gLYHVdm+.csv"
-    csv_2 = '../PV Data/Trip 1 data/tdL5QoZo.csv'
+    csv_1 = "../PV_Data/Trip_1_data/gLYHVdm+.csv"
+    csv_2 = '../PV_Data/Trip_1_data/tdL5QoZo.csv'
     csv_data = CsvManager.CsvManager([csv_1])
     test_add_csv(csv_data, csv_2)
     return csv_data
 
 def correlation_setup(csv_data):
-    #csv_data.select_dataframe('../PV Data/Trip 1 data/tdL5QoZo.csv')  # might not need
+    #csv_data.select_dataframe('../PV_Data/Trip_1_data/tdL5QoZo.csv')  # might not need
     csv_data.select_dataframe()
     csv_data.convert_time_interval('PCT1402-01:timeInterval:fbk')
     csv_data.calculate_correlation_matrix()

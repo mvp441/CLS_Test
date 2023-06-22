@@ -6,7 +6,7 @@ print('Test 2: initial data2 type')
 data2 = {}
 print(type(data2))
 
-with open("../PV Data/SR1_BCaL_8h.csv", 'r') as file:
+with open("../PV_Data/SR1_BCaL_8h.csv", 'r') as file:
     csv_file = csv.DictReader(file)
     for row in csv_file:
 #        print(dict(row))

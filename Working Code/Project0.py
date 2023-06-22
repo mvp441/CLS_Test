@@ -49,7 +49,7 @@ def dfpc_plot(df_int, dfi2):
     plt.xlabel('fbk percent change')
     plt.ylabel('mAChange percent change')
 
-# df = pd.read_csv("../PV Data/SR1_BCaL_8h.csv")
+# df = pd.read_csv("../PV_Data/SR1_BCaL_8h.csv")
 # dfColumns = df.columns.to_list()
 #
 # corr_check((df))
@@ -59,12 +59,12 @@ def dfpc_plot(df_int, dfi2):
 # plt.show()
 #
 
-csv_list = CSV.CsvManager(["../PV Data/Trip 1 data/gLYHVdm+.csv"])
+csv_list = CSV.CsvManager(["../PV_Data/Trip_1_data/gLYHVdm+.csv"])
 
 print(csv_list.get_column_names())
 
-csv_list.add_csv('../PV Data/Trip 1 data/tdL5QoZo.csv')
-# csv_list.add_csv("../PV Data/Trip 1 data/gLYHVdm+.csv")
+csv_list.add_csv('../PV_Data/Trip_1_data/tdL5QoZo.csv')
+# csv_list.add_csv("../PV_Data/Trip_1_data/gLYHVdm+.csv")
 
 csv_list.sort_by_column("Timestamp")
 

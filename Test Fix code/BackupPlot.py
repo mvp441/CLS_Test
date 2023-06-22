@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 def TSFc():
     '''Using original data format. Shows correct pattern'''
-    df = pd.read_csv('../PV Data/SR1_BCaL_8h.csv')
+    df = pd.read_csv('../PV_Data/SR1_BCaL_8h.csv')
     dfmini = df.iloc[1:100, 0:2]
     dfminiNA = dfmini.dropna()
     TSx = dfminiNA.iloc[:, 0]
@@ -16,7 +16,7 @@ def TSFc():
 
 
 def PreFT():
-    df = pd.read_csv('../PV Data/SR1_BCaL_8h.csv')  # , parse_dates=['Timestamp']) doesn't plot properly when loaded in with Timestamp in datetime format
+    df = pd.read_csv('../PV_Data/SR1_BCaL_8h.csv')  # , parse_dates=['Timestamp']) doesn't plot properly when loaded in with Timestamp in datetime format
     dfmini = df.iloc[1:100, 0:2]
     dfminiNA = dfmini.dropna()
     df2 = df
@@ -43,7 +43,7 @@ def PreFT():
 
 def Test1():
     ''' Using Timestamp format. Doesn't show correct pattern.'''
-    df = pd.read_csv('../PV Data/SR1_BCaL_8h.csv')
+    df = pd.read_csv('../PV_Data/SR1_BCaL_8h.csv')
     dfmini = df.iloc[1:100, 0:2]
     dfminiNA = dfmini.dropna()
     TSx = pd.to_datetime(dfminiNA.Timestamp, infer_datetime_format=True)
@@ -53,7 +53,7 @@ def Test1():
 
 def Test2():
     ''' Using Timestamp format. Doesn't show correct pattern.'''
-    df = pd.read_csv('../PV Data/SR1_BCaL_8h.csv')
+    df = pd.read_csv('../PV_Data/SR1_BCaL_8h.csv')
     dfmini = df.iloc[1:100, 0:2]
     dfminiNA = dfmini.dropna()
     TSx = dfminiNA.iloc[:, 0]

@@ -4,7 +4,7 @@ import copy
 import pandas as pd
 import DataFile
 from JsonManager import JsonManager
-# from CsvManager import CsvManager
+from CsvManager import CsvManager
 from config import config
 from DataStore import data
 import DataStore
@@ -15,7 +15,7 @@ from DataDictionary import DataDictionary
 # https://www.geeksforgeeks.org/singleton-pattern-in-python-a-complete-guide/
 # https://pypi.org/project/singleton-decorator/?fbclid=IwAR0vUAXsSFI6G1el2EgjEQip7tdG3V29rnkCc0QhW6W8zNcBjoasu-zbZ6U
 
-# file type managers are subclasses with shared parent variables
+# has functions for importing files into datastore
 class FileManager:
     def __init__(self):
         self.data = data
@@ -120,18 +120,17 @@ class FileManager:
             dataFile.setAlias("Example File Alias")
             dataFile.dictionary = JSON.dictionary
             return dataFile
-
-        # elif file_extension.lower() == 'csv':
-        #     csvManager = CsvManager(path)
-        #     csvManager.load_csv_file()
-        #     print(csvManager)
-        #     # Read with CSV Manager
+        elif file_extension.lower() == 'csv':
+            csvManager = CsvManager(path)
+            csvManager.load_csv_file()
+            print(csvManager)
+            # Read with CSV Manager
         # elif file_extension.lower() == 'txt':
         #     print('')
 
     def load_filenames_from_folder(self, folder_location='/home/parmarm/Documents/CLS_Test/Data/tune-data', file_name='/*.json'):
         self.list_of_file_names = glob(folder_location + file_name)
- 
+
     def load_folder(self, folderPath, extension):
         files = []
         fileNames = glob(folderPath + "*." + extension)
@@ -247,7 +246,16 @@ class FileManager:
 
     # def select_multiple_files(self, list_of_filenames):
     
-        def select_dataframe(self, dataframe_name=None, modified=True, list_position=0):
+    def select_dictionary(self, filename):
+        dictionary_found = 0
+        dictionary_checking = 0
+        while dictionary_found != 1:
+            if self.list_of_json_dictionaries[dictionary_checking]['file_name'] == filename:
+                dictionary_found = 1
+                self.dictionary = self.list_of_json_dictionaries[dictionary_checking]
+            dictionary_checking += 1    
+        
+    def select_dataframe(self, dataframe_name=None, modified=True, list_position=0):
         if dataframe_name is None:
             dataframe_name = self.dataframe_file_name
         self.unselect_dataframe()
@@ -304,15 +312,12 @@ class FileManager:
         print('done plotting')
             '''
 
-    # has functions for importing data into dataframes
-
     # def add_file()
     # if csv:
     # use CsvManager to add file to data store
     # csv_data.add_csv  # need to fix return so datastore object in file manager changes
 
-
-# csv = os.path.basename('/home/parmarm/Documents/CLS_Test/PV Data/Trip 1 data/gLYHVdm+.csv')
+# csv = os.path.basename('/home/parmarm/Documents/CLS_Test/PV_Data/Trip_1_data/gLYHVdm+.csv')
 # fileManager.read_file(csv)
 
 file_manager = FileManager()

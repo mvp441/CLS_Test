@@ -3,10 +3,10 @@ from matplotlib import pyplot as plt
 from lib import CsvManager
 
 # import csv data file
-csv_list = CSV.CsvManager(["../PV Data/Trip 1 data/gLYHVdm+.csv"])
+csv_list = CSV.CsvManager(["../PV_Data/Trip_1_data/gLYHVdm+.csv"])
 # add csv files together
-csv_list.add_csv('../PV Data/Trip 1 data/tdL5QoZo.csv')
-    # csv_list.add_csv("../PV Data/Trip 1 data/gLYHVdm+.csv")
+csv_list.add_csv('../PV_Data/Trip_1_data/tdL5QoZo.csv')
+    # csv_list.add_csv("../PV_Data/Trip_1_data/gLYHVdm+.csv")
 # copy column names into list - class attribute
 
 # get column names function

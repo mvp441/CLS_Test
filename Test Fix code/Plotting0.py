@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 mpl.use('TkAgg')
 
-df = pd.read_csv("../PV Data/SR1_BCaL_8h.csv")
+df = pd.read_csv("../PV_Data/SR1_BCaL_8h.csv")
 df.dropna()
 
 dfminiNA = df.iloc[1:20, 0:2]

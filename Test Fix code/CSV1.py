@@ -1,6 +1,6 @@
 # Prints all data in csv file unseparated
 import csv
-file = open("../PV Data/SR1_BCaL_8h.csv")
+file = open("../PV_Data/SR1_BCaL_8h.csv")
 csvreader = csv.reader(file)
 header = next(csvreader)
 print(header)

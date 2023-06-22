@@ -50,7 +50,7 @@ def MultiMatFig():
     plt.title('Easy as 1, 2, 3')  # subplot 211 title
 
 def PlotMaskNan():
-    df = pd.read_csv('../PV Data/SR1_BCaL_8h.csv')
+    df = pd.read_csv('../PV_Data/SR1_BCaL_8h.csv')
     dfmini = df.iloc[1:100, 0:2]
     dfminiNA = dfmini.dropna()
     TS1 = dfminiNA.iloc[:, 0]
@@ -82,7 +82,7 @@ def PlotMaskNan():
     print('done')
 
 def PandaPlot1():
-    df = pd.read_csv("../PV Data/SR1_BCaL_8h.csv")  # read in csv file containing data
+    df = pd.read_csv("../PV_Data/SR1_BCaL_8h.csv")  # read in csv file containing data
     dfminiNA = df.iloc[1:20, 0:2]  # take small data set containing only Timestamp and fbk values
     dfminiNA = dfminiNA.dropna()  # remove Timestamps with NA fbk values
     # separate into individual variables
@@ -104,7 +104,7 @@ def objective(x, a, b, c, d):
     return a * sin(b - x) + c * x ** 2 + d
 
 def CurveFit1():
-    df = pd.read_csv("../PV Data/SR1_BCaL_8h.csv", parse_dates=["Timestamp"])
+    df = pd.read_csv("../PV_Data/SR1_BCaL_8h.csv", parse_dates=["Timestamp"])
     #df.dropna()
     dfminiNA = df.iloc[1:20, 0:2]
     dfminiNA = dfminiNA.dropna()
@@ -136,7 +136,7 @@ def CurveFit1():
     plt.show()
 
 def Test0():
-    df = pd.read_csv("../PV Data/SR1_BCaL_8h.csv", parse_dates=["Timestamp"])
+    df = pd.read_csv("../PV_Data/SR1_BCaL_8h.csv", parse_dates=["Timestamp"])
     data = df.values
 
     dfminiNA = df.iloc[1:100, 0:2]
@@ -189,7 +189,7 @@ def get_dict_desc(df):
     return dfdesc
 
 def PandasTest3():
-    df = pd.read_csv("../PV Data/SR1_BCaL_8h.csv")
+    df = pd.read_csv("../PV_Data/SR1_BCaL_8h.csv")
 
     print(df.columns)
     print(df)

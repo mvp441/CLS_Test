@@ -28,7 +28,7 @@ class DataFile:
     def setDescription(self, description):
         self.description = description
 
-    def generateUniqueId(self):  # ? shouldn't it be get??
+    def generateUniqueId(self):
         return uuid.uuid4()
 
     def addDataFrame(self, dataFrame):  # ? how do I fix this so it's how I had it instead

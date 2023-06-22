@@ -28,15 +28,6 @@ class DataDictionary:
         self.json_to_dataframe(self.dictionary['file_name'])
         # self.dictionary['original_data'] = copy.deepcopy(self.get_json_data())
 
-    def select_dictionary(self, filename):
-        dictionary_found = 0
-        dictionary_checking = 0
-        while dictionary_found != 1:
-            if self.list_of_json_dictionaries[dictionary_checking]['file_name'] == filename:
-                dictionary_found = 1
-                self.dictionary = self.list_of_json_dictionaries[dictionary_checking]
-            dictionary_checking += 1
-
     def add_dictionary_description(self, filename, description):  # should not need if add works
         self.select_dictionary(filename)
         self.dictionary['description'] = description

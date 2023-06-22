@@ -24,7 +24,7 @@ def drop_NA(df):  # Won't work because of NA placement - need seperated columns 
         dfnoNA[column] = df[column].dropna()
     return dfnoNA
 
-df = pd.read_csv("../PV Data/SR1_BCaL_8h.csv")
+df = pd.read_csv("../PV_Data/SR1_BCaL_8h.csv")
 
 print(df.columns)
 print(df)
