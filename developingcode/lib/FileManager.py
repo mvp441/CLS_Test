@@ -1,6 +1,5 @@
 import os.path
 
-
 import copy
 import pandas as pd
 import DataFile
@@ -11,6 +10,7 @@ from DataStore import data
 import DataStore
 from glob import glob
 from DataDictionary import DataDictionary
+
 
 # https://www.geeksforgeeks.org/singleton-pattern-in-python-a-complete-guide/
 # https://pypi.org/project/singleton-decorator/?fbclid=IwAR0vUAXsSFI6G1el2EgjEQip7tdG3V29rnkCc0QhW6W8zNcBjoasu-zbZ6U
@@ -65,7 +65,8 @@ class FileManager:
             },
             'master_data': {
                 'file_names': [],
-                'dataframes': [],
+                'original_dataframe': pd.DataFrame,
+                'current_dataframe': pd.DataFrame,
                 'dictionary': DataDictionary
             },
             'correlation_data': {
@@ -106,7 +107,7 @@ class FileManager:
     def read_file(self, path):
         file_name, file_extension = self.parse_path(path)
         if file_extension.lower() == '.json':
-            #Read with JSON Manager
+            # Read with JSON Manager
             JSON = JsonManager()
             dict = JSON.json_to_dictionary(path)
             JSON.json_to_dataframe(path)
@@ -120,7 +121,6 @@ class FileManager:
             dataFile.addDataFrame(dataFrame)
             dataFile.setAlias("Example File Alias")
             return dataFile
-
 
         # elif file_extension.lower() == 'csv':
         #     csvManager = CsvManager(path)
@@ -309,15 +309,13 @@ class FileManager:
 
     # has functions for importing data into dataframes
 
-    #def add_file()
-        #if csv:
-            #use CsvManager to add file to data store
-            #csv_data.add_csv  # need to fix return so datastore object in file manager changes
-
+    # def add_file()
+    # if csv:
+    # use CsvManager to add file to data store
+    # csv_data.add_csv  # need to fix return so datastore object in file manager changes
 
 
 # csv = os.path.basename('/home/parmarm/Documents/CLS_Test/PV Data/Trip 1 data/gLYHVdm+.csv')
 # fileManager.read_file(csv)
 
-
-
+file_manager = FileManager()

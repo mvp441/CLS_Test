@@ -125,8 +125,8 @@ def test_load_data_to_dictionary():
     print('starting test of loading json data into dictionary')
     json_manager = JsonManager.JsonManager()
     json_manager.load_filenames_from_folder()
-    test_filename_list = json_manager.list_of_file_names
-    test_dictionary_with_file_data = json_manager.json_to_dictionary(json_manager.list_of_file_names[0])
+    test_filename_list = json_manager.list_of_json_files
+    test_dictionary_with_file_data = json_manager.json_to_dictionary(json_manager.list_of_json_files[0])
     test_json_dictionary_list = json_manager.jsons_to_dictionary_list()
     test_select_dictionary = json_manager.select_dictionary(test_filename_list[0])
     test_add_dictionary_description = json_manager.add_dictionary_description(test_filename_list[0], "Test description 1")
