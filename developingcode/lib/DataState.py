@@ -2,39 +2,10 @@ from DataFile import DataFile
 import pandas as pd
 import singleton
 
-#@singleton
-class DataStore:
+class DataState:
     def __init__(self):
         self.data = {}
         self.selected_dataframes = {}
-        self.data_inventory = {
-            'dictionary_of_file_names': {
-                'list_of_csv': [],
-                'list_of_json': [],
-                'list_of_txt': [],
-                'list_of_all': []
-            },
-            'dictionary_of_dataframes': {
-                'list_of_csv': [],  # self.list_of_csv_dataframes = []
-                'list_of_json': [],
-                'list_of_txt': [],
-                'list_of_original': [],
-                'list_of_current': []
-            },
-            'dictionary_of_dictionaries': {
-                'list_of_csv': [],
-                'list_of_json': [],
-                'list_of_txt': [],
-                'list_of_all': []
-            },
-            'correlation_data': {
-                'list_of_files': [],
-                'list_of_dataframes': [],
-                'input_dataframe': pd.DataFrame,
-                'correlation_matrix': pd.DataFrame,  # self.correlation_matrix = pd.DataFrame
-                'correlation_pairs': []
-            }
-        }
 
     def addFile(self, fileName):
         self.data[fileName] = DataFile()
@@ -43,14 +14,21 @@ class DataStore:
     def getFileData(self, fileName):
         return self.data[fileName]
 
-    def getFilesByTpe(self, fileType):
+    def getDataByFileType(self, fileType):
         dataValues = self.data.values()
         returnData = []
         for value in dataValues:
             print(value.fileType)
-            if value.fileType == fileType:
+            if value.type == fileType:
                 returnData.append(value)
         return returnData
+
+    def getDataFramesByFileType(self, fileType):
+        dataFiles = self.getDataByFileType(fileType)
+        dataFrames = []
+        for file in dataFiles:
+            dataFiles.append(file.dataFrame)
+        return dataFiles
 
     def getAllDataFrames(self):
         dataFiles = self.data.values()  # might need to get data.keys() instead
@@ -68,7 +46,29 @@ class DataStore:
             self.data_inventory['dictionary_of_file_names']['list_of_txt'].append(file_name)
         self.data_inventory['dictionary_of_file_names']['list_of_all'].append(file_name)
 
+    def getFileNames(self, type=None):
+        fileNames = []
+        for file in self.data.values():
+            print(file.type.lower() == type.lower())
+            if type is not None and type.lower() == file.type.lower():
+                fileNames.append(file.name)
+            elif type is None:
+                fileNames.append(file.name)
+
+
+
+    def toDictionary(self):
+        dict = {
+            'file_names_by_type': {}
+        }
+        dict['file_names_by_type']['csv'] = self.getFileNames('csv')
+        dict['file_names_by_type']['json'] = self.getFileNames('json')
+        dict['file_names_by_type']['txt'] = self.getFileNames('txt')
+        dict['file_names_by_type']['all'] = self.getFileNames()
+
+        return dict
+
     # def add_dataframe_to_inventory(self,):
 
 
-data = DataStore()
+data = DataState()

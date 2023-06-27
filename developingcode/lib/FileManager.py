@@ -3,10 +3,10 @@ import copy
 import pandas as pd
 import DataFile
 from JsonManager import JsonManager
-from CsvManager import CsvManager
+import CsvManager
 from config import config
-from DataStore import data
-import DataStore
+from DataState import data
+import DataState
 from glob import glob
 from DataDictionary import DataDictionary
 
@@ -17,62 +17,62 @@ from DataDictionary import DataDictionary
 class FileManager:
     def __init__(self):
         self.data = data
-        self.data_catalog = {
-            'csv_data': {
-                'file_names': DataStore.data.data_inventory['dictionary_of_file_names']['list_of_csv'],
-                'dataframes': DataStore.data.data_inventory['dictionary_of_dataframes']['list_of_csv'],
-                'dictionaries': DataStore.data.data_inventory['dictionary_of_dictionaries']['list_of_csv']
-            },
-            'json_data': {
-                'file_names': DataStore.data.data_inventory['dictionary_of_file_names']['list_of_json'],
-                'dataframes': DataStore.data.data_inventory['dictionary_of_dataframes']['list_of_json'],
-                'dictionaries': DataStore.data.data_inventory['dictionary_of_dictionaries']['list_of_json']
-            },
-            'txt_data': {
-                'file_names': DataStore.data.data_inventory['dictionary_of_file_names']['list_of_txt'],
-                'dataframes': DataStore.data.data_inventory['dictionary_of_dataframes']['list_of_txt'],
-                'dictionaries': DataStore.data.data_inventory['dictionary_of_dictionaries']['list_of_txt']
-            },
-            'all_data': {
-                'file_names': DataStore.data.data_inventory['dictionary_of_file_names']['list_of_all'],
-                'original_dataframes': DataStore.data.data_inventory['dictionary_of_dataframes']['list_of_original'],
-                'current_dataframes': DataStore.data.data_inventory['dictionary_of_dataframes']['list_of_current'],
-                'dictionaries': DataStore.data.data_inventory['dictionary_of_dictionaries']['list_of_all']
-            },
-            'current_file': {
-                'file_name': None,
-                'dataframe': pd.DataFrame,
-                'dictionary': DataDictionary,
-                'list_position': {
-                    'file_name': None,
-                    'dataframe': None,
-                    'dictionary': None
-                }
-            },
-            'current_data': {
-                'data': {
-                    'file_names': [],
-                    'dataframes': [],
-                    'dictionaries': []
-                },
-                'positions': {
-                    'file_names': [],
-                    'dataframes': [],
-                    'dictionaries': []
-                }
-            },
-            'master_data': {
-                'file_names': [],
-                'original_dataframe': pd.DataFrame,
-                'current_dataframe': pd.DataFrame,
-                'dictionary': DataDictionary
-            },
-            'correlation_data': {
-                'file_names': DataStore.data.data_inventory['correlation_data']['list_of_files'],
-                'dataframes': DataStore.data.data_inventory['correlation_data']['list_of_dataframes'],
-                'dictionary': DataDictionary
-            }
-        }
+        # self.data_catalog = {
+        #     'csv_data': {
+        #         'file_names': DataStore.data.data_inventory['dictionary_of_file_names']['list_of_csv'],
+        #         'dataframes': DataStore.data.data_inventory['dictionary_of_dataframes']['list_of_csv'],
+        #         'dictionaries': DataStore.data.data_inventory['dictionary_of_dictionaries']['list_of_csv']
+        #     },
+        #     'json_data': {
+        #         'file_names': DataStore.data.data_inventory['dictionary_of_file_names']['list_of_json'],
+        #         'dataframes': DataStore.data.data_inventory['dictionary_of_dataframes']['list_of_json'],
+        #         'dictionaries': DataStore.data.data_inventory['dictionary_of_dictionaries']['list_of_json']
+        #     },
+        #     'txt_data': {
+        #         'file_names': DataStore.data.data_inventory['dictionary_of_file_names']['list_of_txt'],
+        #         'dataframes': DataStore.data.data_inventory['dictionary_of_dataframes']['list_of_txt'],
+        #         'dictionaries': DataStore.data.data_inventory['dictionary_of_dictionaries']['list_of_txt']
+        #     },
+        #     'all_data': {
+        #         'file_names': DataStore.data.data_inventory['dictionary_of_file_names']['list_of_all'],
+        #         'original_dataframes': DataStore.data.data_inventory['dictionary_of_dataframes']['list_of_original'],
+        #         'current_dataframes': DataStore.data.data_inventory['dictionary_of_dataframes']['list_of_current'],
+        #         'dictionaries': DataStore.data.data_inventory['dictionary_of_dictionaries']['list_of_all']
+        #     },
+        #     'current_file': {
+        #         'file_name': None,
+        #         'dataframe': pd.DataFrame,
+        #         'dictionary': DataDictionary,
+        #         'list_position': {
+        #             'file_name': None,
+        #             'dataframe': None,
+        #             'dictionary': None
+        #         }
+        #     },
+        #     'current_data': {
+        #         'data': {
+        #             'file_names': [],
+        #             'dataframes': [],
+        #             'dictionaries': []
+        #         },
+        #         'positions': {
+        #             'file_names': [],
+        #             'dataframes': [],
+        #             'dictionaries': []
+        #         }
+        #     },
+        #     'master_data': {
+        #         'file_names': [],
+        #         'original_dataframe': pd.DataFrame,
+        #         'current_dataframe': pd.DataFrame,
+        #         'dictionary': DataDictionary
+        #     },
+        #     'correlation_data': {
+        #         'file_names': DataStore.data.data_inventory['correlation_data']['list_of_files'],
+        #         'dataframes': DataStore.data.data_inventory['correlation_data']['list_of_dataframes'],
+        #         'dictionary': DataDictionary
+        #     }
+        # }
 
     # Read Multiple CSV Files from a Folder
     # https://sparkbyexamples.com/pandas/pandas-read-multiple-csv-files/
@@ -111,8 +111,8 @@ class FileManager:
             JSON.json_to_dataframe(path)
             dataFrame = JSON.dataframe
             dataFile = self.data.addFile(file_name)
-            dataFile.fileType = config['FILE_TYPES']['json']
-            dataFile.fileName = os.path.basename(file_name)
+            dataFile.type = config['FILE_TYPES']['json']
+            dataFile.name = os.path.basename(file_name)
             dataFile.description = 'My File Description'
             dataFile.addDataFrame(dataFrame)
             dataFile.setAlias("Example File Alias")

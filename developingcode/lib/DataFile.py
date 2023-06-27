@@ -11,12 +11,12 @@ class DataFile:
     # make a module instead of a class or else make it a singleton?
     def __init__(self):
         self.alias = ""
-        self.fileName = ""
+        self.name = ""
         self.description = ""
         self.dataFrames = {}  # doesn't work as a dictionary must be a list
-        self.fileType = ""
+        self.type = ""
         self.history = []
-        self.id = uuid.uuid4()
+        self.id = str(uuid.uuid4())
         self.dictionary = {}
         #self.data_dictionary = DataDictionary.DataDictionary()
 
@@ -27,7 +27,7 @@ class DataFile:
         self.description = description
 
     def generateUniqueId(self):
-        return uuid.uuid4()
+        return str(uuid.uuid4())
 
     def addDataFrame(self, dataFrame):  # ? how do I fix this so it's how I had it instead
         dataFrameId = self.generateUniqueId()
