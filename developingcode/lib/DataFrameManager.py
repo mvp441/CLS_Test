@@ -1,4 +1,8 @@
 from copy import copy, deepcopy
+import datetime
+from tabulate import tabulate
+from DataStore import data_store
+import pandas as pd
 
 class DataFrameManager:
     def __init__(self):
@@ -10,12 +14,17 @@ class DataFrameManager:
     def deep_copy(self, dataFrame):
         return deepcopy(dataFrame)
 
-    def select(self, dataFile, deep=False, modified=False):
-        self.selectedDataFrames[dataFile.id] = dataFile.getDataFrameCopy(modified, deep)
+    def select(self, dataFile, deep=True, modified=False):
+        self.selectedDataFrames[dataFile.id] = dataFile.get_dataframe_copy(modified, deep)
 
     def select_all(self, dataFiles, deep=False, modified=False):
-        for dataFile in dataFiles:
+        for dataFile in dataFiles.values():
             self.select(dataFile, deep, modified)
+
+    def save_selected(self):
+        for key, value in self.selectedDataFrames.items():
+            dataFrame = data_store.get_by_id(key)
+            dataFrame.update_data_frame(value, 'saved')
 
     def unselect_all(self):
         self.selectedDataFrames = {}
@@ -26,18 +35,83 @@ class DataFrameManager:
     def get_selected(self):
         return self.selectedDataFrames.values()
 
-    '''    
-    def convert_csv_timestamp(self):
-        self.dataframe['Timestamp'] = self.dataframe['Timestamp'].apply(pd.to_datetime)
+    def get_selected_by_id(self, id):
+        return self.selectedDataFrames[id]
+    
+    def apply_to_selected(self, method):
+        for dataFrame in self.selectedDataFrames.values():
+            print('Running method: ' + str(method) + ' on dataframe: ' + str(dataFrame))
+            method(dataFrame)
 
-    def prepare_csv_df(self):
-        self.modify_dataframe(method='convert_ts', modified=False)
-        self.modify_dataframe(method='convert_ti', modified=True)
+
+    def convert_timestamp_to_datetime(self, dataFrame):
+        dataFrame['Timestamp'].apply(pd.to_datetime)
+
+    def prepare_csv_df(self, dataFrame):
+        self.modify(method='convert_ts', modified=False)
+        self.modify(method='convert_ti', modified=True)
+
+
+    def modify(self, method='polynomial', order=1):
+        # check modification method
+        if method == 'drop':
+            # modify
+            self.drop_na_values()
+        elif method in ['mean', 'median', 'mode', 'backfill', 'bfill', 'ffill', 'pad']:
+            self.fill_na_values(method)
+        elif method == 'convert_ts':
+            self.apply_to_selected(self.convert_timestamp_to_datetime)
+        elif method == 'convert_ti':
+            self.apply_to_selected(lambda df: self.convert_time_interval(df, column='PCT1402-01:timeInterval:fbk'))
+        else:
+            self.interpolate_data(method, order)
+        
+        self.save_selected()
+
+        # eventually save all versions into a list of dictionaries containing the modified dataframe and modification history
+        
+    def sort_by_column(self, columns):
+        self.apply_to_selected(lambda df: df.sort_values(columns))
+
+    def get_column_names(self):
+        column_names = self.apply_to_selected(lambda df: df.columns.to_list())
+        return column_names
+    
+    def get_column_values(self, column):
+        column_values = self.apply_to_selected(lambda df: df[column].to_list())
+        return column_values
+    
+    def output_dataframe_to_console(self, dataframe):
+        print(tabulate(dataframe, headers='keys', tablefmt='rst'))
+
+    def print_columns(self, dataframe, column_list=None):
+        if column_list is None:
+            column_list = dataframe.columns.to_list()
+        for column in column_list:
+            print(dataframe[column])
+            print('\n')
+    
+    def get_list_description(self, dataframe): 
+        dataframe_description = list()
+        dataframe_description.append(dataframe.describe())
+        for column in dataframe:
+            dataframe_description.append(dataframe[column].describe())
+        return dataframe_description
+    
+    def get_dictionary_description(self, dataframe):
+        dataframe_description = {}
+        for column in dataframe:
+            dataframe_description[column] = dataframe[column].describe()
+        return dataframe_description
+    '''    
+    
+
+   
 
     def construct_master_dataframe(self, modified=True):
         # check current status of master dataframe
         if len(self.master_dataframe.columns.to_list()) == 0:
-            self.master_dataframe = self.dataframe
+            self.master_dataframe = dataFrame
         else:
             # 4. Assigning Keys to the Concatenated DataFrame Indexes to distinguish each individual dataframe from list within master
             # https://www.digitalocean.com/community/tutorials/pandas-concat-examples
@@ -50,83 +124,91 @@ class DataFrameManager:
         self.master_dataframe.sort_values('Timestamp', inplace=True)
         self.list_of_file_dataframes.append(self.master_dataframe)
         
-    def sort_by_column(self, columns):
-        self.dataframe.sort_values(columns)
 
-    def get_column_names(self):
-        return self.dataframe.columns.to_list()
 
-    def get_column_values(self, column):
-        return self.dataframe.loc[:, column]
+    
+    
 
-    def output_dataframe_to_console(self):
-        # https://pypi.org/project/tabulate/ use -o to save in file
-        print(tabulate(self.dataframe, headers='keys', tablefmt='rst'))
+   
 
-    def print_columns(self, column_list=None):
-        if column_list is None:
-            column_list = self.dataframe.columns
-        for column in column_list:
-            print(self.dataframe[column])
-            print('\n')
+   
 
     # def remove_columns(self, columns_to_remove):
     # NEED TO DO NEXT BEFORE CORRELATION
 
-    def get_list_description(self):
-        dataframe_description = list()
-        dataframe_description.append(self.dataframe.describe())
-        for column in self.dataframe:
-            dataframe_description.append(self.dataframe[column].describe())
-        return dataframe_description
+    
 
-    def get_dictionary_description(self):
-        dataframe_description = {}
-        for column in self.dataframe:
-            dataframe_description[column] = self.dataframe[column].describe()
-        return dataframe_description
+   
 
-    def convert_time_interval(self, column='PCT1402-01:timeInterval:fbk'):  # set default to all time intervals?
-        # problem not converting any currently for master (probably because when/if called for master no column is given)
-        for i in range(len(self.dataframe.loc[:, column])):
-            if str(self.dataframe.loc[i, column]) != 'nan':
-                offset_time = datetime.datetime(1900, 1, 1)
-                if 'min' in self.dataframe.loc[i, column]:
-                    if 'sec' in self.dataframe.loc[i, column]:
-                        input_time = pd.to_datetime(self.dataframe.loc[i, column].strip(), format='%M min %S sec')
-                        delta = input_time - offset_time
-                        self.dataframe.loc[i, column] = delta.total_seconds()
-                    else:
-                        input_time = pd.to_datetime(self.dataframe.loc[i, column].strip(), format='%M min')
-                        delta = input_time - offset_time
-                        self.dataframe.loc[i, column] = delta.total_seconds()
-                else:
-                    input_time = pd.to_datetime(self.dataframe.loc[i, column].strip(), format='%S sec')
-                    delta = input_time - offset_time
-                    self.dataframe.loc[i, column] = delta.total_seconds()
-            else:
-                float(self.dataframe.loc[i, column])
-        self.dataframe[column] = self.dataframe[column].astype(float)
+  
 
-    def calculate_mean(self, columns=None):  # keep columns=none?
-        df_mean = self.dataframe.mean(axis=0, skipna=True)
-        return df_mean
-
-    def calculate_median(self, columns=None):
-        df_median = self.dataframe.median(axis=0, skipna=True)
-        return df_median
-
-    def calculate_mode(self, columns=None):
-        df_mode = self.dataframe.mode(axis=0, skipna=True)
-        return df_mode
 
     # def calculate_percent_change(self):
     # https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pct_change.html
         '''
+    
+    def convert_time_interval(self, dataFrame, column='PCT1402-01:timeInterval:fbk'):  # set default to all time intervals?
+    # problem not converting any currently for master (probably because when/if called for master no column is given)
+        for i in range(len(dataFrame.loc[:, column])):
+            if str(dataFrame.loc[i, column]) != 'nan':
+                offset_time = datetime.datetime(1900, 1, 1)
+                if 'min' in dataFrame.loc[i, column]:
+                    if 'sec' in dataFrame.loc[i, column]:
+                        input_time = pd.to_datetime(dataFrame.loc[i, column].strip(), format='%M min %S sec')
+                        delta = input_time - offset_time
+                        dataFrame.loc[i, column] = delta.total_seconds()
+                    else:
+                        input_time = pd.to_datetime(dataFrame.loc[i, column].strip(), format='%M min')
+                        delta = input_time - offset_time
+                        dataFrame.loc[i, column] = delta.total_seconds()
+                else:
+                    input_time = pd.to_datetime(dataFrame.loc[i, column].strip(), format='%S sec')
+                    delta = input_time - offset_time
+                    dataFrame.loc[i, column] = delta.total_seconds()
+            else:
+                float(dataFrame.loc[i, column])
+        dataFrame[column] = dataFrame[column].astype(float)
+    
+    def calculate_mean(self, dataFrame, columns=None):  # keep columns=none?
+        df_mean = dataFrame.mean(axis=0, skipna=True)
+        return df_mean
 
-    def drop_na_values(self, axis=0):
-        for dataFrame in self.selectedDataFrames:
-            dataFrame.dropna(axis=axis, inplace=True)
+    def calculate_median(self, dataFrame, columns=None):
+        df_median = dataFrame.median(axis=0, skipna=True)
+        return df_median
+
+    def calculate_mode(self, dataFrame, columns=None):
+        df_mode = dataFrame.mode(axis=0, skipna=True)
+        return df_mode
+
+    def convert_time_interval(self, dataFrame, column='PCT1402-01:timeInterval:fbk'):  # set default to all time intervals?
+        # problem not converting any currently for master (probably because when/if called for master no column is given)
+        if not column in dataFrame.columns:
+            return
+        
+        for i in range(len(dataFrame.loc[:, column])):
+            if str(dataFrame.loc[i, column]) != 'nan':
+                offset_time = datetime.datetime(1900, 1, 1)
+                if 'min' in dataFrame.loc[i, column]:
+                    if 'sec' in dataFrame.loc[i, column]:
+                        input_time = pd.to_datetime(dataFrame.loc[i, column].strip(), format='%M min %S sec')
+                        delta = input_time - offset_time
+                        dataFrame.loc[i, column] = delta.total_seconds()
+                    else:
+                        input_time = pd.to_datetime(dataFrame.loc[i, column].strip(), format='%M min')
+                        delta = input_time - offset_time
+                        dataFrame.loc[i, column] = delta.total_seconds()
+                else:
+                    input_time = pd.to_datetime(dataFrame.loc[i, column].strip(), format='%S sec')
+                    delta = input_time - offset_time
+                    dataFrame.loc[i, column] = delta.total_seconds()
+            else:
+                float(dataFrame.loc[i, column])
+        dataFrame[column] = dataFrame[column].astype(float)
+        return dataFrame
+
+    def drop_na_values(self, dataframe, axis=0):
+            dataframe.dropna(axis=axis, inplace=True)
 
     def fill_column_values(self, dataFrame, fillValues):
         for column in dataFrame.columns[1:]:
@@ -166,7 +248,7 @@ class DataFrameManager:
                 for dataFrame in selectedDataFrames:
                     dataframe.fillna(method='pad', inplace=True)
 
-    def interpolate_data(self, method='polynomial', order=1):
+    def interpolate_data(self, dataFrame, method='polynomial', order=1):
         selectedDataFrames = self.selectedDataFrames.values()
         if order is None:
             if method == 'linear':
@@ -187,88 +269,48 @@ class DataFrameManager:
                 elif str(order) == '5':
                     dataframe.interpolate(method='polynomial', order=5, inplace=True)
 
-'''
-   def modify_dataframe(self, dataframe=None, dataframe_name=None, modified=False, method='polynomial', order=1):
-        dataframe_name = self.dataframe_file_name  # check if correct
-        # check if dataframe to modify was specified
-        # select dataframe to modify
-        if dataframe is None:
-            self.select_dataframe(dataframe_name, modified)
-        else:
-            self.dataframe = dataframe
-            self.get_dataframe_file_name()  # doesn't work if list position isn't set from selecting incorrectly
-        # get file dataframe is associated with
-        self.select_file_dictionary(dataframe_name)
-        # check modification method
-        if method == 'drop':
-            # modify
-            self.drop_na_values()
-        elif method in ['mean', 'median', 'mode', 'backfill', 'bfill', 'ffill', 'pad']:
-            self.fill_na_values(method)
-        elif method == 'convert_ts':
-            self.convert_csv_timestamp()
-        elif method == 'convert_ti':
-            self.convert_time_interval()
-        else:
-            self.interpolate_data(method, order)
-        # save modified dataframe
-        self.file_dictionary['modified_dataframe'] = copy.deepcopy(self.dataframe)  # might need to deep copy
-        # replace dataframe in list
-        self.list_of_file_dataframes[self.dataframe_list_position] = self.dataframe
-        # test modifying the dataframe after and seeing if both change
-        self.file_dictionary['modification_history'].append(method)
-
-        # eventually save all versions into a list of dictionaries containing the modified dataframe and modification history
-        
-    # def select_dataframe_column(self, dataframe='master_dataframe', column=None):
-
-    def set_dataframe_as_master(self):
-        self.dataframe = copy.deepcopy(self.master_dataframe)
-        
-            # JUST STARTING TO WRITE
-    def prepare_dataframe_for_correlating(self):
-        # need to convert time values before interpolating (possibly when dataframe is created?)
-        self.convert_csv_timestamp()
-        self.convert_time_interval()  # ?
-        # should interpolate data first so fewer na values
-        self.interpolate_data()
-        # should remove na values remaining after interpolation to not throw off correlation calculation
-        self.drop_na_values()  # or fill_na
-        # switch all function calls to modify ones - should be able to comment out everything above and uncomment the two lines below
-        # self.modify_dataframe(method='interpolate', order=2)
-        # self.modify_dataframe(method='drop')
-        # drop all columns with a std of 0
-        column_stds = self.dataframe.std()
-        for i in range(len(column_stds)):
-            if column_stds[i] == 0:
-                self.dataframe = self.dataframe.drop(self.dataframe.columns[[i + 1]], axis=1)
-
-    # HAS NOT BEEN CHECKED YET
-    def calculate_correlation(self, check_list=None):
+    def calculate_correlation(self, dataframe, check_list=None):
         position = 0
         if check_list is None:
-            for column in self.dataframe.columns:
+            for column in dataframe.columns:
                 check_list[position] = column
         print('done checklist')
         # for PV in check_list:
 
-    # check time conversion and na fills and columns
-    def calculate_correlation_matrix(self):
+    def calculate_correlation_matrix(self, dataframe):
+        self.prepare_dataframe_for_correlating()
+        self.correlation_matrix = dataframe.corr()  # calculates the pair-wise correlation values between all the columns within a dataframe
+    
+    def prepare_dataframe_for_correlating(self, dataframe):
         # need to convert time values before interpolating (possibly when dataframe is created?)
-        self.convert_csv_timestamp()
-        # self.convert_time_interval()
+        self.convert_timestamp_to_datetime(dataframe)
+        self.convert_time_interval(dataframe)  # ?
         # should interpolate data first so fewer na values
-        self.interpolate_data()
-        # should remove na values remaining after interpolation so as to not throw off correlation calculation
-        self.drop_na_values()
+        self.interpolate_data(dataframe)
+        # should remove na values remaining after interpolation to not throw off correlation calculation
+        self.drop_na_values(dataframe)  # or fill_na
+        # switch all function calls to modify ones - should be able to comment out everything above and uncomment the two lines below
+        # self.modify_dataframe(method='interpolate', order=2)
+        # self.modify_dataframe(method='drop')
         # drop all columns with a std of 0
-        column_stds = self.dataframe.std()
+        column_stds = dataframe.std()
         for i in range(len(column_stds)):
             if column_stds[i] == 0:
-                self.dataframe = self.dataframe.drop(self.dataframe.columns[[i + 1]],
-                                                     axis=1)  # +! to account for no timestamp std
-        # self.prepare_dataframe_for_correlating()
-        self.correlation_matrix = self.dataframe.corr()  # calculates the pair-wise correlation values between all the columns within a dataframe
+                dataframe = dataframe.drop(dataframe.columns[[i + 1]], axis=1)
+'''
+   
+    # def select_dataframe_column(self, dataframe='master_dataframe', column=None):
+
+    def set_dataframe_as_master(self):
+        dataFrame = copy.deepcopy(self.master_dataframe)
+        
+            # JUST STARTING TO WRITE
+
+
+   
+
+    # check time conversion and na fills and columns
+    
             '''
 
-df_manager = DataFrameManager()
+dataframe_manager = DataFrameManager()

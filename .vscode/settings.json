@@ -1,3 +1,4 @@
 {
-  "python.pythonPath": "/home/connor/opt/python-2.7.15/bin/python"
+  "python.pythonPath": "/home/connor/opt/python-2.7.15/bin/python",
+  "python.formatting.provider": "yapf"
 }

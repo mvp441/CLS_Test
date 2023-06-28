@@ -3,7 +3,7 @@ import os.path
 from lib.FileManager import FileManager
 from lib.config import config
 from lib.DataFrameManager import df_manager
-from developingcode.lib.DataStore import data
+from developingcode.lib.DataStore import data_store
 
 File = FileManager()
 

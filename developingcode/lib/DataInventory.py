@@ -1,4 +1,3 @@
-import singleton
 from dataclasses import dataclass
 from developingcode.lib.DataStore import data
 import dataclasses
@@ -10,6 +9,7 @@ import pandas as pd
 # https://satoricyber.com/glossary/data-inventory
 # https://satoricyber.com/data-management/what-is-a-data-inventory-and-why-is-it-important/?l=l-middle&f=gu-understanding-the-fundamentals-of-a-data-dictionary
 '''While a Data Catalog is the whole system, which incorporates different informational tools, including the data, Data Inventory is the actual collection of data. It is an important function of the Data Catalog, but it is not the same as the data catalog.'''
+
 
 
 # object containing all the data information which is accessed and operated on by the manager classes

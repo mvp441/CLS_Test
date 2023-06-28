@@ -18,7 +18,7 @@ pd.set_option('display.width', 1000)
 
 # ADD CATCH STATEMENTS TO ALL IF ELSE STATEMENTS
 class CsvManager:  # Rename to DataManager
-    def __init__(self, csv_files):
+    def __init__(self, csv_files=None):
         self.list_of_all_file_names = copy.deepcopy(csv_files)  # possibly switch deep copies once type check is set up
         self.list_of_csv_file_names = copy.deepcopy(csv_files)
         self.list_of_csv_dataframes = []
@@ -84,7 +84,7 @@ class CsvManager:  # Rename to DataManager
             self.dataframe_list_position = len(self.list_of_file_dictionaries) - 1
         else:
             self.dataframe_list_position = len(self.list_of_file_dictionaries)
-        self.convert_csv_timestamp()
+        # self.convert_csv_timestamp()
         dataframe_info = {
             'file_name': csv,
             'file_type': 'csv',
@@ -102,43 +102,24 @@ class CsvManager:  # Rename to DataManager
                     self.list_of_file_dictionaries[len(self.list_of_file_dictionaries) - 1])
         self.list_of_file_dictionaries.append(dataframe_info)
         # self.prepare_csv_df()  # not sure if this will work as intended need to test still
-        self.construct_master_dictionary(modified=False)
+        # self.construct_master_dictionary(modified=False)
         return dataframe_info
 
-    def csv_to_df(self, csv):
-        self.dataframe = pd.read_csv(csv)
-        self.list_of_original_dataframes.append(self.dataframe)
-        self.list_of_csv_dataframes.append(self.dataframe)
-        # if master is at the end of list remove it before adding new one
-        if self.list_of_file_dataframes is not None:
-            if len(self.list_of_file_dataframes) > 1:
-                self.list_of_file_dataframes.remove(self.list_of_file_dataframes[len(self.list_of_file_dataframes) - 1])
-        self.list_of_file_dataframes.append(self.dataframe)
-        # self.construct_master_dictionary(modified=False)  moved to csv to dict function
-        return self.dataframe
+    def csv_to_df(self, file_path):
+        dataframe = pd.read_csv(file_path)
+        return dataframe
 
-    def convert_csv_timestamp(self):
-        self.dataframe['Timestamp'] = self.dataframe['Timestamp'].apply(pd.to_datetime)
-        return self.dataframe
 
     def prepare_csv_df(self):
         self.modify_dataframe(method='convert_ts', modified=False)
         self.modify_dataframe(method='convert_ti', modified=True)
         return self.dataframe
 
-    # def add_txt(self, txt):
-    # copy from experiment.py file or make TxtManager class file?
 
-    # def add_json(self, json):
-    # copy from JsonManager class file?
 
     # Read Multiple CSV Files from a Folder
     # https://sparkbyexamples.com/pandas/pandas-read-multiple-csv-files/
     # def add_CSV_files_from_folder(self, path=None):
-
-    # def add_txt_files_from_folder(self, path=None):
-    # def add_json_files_from_folder(self, path=None):
-    # def add_files_from_folder(self, path=None):
 
     def construct_master_dataframe(self, modified=True):
         # check current status of master dataframe
@@ -315,98 +296,14 @@ class CsvManager:  # Rename to DataManager
             dataframe_description[column] = self.dataframe[column].describe()
         return dataframe_description
 
-    def convert_time_interval(self, column='PCT1402-01:timeInterval:fbk'):  # set default to all time intervals?
-        # problem not converting any currently for master (probably because when/if called for master no column is given)
-        for i in range(len(self.dataframe.loc[:, column])):
-            if str(self.dataframe.loc[i, column]) != 'nan':
-                offset_time = datetime.datetime(1900, 1, 1)
-                if 'min' in self.dataframe.loc[i, column]:
-                    if 'sec' in self.dataframe.loc[i, column]:
-                        input_time = pd.to_datetime(self.dataframe.loc[i, column].strip(), format='%M min %S sec')
-                        delta = input_time - offset_time
-                        self.dataframe.loc[i, column] = delta.total_seconds()
-                    else:
-                        input_time = pd.to_datetime(self.dataframe.loc[i, column].strip(), format='%M min')
-                        delta = input_time - offset_time
-                        self.dataframe.loc[i, column] = delta.total_seconds()
-                else:
-                    input_time = pd.to_datetime(self.dataframe.loc[i, column].strip(), format='%S sec')
-                    delta = input_time - offset_time
-                    self.dataframe.loc[i, column] = delta.total_seconds()
-            else:
-                float(self.dataframe.loc[i, column])
-        self.dataframe[column] = self.dataframe[column].astype(float)
-        return self.dataframe
+   
 
-    def calculate_mean(self, columns=None):  # keep columns=none?
-        df_mean = self.dataframe.mean(axis=0, skipna=True)
-        return df_mean
-
-    def calculate_median(self, columns=None):
-        df_median = self.dataframe.median(axis=0, skipna=True)
-        return df_median
-
-    def calculate_mode(self, columns=None):
-        df_mode = self.dataframe.mode(axis=0, skipna=True)
-        return df_mode
 
     # def calculate_percent_change(self):
     # https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pct_change.html
 
-    def drop_na_values(self, axis=0):
-        self.dataframe.dropna(axis=axis, inplace=True)
-        return self.dataframe
 
-    # NOT ALL HAVE CURRENTLY PASSED WORKING TEST
-    def fill_na_values(self, method='pad'):
-        if type(method) == int or type(method) == float:
-            self.dataframe.fillna(method, axis='rows',
-                                  inplace=True)  # Has been initially tested and is working at the moment
-        elif method in ['mean', 'median', 'mode']:
-            if method == 'mean':
-                column_fill_values = self.calculate_mean()
-            if method == 'median':  # Has been initially tested and is working at the moment
-                column_fill_values = self.calculate_median()
-            elif method == 'mode':
-                column_fill_values = self.calculate_mode()
-            for column in self.dataframe.columns[1:]:
-                fill_value = column_fill_values[column]
-                self.dataframe[column].fillna(fill_value, axis='rows', inplace=True)
-        elif method in ['backfill', 'bfill', 'ffill', 'pad']:
-            if method == 'backfill':
-                self.dataframe.fillna(method='backfill', inplace=True)
-            if method == 'bfill':
-                self.dataframe.fillna(method='bfill', inplace=True)
-            if method == 'ffill':
-                self.dataframe.fillna(method='ffill', inplace=True)
-            if method == 'pad':  # Has been initially tested and is working at the moment
-                self.dataframe.fillna(method='pad', inplace=True)
-        # Add catch statement/check default
-        return self.dataframe
-
-    def interpolate_data(self, method='polynomial', order=1):  # Check default works without options
-        # Could try using match case instead of if-else statements
-        # https://learnpython.com/blog/python-match-case-statement/
-        # Check method is a valid option
-        if order is None:
-            if method == 'linear':
-                # check if method == method and calling like poly 1 works
-                self.dataframe.interpolate(method='linear', inplace=True)
-        elif method == 'polynomial':
-            # typecheck order is int
-            if str(order) == '1':  # can remove int check
-                self.dataframe.interpolate(method=method, order=order, inplace=True)
-            elif str(order) == '2':
-                self.dataframe.interpolate(method='polynomial', order=2, inplace=True)
-            elif str(order) == '3':
-                self.dataframe.interpolate(method='polynomial', order=3, inplace=True)
-            elif str(order) == '4':
-                self.dataframe.interpolate(method='polynomial', order=4, inplace=True)
-            elif str(order) == '5':
-                self.dataframe.interpolate(method='polynomial', order=5, inplace=True)
-            # add catch for negative/fractional/higher orders entered
-            return self.dataframe
-
+   
     # JUST STARTING TO WRITE
     def prepare_dataframe_for_correlating(self):
         # need to convert time values before interpolating (possibly when dataframe is created?)

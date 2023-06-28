@@ -3,9 +3,9 @@ import copy
 import pandas as pd
 import DataFile
 from JsonManager import JsonManager
-import CsvManager
+from CsvManager import CsvManager
 from config import config
-from DataStore import data
+from DataStore import data_store
 from glob import glob
 from DataDictionary import DataDictionary
 
@@ -15,51 +15,9 @@ from DataDictionary import DataDictionary
 # has functions for importing files into datastore
 class FileManager:
     def __init__(self):
-        self.data = data
+        self.valid_file_types = ['.json', '.csv', '.txt']
         # self.data_catalog = {
-        #     'csv_data': {
-        #         'file_names': DataStore.data.data_inventory['dictionary_of_file_names']['list_of_csv'],
-        #         'dataframes': DataStore.data.data_inventory['dictionary_of_dataframes']['list_of_csv'],
-        #         'dictionaries': DataStore.data.data_inventory['dictionary_of_dictionaries']['list_of_csv']
-        #     },
-        #     'json_data': {
-        #         'file_names': DataStore.data.data_inventory['dictionary_of_file_names']['list_of_json'],
-        #         'dataframes': DataStore.data.data_inventory['dictionary_of_dataframes']['list_of_json'],
-        #         'dictionaries': DataStore.data.data_inventory['dictionary_of_dictionaries']['list_of_json']
-        #     },
-        #     'txt_data': {
-        #         'file_names': DataStore.data.data_inventory['dictionary_of_file_names']['list_of_txt'],
-        #         'dataframes': DataStore.data.data_inventory['dictionary_of_dataframes']['list_of_txt'],
-        #         'dictionaries': DataStore.data.data_inventory['dictionary_of_dictionaries']['list_of_txt']
-        #     },
-        #     'all_data': {
-        #         'file_names': DataStore.data.data_inventory['dictionary_of_file_names']['list_of_all'],
-        #         'original_dataframes': DataStore.data.data_inventory['dictionary_of_dataframes']['list_of_original'],
-        #         'current_dataframes': DataStore.data.data_inventory['dictionary_of_dataframes']['list_of_current'],
-        #         'dictionaries': DataStore.data.data_inventory['dictionary_of_dictionaries']['list_of_all']
-        #     },
-        #     'current_file': {
-        #         'file_name': None,
-        #         'dataframe': pd.DataFrame,
-        #         'dictionary': DataDictionary,
-        #         'list_position': {
-        #             'file_name': None,
-        #             'dataframe': None,
-        #             'dictionary': None
-        #         }
-        #     },
-        #     'current_data': {
-        #         'data': {
-        #             'file_names': [],
-        #             'dataframes': [],
-        #             'dictionaries': []
-        #         },
-        #         'positions': {
-        #             'file_names': [],
-        #             'dataframes': [],
-        #             'dictionaries': []
-        #         }
-        #     },
+
         #     'master_data': {
         #         'file_names': [],
         #         'original_dataframe': pd.DataFrame,
@@ -101,38 +59,53 @@ class FileManager:
         file_name, file_extension = os.path.splitext(path)
         return [file_name, file_extension]
 
+    def store_file(self, path, file_type):
+        file_name, file_extension = self.parse_path(path)
+        data_file = data_store.add_file(file_name)
+        data_file.type = config['FILE_TYPES'][file_type]
+        data_file.name = os.path.basename(file_name)
+        return data_file
+        
+    def read_json(self, path):
+        JSON = JsonManager()
+        dict = JSON.json_to_dictionary(path)
+        JSON.json_to_dataframe(path)
+        dataFrame = JSON.dataframe
+
+        # Create the datafile
+        data_file = self.store_file(path, 'json')
+        data_file.add_data_frame(dataFrame)
+
+        return data_file
+
+    def read_csv(self, path):
+        csvManager = CsvManager([path])
+        dataFrame = csvManager.csv_to_df(path)
+        # Create the datafile
+        data_file = self.store_file(path, 'csv')
+        data_file.add_data_frame(dataFrame)
+        return data_file
+    
     def read_file(self, path):
         file_name, file_extension = self.parse_path(path)
         if file_extension.lower() == '.json':
-            # Read with JSON Manager
-            JSON = JsonManager()
-            dict = JSON.json_to_dictionary(path)
-            JSON.json_to_dataframe(path)
-            dataFrame = JSON.dataframe
-
-            # Create the datafile
-            dataFile = self.data.add_file(file_name)
-            dataFile.type = config['FILE_TYPES']['json']
-            dataFile.name = os.path.basename(file_name)
-            dataFile.addDataFrame(dataFrame)
-            
-            return dataFile
-        elif file_extension.lower() == 'csv':
-            csvManager = CsvManager(path)
-            csvManager.load_csv_file()
-            print(csvManager)
-            # Read with CSV Manager
+           return self.read_json(path)
+        elif file_extension.lower() == '.csv':
+            return self.read_csv(path)
         # elif file_extension.lower() == 'txt':
         #     print('')
 
     def load_filenames_from_folder(self, folder_location='/home/parmarm/Documents/CLS_Test/Data/tune-data', file_name='/*.json'):
         self.list_of_file_names = glob(folder_location + file_name)
 
-    def load_folder(self, folderPath, extension):
+    def load_folder(self, folderPath):
         files = []
-        fileNames = glob(folderPath + "*." + extension)
-        for path in fileNames:
-            files.append(self.read_file(os.path.abspath(path)))
+        for fileType in self.valid_file_types:
+            fileNames = glob(folderPath + "*" + fileType)
+            
+            for path in fileNames:
+                file = self.read_file(path)
+                files.append(file)
         return files
 
     '''
