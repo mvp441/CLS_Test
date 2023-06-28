@@ -1,14 +1,21 @@
 from lib.FileManager import FileManager
-from lib.DataFrameManager import dataFrameManager
+from lib.DataFrameManager import df_manager
 from lib.config import config
-from lib.DataState import data as dataState
 
+from lib.DataStore import data
+
+import os
 
 File = FileManager()
-jsonsFolder = '/home/parmarm/Documents/CLS_Test/Data/tune-data/'
-csvFolder = '/home/parmarm/Documents/CLS_Test/PV_Data/Trip_1_data/'
 
-files = File.load_folder(jsonsFolder, 'json')
+workingDirectory = os.getcwd()
 
-data_dictionary = dataState.toDictionary()
+
+jsonsFolder = workingDirectory + '/Data/tune-data/'
+csvFolder = workingDirectory + '/PV_Data/Trip_1_data/'
+
+File.load_folder(jsonsFolder, 'json')
+
+data_dictionary = data.to_dict()
 print("Hello")
+raise Exception("Hello")

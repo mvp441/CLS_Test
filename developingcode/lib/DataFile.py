@@ -17,7 +17,6 @@ class DataFile:
         self.type = ""
         self.history = []
         self.id = str(uuid.uuid4())
-        self.dictionary = {}
         #self.data_dictionary = DataDictionary.DataDictionary()
 
     def setAlias(self, alias):
@@ -31,7 +30,8 @@ class DataFile:
 
     def addDataFrame(self, dataFrame):  # ? how do I fix this so it's how I had it instead
         dataFrameId = self.generateUniqueId()
-        self.dataFrames[dataFrameId] = dataFrame  # dataFrameId needs to be a string
+        self.dataFrames[dataFrameId] = dataFrame 
+        self.dataFrames[dataFrameId]['modified'] = False
         return dataFrameId
 
     def updateDataFrame(self, id, dataFrame, reason):
@@ -52,15 +52,15 @@ class DataFile:
 
     def getDataFrames(self):
         dataFrames = []
-        for dataFrame in self.dataFrames:
-            dataFrames.append(dataFrame)
+        for id, value in self.dataFrames.items():
+            dataFrames.append(value)
         return dataFrames
 
     def isModified(self, dataFrame):
-        return dataFrame.modified
+        return dataFrame.modified is True
 
     def getDataFrame(self, modified=False):
-        return filter(self.isModified, self.dataFrames)  # ? is modified requires a dataframe input??
+        return filter(lambda id: (self.dataFrames[id].modified is True), self.dataFrames)  # ? is modified requires a dataframe input??
 
 
 

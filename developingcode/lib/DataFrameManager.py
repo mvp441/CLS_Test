@@ -7,16 +7,23 @@ class DataFrameManager:
     def copy(self, dataFrame):
         return copy(dataFrame)
 
-    def deepCopy(self, dataFrame):
+    def deep_copy(self, dataFrame):
         return deepcopy(dataFrame)
 
-    def selectDataFrame(self, dataFile, deep=False, modified=False):
+    def select(self, dataFile, deep=False, modified=False):
         self.selectedDataFrames[dataFile.id] = dataFile.getDataFrameCopy(modified, deep)
 
-    def unselectDataFrame(self, dataFile):
+    def select_all(self, dataFiles, deep=False, modified=False):
+        for dataFile in dataFiles:
+            self.select(dataFile, deep, modified)
+
+    def unselect_all(self):
+        self.selectedDataFrames = {}
+
+    def unselect(self, dataFile):
         del self.selectedDataFrames[dataFile.id]
 
-    def getSelected(self):
+    def get_selected(self):
         return self.selectedDataFrames.values()
 
     '''    
@@ -117,16 +124,16 @@ class DataFrameManager:
     # https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pct_change.html
         '''
 
-    def dropNa(self, axis=0):
+    def drop_na_values(self, axis=0):
         for dataFrame in self.selectedDataFrames:
             dataFrame.dropna(axis=axis, inplace=True)
 
-    def fillColumnValues(self, dataFrame, fillValues):
+    def fill_column_values(self, dataFrame, fillValues):
         for column in dataFrame.columns[1:]:
             fill_value = fillValues[column]
             dataFrame.fillna(fill_value, axis="rows", inplace=True)
 
-    def fillNa(self, method="pad"):
+    def fill_na_values(self, method="pad"):
         selectedDataFrames = self.selectedDataFrames.values()
         if type(method) == int or type(method) == float:
             for dataframe in selectedDataFrames:
@@ -136,15 +143,15 @@ class DataFrameManager:
             if method == 'mean':
                 for dataframe in selectedDataFrames:
                     fill_values = dataframe.mean(axis=0, skipna=True)
-                    self.fillColumnValues(dataframe, fill_values)
+                    self.fill_column_values(dataframe, fill_values)
             if method == 'median':  # Has been initially tested and is working at the moment
                 for dataframe in selectedDataFrames:
                     fill_values = dataframe.median(axis=0, skipna=True)
-                    self.fillColumnValues(dataframe, fill_values)
+                    self.fill_column_values(dataframe, fill_values)
             elif method == 'mode':
                 for dataframe in selectedDataFrames:
                     fill_values = dataframe.mode(axis=0, skipna=True)
-                    self.fillColumnValues(dataframe, fill_values)
+                    self.fill_column_values(dataframe, fill_values)
         elif method in ['backfill', 'bfill', 'ffill', 'pad']:
             if method == 'backfill':
                 for dataframe in selectedDataFrames:
@@ -159,7 +166,7 @@ class DataFrameManager:
                 for dataFrame in selectedDataFrames:
                     dataframe.fillna(method='pad', inplace=True)
 
-    def interpolateData(self, method='polynomial', order=1):
+    def interpolate_data(self, method='polynomial', order=1):
         selectedDataFrames = self.selectedDataFrames.values()
         if order is None:
             if method == 'linear':
@@ -264,4 +271,4 @@ class DataFrameManager:
         self.correlation_matrix = self.dataframe.corr()  # calculates the pair-wise correlation values between all the columns within a dataframe
             '''
 
-dataFrameManager = DataFrameManager()
+df_manager = DataFrameManager()

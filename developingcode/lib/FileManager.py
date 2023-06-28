@@ -5,8 +5,7 @@ import DataFile
 from JsonManager import JsonManager
 import CsvManager
 from config import config
-from DataState import data
-import DataState
+from DataStore import data
 from glob import glob
 from DataDictionary import DataDictionary
 
@@ -110,13 +109,13 @@ class FileManager:
             dict = JSON.json_to_dictionary(path)
             JSON.json_to_dataframe(path)
             dataFrame = JSON.dataframe
-            dataFile = self.data.addFile(file_name)
+
+            # Create the datafile
+            dataFile = self.data.add_file(file_name)
             dataFile.type = config['FILE_TYPES']['json']
             dataFile.name = os.path.basename(file_name)
-            dataFile.description = 'My File Description'
             dataFile.addDataFrame(dataFrame)
-            dataFile.setAlias("Example File Alias")
-            dataFile.dictionary = JSON.dictionary
+            
             return dataFile
         elif file_extension.lower() == 'csv':
             csvManager = CsvManager(path)
@@ -332,5 +331,3 @@ class FileManager:
 
 # csv = os.path.basename('/home/parmarm/Documents/CLS_Test/PV_Data/Trip_1_data/gLYHVdm+.csv')
 # fileManager.read_file(csv)
-
-file_manager = FileManager()

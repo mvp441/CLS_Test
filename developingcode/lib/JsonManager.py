@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import copy
-from DataState import data as DataState
 import FileManager
 from DataDictionary import DataDictionary
 
